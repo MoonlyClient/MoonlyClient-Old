@@ -6,5 +6,7 @@ public:
 	DiscordRPC() : Module::Module("DiscordRPC", "Other", "DiscordRPC") {
 		this->isEnabled = true;
 	};
-	void onLoop();
+	void onEnable();
+	void onDisable();
+	void onGmTick();
 };

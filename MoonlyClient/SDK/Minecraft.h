@@ -3,10 +3,12 @@
 
 #include "Classes/ClientInstance.h"
 #include "Classes/RakNetInstance.h"
+#include "Classes/GuiData.h"
 
 class Minecraft {
 private:
 	static ClientInstance* CachedInstance;
+	static C_GuiData* CachedGuiData;
 	static GameMode* CachedGameMode;
 	static RakNetInstance* CachedRakNetInstance;
 public:
@@ -20,6 +22,14 @@ public:
 
 	static ClientInstance* ClientInstance() {
 		return CachedInstance;
+	}
+
+	static void SetGuiData(C_GuiData* obj) {
+		if (obj != nullptr) CachedGuiData = obj;
+	}
+
+	static C_GuiData* GuiData() {
+		return CachedGuiData;
 	}
 
 	static void SetGamemode(GameMode* GM) {

@@ -12,9 +12,17 @@ GmTick _SmTick;
 
 void GmTickCallback(GameMode* GM) {
 	LocalPlayer* myPlayer = Minecraft::ClientInstance()->LocalPlayer();
+
 	if (GM != nullptr && GM->Player != nullptr && myPlayer != nullptr) {
+		C_GuiData* guiData = Minecraft::ClientInstance()->getGuiData();
+
+		if (guiData != nullptr) {
+			Minecraft::SetGuiData(guiData);
+		}
+
 		if (myPlayer == GM->Player) {
 			Minecraft::SetGamemode(GM);
+
 			for (auto Module : ClientManager::Modules) {
 				if (Module->isEnabled) Module->onGmTick();
 			}
@@ -25,9 +33,17 @@ void GmTickCallback(GameMode* GM) {
 
 void SmTickCallback(GameMode* GM) {
 	LocalPlayer* myPlayer = Minecraft::ClientInstance()->LocalPlayer();
+
 	if (GM != nullptr && GM->Player != nullptr && myPlayer != nullptr) {
+		C_GuiData* guiData = Minecraft::ClientInstance()->getGuiData();
+
+		if (guiData != nullptr) {
+			Minecraft::SetGuiData(guiData);
+		}
+
 		if (myPlayer == GM->Player) {
 			Minecraft::SetGamemode(GM);
+
 			for (auto Module : ClientManager::Modules) {
 				if (Module->isEnabled) Module->onGmTick();
 			}

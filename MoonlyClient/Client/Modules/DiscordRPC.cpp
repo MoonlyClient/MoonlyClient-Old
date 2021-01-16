@@ -1,5 +1,13 @@
 #include "DiscordRPC.h"
 
-void DiscordRPC::onLoop() {
-    
+void DiscordRPC::onEnable() {
+
+}
+
+void DiscordRPC::onDisable() {
+
+}
+
+void DiscordRPC::onGmTick() {
+
 }

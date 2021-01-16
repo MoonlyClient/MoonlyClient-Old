@@ -12,6 +12,7 @@ std::vector<std::string> ClientManager::Categories;
 #include "Hooks/RakNetInstance.h"
 
 ClientInstance* Minecraft::CachedInstance = nullptr; //Resolve error on compile
+C_GuiData* Minecraft::CachedGuiData = nullptr; //Resolve error on compile
 GameMode* Minecraft::CachedGameMode = nullptr; //Resolve error on compile
 RakNetInstance* Minecraft::CachedRakNetInstance = nullptr; //Resolve error on compile
 
@@ -35,12 +36,14 @@ void ClientManager::InitHooks() {
 #include "Modules/AutoSprint.h"
 #include "Modules/GUI.h"
 #include "Modules/DiscordRPC.h"
+#include "Modules/Compass.h"
 #include "Modules/Uninject.h"
 
 void ClientManager::InitModules() {
 	Modules.push_back(new AutoSprint());
 	Modules.push_back(new GUI());
-	//Modules.push_back(new DiscordRPC());
+	Modules.push_back(new DiscordRPC());
+	Modules.push_back(new Compass());
 	Modules.push_back(new Uninject());
 
 	for (int I = 0; I < Modules.size(); I++) { //Initialize Categories
