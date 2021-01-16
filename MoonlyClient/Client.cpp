@@ -1,9 +1,11 @@
+#include "SDK/Minecraft.h"
 #include "Other/Utils.h"
 #include "Client/ClientManager.h"
 
 #if defined _M_X64
 #pragma comment(lib, "MinHook.x64.lib")
 #endif
+#include <thread>
 
 void Init(LPVOID lpParam) {
     Utils::hModule = (HMODULE)lpParam;
@@ -13,6 +15,25 @@ void Init(LPVOID lpParam) {
 
     ClientManager::InitHooks();
     ClientManager::InitModules();
+
+    std::thread countThread([] {
+        while (true) {
+            Sleep(1000);
+
+            Minecraft::fps = Minecraft::frameCount;
+            Minecraft::frameCount = 0;
+            Minecraft::cpsLeft = Minecraft::leftclickCount;
+            Minecraft::leftclickCount = 0;
+            Minecraft::cpsRight = Minecraft::rightclickCount;
+            Minecraft::rightclickCount = 0;
+        }
+    });
+
+    countThread.detach();
+
+    Utils::DebugLogOutput("Count thread started");
+
+    ExitThread(0);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved) {

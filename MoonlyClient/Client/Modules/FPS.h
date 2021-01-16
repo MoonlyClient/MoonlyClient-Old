@@ -1,9 +1,9 @@
 #pragma once
 #include "../../Other/Module.h"
 
-class Coords : public Module {
+class FPS : public Module {
 public:
-	Coords() : Module::Module("Coords", "Visuals", "FPS") {
+	FPS() : Module::Module("FPS", "Visuals", "FPS") {
 		this->isEnabled = true;
 	};
 	void onRender();

@@ -13,6 +13,8 @@ void RenderCallback(__int64 a1, MinecraftUIRenderContext* Ctx) {
 	ClientInstance* Curr = Minecraft::ClientInstance();
 	MinecraftGame* mcGame = Curr->MinecraftGame();
 
+	Minecraft::frameCount++;
+
 	if (Curr != nullptr && mcGame != nullptr && mcGame->MCFont() != nullptr) {
 		RenderUtils::SetContext(Ctx, mcGame->MCFont());
 

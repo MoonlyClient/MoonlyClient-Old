@@ -6,6 +6,13 @@
 #include "Classes/GuiData.h"
 
 class Minecraft {
+public:
+	static int frameCount;
+	static int fps;
+	static int cpsLeft;
+	static int leftclickCount;
+	static int cpsRight;
+	static int rightclickCount;
 private:
 	static ClientInstance* CachedInstance;
 	static C_GuiData* CachedGuiData;
