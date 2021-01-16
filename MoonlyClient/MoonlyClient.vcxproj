@@ -164,6 +164,7 @@
     <ClCompile Include="Client\ClientManager.cpp" />
     <ClCompile Include="Client\Modules\AutoSprint.cpp" />
     <ClCompile Include="Client\Modules\GUI.cpp" />
+	<ClInclude Include="Client\Modules\DiscordRPC.cpp" />
     <ClCompile Include="Client\Modules\Uninject.cpp" />
     <ClCompile Include="Other\Module.cpp" />
     <ClCompile Include="Other\Utils.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Client\Hooks\RenderContext.h" />
     <ClInclude Include="Client\Modules\AutoSprint.h" />
     <ClInclude Include="Client\Modules\GUI.h" />
+	<ClInclude Include="Client\Modules\DiscordRPC.h" />
     <ClInclude Include="Client\Modules\Uninject.h" />
     <ClInclude Include="include\MinHook.h" />
     <ClInclude Include="include\discord_register.h" />

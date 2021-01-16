@@ -34,7 +34,7 @@ void ClientManager::InitHooks() {
 
 #include "Modules/AutoSprint.h"
 #include "Modules/GUI.h"
-//#include "Modules/DiscordRPC.h"
+#include "Modules/DiscordRPC.h"
 #include "Modules/Uninject.h"
 
 void ClientManager::InitModules() {
