@@ -166,6 +166,7 @@
     <ClCompile Include="Client\Modules\Compass.cpp" />
     <ClCompile Include="Client\Modules\DiscordRPC.cpp" />
     <ClCompile Include="Client\Modules\GUI.cpp" />
+    <ClCompile Include="Client\Modules\Coords.cpp" />
     <ClCompile Include="Client\Modules\Uninject.cpp" />
     <ClCompile Include="Other\Module.cpp" />
     <ClCompile Include="Other\Utils.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Client\Modules\Compass.h" />
     <ClInclude Include="Client\Modules\DiscordRPC.h" />
     <ClInclude Include="Client\Modules\GUI.h" />
+    <ClInclude Include="Client\Modules\Coords.h" />
     <ClInclude Include="Client\Modules\Uninject.h" />
     <ClInclude Include="include\MinHook.h" />
     <ClInclude Include="include\discord_register.h" />

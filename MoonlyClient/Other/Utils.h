@@ -386,6 +386,7 @@ public:
 	static void FlushText();
 	static float GetTextWidth(std::string text, float textSize);
 	static void RenderText(std::string text, Vec2 textPos, MC_Colour colour, float textSize, float alpha);
+	static void DrawCenteredText(Vec2 pos, std::string text, MC_Colour colour, float size, float textOpacity = 1);
 
 	static void FillRectangle(Vec4 position, MC_Colour colour, float alpha);
 	static void DrawRectangle(Vec4 position, MC_Colour colour, float alpha, float lineWidth);

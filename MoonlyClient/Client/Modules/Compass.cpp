@@ -34,28 +34,28 @@ void Compass::onRender() {
 
 		switch (oDeg) {
 		case 0:
-			drawCenteredText(Vec2(xOff, 30.f), "N", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "N", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		case 45:
-			drawCenteredText(Vec2(xOff, 30.f), "NE", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "NE", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		case 90:
-			drawCenteredText(Vec2(xOff, 30.f), "E", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "E", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		case 135:
-			drawCenteredText(Vec2(xOff, 30.f), "SE", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "SE", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		case 180:
-			drawCenteredText(Vec2(xOff, 30.f), "S", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "S", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		case 225:
-			drawCenteredText(Vec2(xOff, 30.f), "SW", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "SW", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		case 270:
-			drawCenteredText(Vec2(xOff, 30.f), "W", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "W", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		case 315:
-			drawCenteredText(Vec2(xOff, 30.f), "NW", 1, majorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 30.f), "NW", MC_Colour(255, 255, 255), 1, majorOpacity);
 			break;
 		}
 
@@ -94,17 +94,12 @@ void Compass::onRender() {
 
 			// Bigger line with degree displayed
 			RenderUtils::FillRectangle(Vec4(xOff - 0.5f, 15, xOff + 0.5f, 20), MC_Colour(255, 255, 255), minorOpacity);
-			drawCenteredText(Vec2(xOff, 20.f), std::to_string(oDeg), 0.75f, minorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 20.f), std::to_string(oDeg), MC_Colour(255, 255, 255), 0.75f, minorOpacity);
 		}
 	}
 
 	// Center line
 	RenderUtils::FillRectangle(Vec4(sCenter - 0.5f, 15, sCenter + 0.5f, 25), MC_Colour(255, 255, 255), opacity);
-	drawCenteredText(Vec2(sCenter, 25.f), std::to_string(deg), 0.75f, opacity);
+	RenderUtils::DrawCenteredText(Vec2(sCenter, 25.f), std::to_string(deg), MC_Colour(255, 255, 255), 0.75f, opacity);
 	RenderUtils::FlushText();
-}
-
-void Compass::drawCenteredText(Vec2 pos, std::string text, float size, float textOpacity) {
-	pos.x -= RenderUtils::GetTextWidth(text, size) / 2;
-	RenderUtils::RenderText(text, pos, MC_Colour(255, 255, 255), size, textOpacity);
 }

@@ -37,6 +37,7 @@ void ClientManager::InitHooks() {
 #include "Modules/GUI.h"
 #include "Modules/DiscordRPC.h"
 #include "Modules/Compass.h"
+#include "Modules/Coords.h"
 #include "Modules/Uninject.h"
 
 void ClientManager::InitModules() {
@@ -44,6 +45,7 @@ void ClientManager::InitModules() {
 	Modules.push_back(new GUI());
 	Modules.push_back(new DiscordRPC());
 	Modules.push_back(new Compass());
+	Modules.push_back(new Coords());
 	Modules.push_back(new Uninject());
 
 	for (int I = 0; I < Modules.size(); I++) { //Initialize Categories

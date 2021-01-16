@@ -202,6 +202,11 @@ void RenderUtils::RenderText(std::string textStr, Vec2 pos, MC_Colour color, flo
 	CachedContext->drawText(CachedFont, posF, &text, color.arr, alpha, 0, &textMeasure, &caretMeasureData);
 };
 
+void RenderUtils::DrawCenteredText(Vec2 pos, std::string text, MC_Colour colour, float size, float textOpacity) {
+	pos.x -= RenderUtils::GetTextWidth(text, size) / 2;
+	RenderUtils::RenderText(text, pos, colour, size, textOpacity);
+}
+
 void RenderUtils::FillRectangle(Vec4 position, MC_Colour colour, float alpha) {
 	if (CachedContext != nullptr) {
 		CachedContext->fillRectangle(Vec4(position.x, position.z, position.y, position.w), colour, alpha);

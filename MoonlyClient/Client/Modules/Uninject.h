@@ -3,6 +3,6 @@
 
 class Uninject : public Module {
 public:
-	Uninject() : Module::Module("Uninject", "Other", "Uninject the Client from the Game", 0x47) {};
+	Uninject() : Module::Module("Uninject", "Other", "Uninject the Client from the Game", 0x46) {};
 	void onEnable();
 };

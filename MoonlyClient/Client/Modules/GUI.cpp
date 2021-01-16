@@ -5,6 +5,7 @@
 void GUI::onRender() {
 	RenderUtils::RenderText("Moonly Client", Vec2(5, 5), MC_Colour(255, 255, 255, 255), 1.0f, 1.0f);
 
+	/*
 	if (Minecraft::ClientInstance() != nullptr && Minecraft::ClientInstance()->MinecraftGame()->canUseKeys()) {
 		auto Categories = ClientManager::Categories;
 		auto Modules = ClientManager::GetModulesFromCategory(Categories.at(currentCategory));
@@ -40,6 +41,7 @@ void GUI::onRender() {
 		RenderUtils::DrawRectangle(boxPos, MC_Colour(255, 255, 255), .3f, .8f);
 		RenderUtils::FlushText();
 	}
+	*/
 }
 
 void GUI::onKey(uint64_t key, bool isDown, bool* cancel) {
