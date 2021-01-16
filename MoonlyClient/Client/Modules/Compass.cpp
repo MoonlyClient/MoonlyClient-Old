@@ -6,7 +6,7 @@
 void Compass::onRender() {
 	LocalPlayer* player = Minecraft::ClientInstance()->LocalPlayer();
 
-	if (player == nullptr || !Minecraft::ClientInstance()->MinecraftGame()->canUseKeys()) return;
+	if (player == nullptr || Minecraft::GuiData() == nullptr || !Minecraft::ClientInstance()->MinecraftGame()->canUseKeys()) return;
 
 	auto extraPoints = std::multimap<int, std::string>{};
 	std::vector<Vec2> stacking{};
