@@ -80,7 +80,7 @@ void Utils::WriteToFile(std::string str, std::string path) {
 }
 
 void Utils::DebugLogOutput(std::string str) {
-	WriteToFile(str, "Client/Output.txt");
+	WriteToFile(str, "MoonlyClient/Output.txt");
 	return;
 }
 

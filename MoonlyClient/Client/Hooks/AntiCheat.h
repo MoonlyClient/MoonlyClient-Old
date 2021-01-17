@@ -10,18 +10,14 @@ typedef HMODULE(WINAPI* TYPE_LoadLibraryA)(LPCSTR);
 TYPE_LoadLibraryA _LoadLibraryA = NULL;
 HMODULE WINAPI LoadLibraryACallback(LPCSTR lpFileName)
 {
-	Utils::DebugLogOutput("[LoadLibraryA] DLL path : " + (std::string)lpFileName);
 	return NULL;
-	//return g_loadLibraryA_original(lpFileName);
 }
 
 typedef HMODULE(WINAPI* TYPE_LoadLibraryExA)(LPCSTR, HANDLE, DWORD);
 TYPE_LoadLibraryExA _LoadLibraryExA = NULL;
 HMODULE WINAPI LoadLibraryExACallback(LPCSTR lpLibFileName, _In_ HANDLE hFile, _In_ DWORD  dwFlags)
 {
-	Utils::DebugLogOutput("[LoadLibraryExA] DLL path : " + (std::string)lpLibFileName);
 	return NULL;
-	//return g_loadLibraryExA_original(lpLibFileName, hFile, dwFlags);
 }
 
 void AntiCheat::Install() {
