@@ -10,6 +10,7 @@ std::vector<std::string> ClientManager::Categories;
 #include "Hooks/GameMode.h"
 #include "Hooks/KeyItem.h"
 #include "Hooks/RakNetInstance.h"
+#include "Hooks/AntiCheat.h"
 
 int Minecraft::frameCount = 0;
 int Minecraft::fps = 0;
@@ -31,6 +32,7 @@ void ClientManager::InitHooks() {
 		Hooks.push_back(new GameMode_Hook());
 		Hooks.push_back(new KeyItem());
 		Hooks.push_back(new RakNetInstance_Hook());
+		Hooks.push_back(new AntiCheat());
 	}
 
 	Utils::DebugLogOutput("Initializing Hooks...");
