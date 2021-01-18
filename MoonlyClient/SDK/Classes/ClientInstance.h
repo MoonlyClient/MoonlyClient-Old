@@ -5,8 +5,138 @@
 #include "LocalPlayer.h"
 #include "GameMode.h"
 #include "GuiData.h"
+#include "GameSettingsInput.h"
+#include "LoopbackPacketSender.h"
+
+
+class C_Minecraft {
+private:
+	char pad_0x0000[0xB0];  //0x0000
+public:
+	float* timer;  //0x00B0
+};
+
+class BlockTessellator;
+
+class ResourceLocation {
+private:
+	char pad[0x28];
+	__int64 hashCode; // 0x28
+	char pad2[8];
+};
+
+namespace mce {
+	class TextureGroup;
+	class MaterialPtr;
+	class Mesh {
+	public:
+		void renderMesh(__int64 screenContext, mce::MaterialPtr* material, size_t numTextures, __int64** textureArray);
+
+		template <size_t numTextures>
+		void renderMesh(__int64 screenContext, mce::MaterialPtr* material, std::array<__int64*, numTextures> textures) {
+			this->renderMesh(screenContext, material, numTextures, &textures[0]);
+		}
+	};
+	class TexturePtr {
+	private:
+		__int64* clientTexture;
+		char pad[0x8];
+		ResourceLocation resourceLocation; // 0x10
+
+	public:
+		__int64* getClientTexture() {
+			return this->clientTexture;
+		}
+	};
+	class MaterialPtr {
+	private:
+		std::shared_ptr<void> materialPtr;
+
+	public:
+		MaterialPtr(const std::string& materialName);
+	};
+};
+
+
+class LevelRenderer {
+private:
+	char pad_0x0000[0x58];  //0x0000
+public:
+	mce::TextureGroup* textureGroup; // 0x0058
+private:
+	char pad_0x0060[0xE0];  //0x0060
+public:
+	mce::TexturePtr atlasTexture; // 0x140
+private:
+	char pad_0x0188[0x150];  //0x0188
+public:
+	BlockTessellator* blockTessellator; // 0x02D8
+private:
+	char pad_0x02F0[0x5EC];  //0x02E0
+public:
+	Vec3 origin;  //0x0890
+
+	__int64 getLevelRendererPlayer() {
+		return reinterpret_cast<__int64>(this) + 0x310;
+	}
+};
+
+class MinecraftGame {
+public:
+	class BitmapFont* MCFont() {
+		return *reinterpret_cast<class BitmapFont**>(reinterpret_cast<__int64>(this) + 0xD8);
+	}
+
+	bool canUseKeys() {
+		return *(bool*)(reinterpret_cast<uintptr_t>(this) + 0x260);
+	}
+};
+
+struct PtrToGameSettings3 {
+private:
+	char pad_0x0000[0x18];
+public:
+	GameSettingsInput* settingsInput;
+};
+
+struct PtrToGameSettings2 {
+private:
+	char pad_0x0000[0x148];
+public:
+	PtrToGameSettings3* ptr;
+};
+
+struct PtrToGameSettings1 {
+private:
+	char pad_0x0000[0x18];
+public:
+	PtrToGameSettings2* ptr;
+};
 
 class ClientInstance {
+private:
+	char firstPad[0x90];  //0x0008
+public:
+	MinecraftGame* minecraftGame;  //0x0098
+private:
+	MinecraftGame* N0000080C;  //0x00A0
+public:
+	MinecraftGame* N0000080D;  //0x00A8
+public:
+	C_Minecraft* minecraft;  //0x00B0
+private:
+	char pad_0x0068[0x8];  //0x00B8
+public:
+	LevelRenderer* levelRenderer;  //0x00C0
+private:
+	char pad_0x0078[0x8];  //0x00C8
+public:
+	LoopbackPacketSender* loopbackPacketSender;  //0x00D0
+private:
+	char pad_0x0088[0x18];  //0x00D8
+public:
+	PtrToGameSettings1* ptr;  //0x00F0
+
 private:
 	virtual __int64 destructorClientInstance();
 	// Duplicate destructor
@@ -370,15 +500,6 @@ public:
 
 		return true;
 	}
-};
 
-class MinecraftGame {
-public:
-	class BitmapFont* MCFont() {
-		return *reinterpret_cast<class BitmapFont**>(reinterpret_cast<__int64>(this) + 0xD8);
-	}
-
-	bool canUseKeys() {
-		return *(bool*)(reinterpret_cast<uintptr_t>(this) + 0x260);
-	}
+	inline GameSettingsInput* getGameSettingsInput() { return this->ptr->ptr->ptr->settingsInput; };
 };

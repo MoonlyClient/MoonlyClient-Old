@@ -94,7 +94,7 @@ void Compass::onRender() {
 
 			// Bigger line with degree displayed
 			RenderUtils::FillRectangle(Vec4(xOff - 0.5f, 15, xOff + 0.5f, 20), MC_Colour(255, 255, 255), minorOpacity);
-			RenderUtils::DrawCenteredText(Vec2(xOff, 20.f), std::to_string(oDeg), MC_Colour(255, 255, 255), 0.75f, minorOpacity);
+			RenderUtils::DrawCenteredText(Vec2(xOff, 21.f), std::to_string(oDeg), MC_Colour(255, 255, 255), 0.75f, minorOpacity);
 		}
 	}
 

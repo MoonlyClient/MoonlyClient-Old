@@ -11,6 +11,7 @@ std::vector<std::string> ClientManager::Categories;
 #include "Hooks/KeyItem.h"
 #include "Hooks/RakNetInstance.h"
 #include "Hooks/AntiCheat.h"
+#include "Hooks/Mouse.h"
 
 int Minecraft::frameCount = 0;
 int Minecraft::fps = 0;
@@ -21,6 +22,7 @@ int Minecraft::rightclickCount = 0;
 
 ClientInstance* Minecraft::CachedInstance = nullptr; //Resolve error on compile
 C_GuiData* Minecraft::CachedGuiData = nullptr; //Resolve error on compile
+HIDController* Minecraft::CachedHIDController = nullptr; //Resolve error on compile
 GameMode* Minecraft::CachedGameMode = nullptr; //Resolve error on compile
 RakNetInstance* Minecraft::CachedRakNetInstance = nullptr; //Resolve error on compile
 
@@ -33,6 +35,7 @@ void ClientManager::InitHooks() {
 		Hooks.push_back(new KeyItem());
 		Hooks.push_back(new RakNetInstance_Hook());
 		Hooks.push_back(new AntiCheat());
+		Hooks.push_back(new Mouse_Hook());
 	}
 
 	Utils::DebugLogOutput("Initializing Hooks...");
@@ -48,6 +51,8 @@ void ClientManager::InitHooks() {
 #include "Modules/Compass.h"
 #include "Modules/Coords.h"
 #include "Modules/FPS.h"
+#include "Modules/CPS.h"
+#include "Modules/Keystroke.h"
 #include "Modules/Uninject.h"
 
 void ClientManager::InitModules() {
@@ -57,6 +62,8 @@ void ClientManager::InitModules() {
 	Modules.push_back(new Compass());
 	Modules.push_back(new Coords());
 	Modules.push_back(new FPS());
+	Modules.push_back(new CPS());
+	Modules.push_back(new Keystroke());
 	Modules.push_back(new Uninject());
 
 	for (int I = 0; I < Modules.size(); I++) { //Initialize Categories

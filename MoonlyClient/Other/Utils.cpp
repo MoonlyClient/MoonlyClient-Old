@@ -1,4 +1,6 @@
-#include "Utils.h"
+﻿#include "Utils.h"
+#include "../SDK/Minecraft.h"
+#include "../SDK/Classes/GameSettingsInput.h"
 
 HMODULE Utils::hModule = nullptr;
 
@@ -156,8 +158,19 @@ std::string Utils::ptrToStr(uintptr_t ptr) {
 
 std::map<uint64_t, bool> Utils::KeyMapping;
 
-bool Utils::usingKey(uint64_t key) {
-	return KeyMapping[key];
+bool Utils::isKeyDown(int key) {
+	static uintptr_t keyMapOffset = 0x0;
+
+	if (keyMapOffset == 0x0) {
+		uintptr_t sigOffset = FindSig("48 8D 0D ?? ?? ?? ?? 89 1C B9");
+		if (sigOffset != 0x0) {
+			int offset = *reinterpret_cast<int*>((sigOffset + 3));
+			keyMapOffset = sigOffset - Minecraft::ModuleBase() + offset + 7;
+			Utils::DebugLogOutput("KeyMap: " + std::to_string(keyMapOffset + Minecraft::ModuleBase()));
+		}
+	}
+
+	return *reinterpret_cast<bool*>(Minecraft::ModuleBase() + keyMapOffset + ((uintptr_t)key * 0x4));
 }
 
 /* Render Utils */
@@ -205,6 +218,19 @@ void RenderUtils::RenderText(std::string textStr, Vec2 pos, MC_Colour color, flo
 void RenderUtils::DrawCenteredText(Vec2 pos, std::string text, MC_Colour colour, float size, float textOpacity) {
 	pos.x -= RenderUtils::GetTextWidth(text, size) / 2;
 	RenderUtils::RenderText(text, pos, colour, size, textOpacity);
+}
+
+void RenderUtils::DrawKeystroke(char key, Vec2 pos) {
+	std::string keyString = Utils::getKeybindName(key);
+	GameSettingsInput* input = Minecraft::ClientInstance()->getGameSettingsInput();
+
+	if (key == *input->spaceBarKey) keyString = "-";
+
+	Vec4 rectPos(pos.x ,pos.y, pos.x + ((key == *input->spaceBarKey) ? 64.f : 20.f), pos.y + 20.f);
+	Vec2 textPos((rectPos.x + 3.5 + (rectPos.z - rectPos.x) / 2) - (GetTextWidth(keyString, 1) / 1.f), rectPos.y + 12.f - CachedFont->getLineHeight() / 2.f);
+
+	FillRectangle(rectPos, Utils::isKeyDown(key) ? MC_Colour(255, 255, 255) : MC_Colour(0, 0, 0), .15f);
+	RenderText(keyString, textPos, MC_Colour(255, 255, 255), 1.f, 1.f);
 }
 
 void RenderUtils::FillRectangle(Vec4 position, MC_Colour colour, float alpha) {

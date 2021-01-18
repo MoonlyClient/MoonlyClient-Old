@@ -4,6 +4,7 @@
 #include "Classes/ClientInstance.h"
 #include "Classes/RakNetInstance.h"
 #include "Classes/GuiData.h"
+#include "Classes/HIDController.h"
 
 class Minecraft {
 public:
@@ -16,6 +17,7 @@ public:
 private:
 	static ClientInstance* CachedInstance;
 	static C_GuiData* CachedGuiData;
+	static HIDController* CachedHIDController;
 	static GameMode* CachedGameMode;
 	static RakNetInstance* CachedRakNetInstance;
 public:
@@ -29,6 +31,14 @@ public:
 
 	static ClientInstance* ClientInstance() {
 		return CachedInstance;
+	}
+
+	static void SetHIDController(HIDController* obj) {
+		if (obj != nullptr) CachedHIDController = obj;
+	}
+
+	static HIDController** HIDController() {
+		return &CachedHIDController;
 	}
 
 	static void SetGuiData(C_GuiData* obj) {

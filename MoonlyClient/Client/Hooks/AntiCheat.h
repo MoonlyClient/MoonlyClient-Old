@@ -34,4 +34,6 @@ void AntiCheat::Install() {
 	} else {
 		Utils::DebugLogOutput("Failed to create LoadLibraryExA Hook!");
 	}
+
+	// ToDo : Block all methods used to inject dll
 }
