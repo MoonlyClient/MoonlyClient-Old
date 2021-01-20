@@ -26,9 +26,9 @@ void Compass::onRender() {
 		float minorOpacity = majorOpacity;
 
 		{
-			if ((range - abs(off)) < range * fadeOutPos)  // Far from center
+			if ((range - abs(off)) < range * fadeOutPos) 
 				minorOpacity = majorOpacity = lerp(0, opacity, (range - abs(off)) / (range * fadeOutPos));
-			else if (abs(off) < centerFadeout)  // Close to center
+			else if (abs(off) < centerFadeout)
 				minorOpacity = lerp(0, opacity, (abs(off) - centerCutoff) / (centerFadeout - centerCutoff));
 		}
 
@@ -74,11 +74,11 @@ void Compass::onRender() {
 			const Vec2 myTextRange = Vec2(pos.x, pos.x + tWidth);
 
 			for (const Vec2 otherTextRange : stacking) {
-				// Check if other text overlaps us
 				if (myTextRange.x < otherTextRange.y && otherTextRange.x < myTextRange.y) {
 					overlapping++;
 				}
 			}
+
 			stacking.push_back(myTextRange);
 			pos.y += 5 * (overlapping + 1);
 			RenderUtils::RenderText(pName, pos, MC_Colour(255, 255, 255), tSize, majorOpacity);
@@ -89,16 +89,15 @@ void Compass::onRender() {
 				if ((oDeg % 5) == 0) {
 					RenderUtils::FillRectangle(Vec4(xOff - 0.25f, 16, xOff + 0.25f, 19), MC_Colour(255, 255, 255), minorOpacity);
 				}
+
 				continue;
 			}
 
-			// Bigger line with degree displayed
 			RenderUtils::FillRectangle(Vec4(xOff - 0.5f, 15, xOff + 0.5f, 20), MC_Colour(255, 255, 255), minorOpacity);
 			RenderUtils::DrawCenteredText(Vec2(xOff, 21.f), std::to_string(oDeg), MC_Colour(255, 255, 255), 0.75f, minorOpacity);
 		}
 	}
 
-	// Center line
 	RenderUtils::FillRectangle(Vec4(sCenter - 0.5f, 15, sCenter + 0.5f, 25), MC_Colour(255, 255, 255), opacity);
 	RenderUtils::DrawCenteredText(Vec2(sCenter, 25.f), std::to_string(deg), MC_Colour(255, 255, 255), 0.75f, opacity);
 	RenderUtils::FlushText();

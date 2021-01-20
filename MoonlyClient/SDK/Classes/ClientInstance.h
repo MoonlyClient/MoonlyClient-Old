@@ -449,6 +449,14 @@ public:
 	virtual C_GuiData* getGuiData(void) const;
 
 public:
+		virtual void setSuspendInput(bool);
+		virtual void setDisableInput(bool);
+
+		virtual void grabMouse(void);
+		virtual void releaseMouse(void);
+		virtual void refocusMouse(void);
+
+public:
 	class LocalPlayer* LocalPlayer() {
 		if (this != nullptr) {
 			return *reinterpret_cast<class LocalPlayer**>(reinterpret_cast<__int64>(this) + 0x138);

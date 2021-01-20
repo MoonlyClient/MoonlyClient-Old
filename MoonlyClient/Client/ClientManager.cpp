@@ -8,10 +8,10 @@ std::vector<std::string> ClientManager::Categories;
 #include "Hooks/ClientInstance.h"
 #include "Hooks/RenderContext.h"
 #include "Hooks/GameMode.h"
-#include "Hooks/KeyItem.h"
 #include "Hooks/RakNetInstance.h"
 #include "Hooks/AntiCheat.h"
 #include "Hooks/Mouse.h"
+#include "Hooks/ChatScreenController.h"
 
 int Minecraft::frameCount = 0;
 int Minecraft::fps = 0;
@@ -25,6 +25,7 @@ C_GuiData* Minecraft::CachedGuiData = nullptr; //Resolve error on compile
 HIDController* Minecraft::CachedHIDController = nullptr; //Resolve error on compile
 GameMode* Minecraft::CachedGameMode = nullptr; //Resolve error on compile
 RakNetInstance* Minecraft::CachedRakNetInstance = nullptr; //Resolve error on compile
+CommandMgr* ClientManager::CmdMgr = nullptr; //Resolve error on compile
 
 void ClientManager::InitHooks() {
 
@@ -32,10 +33,10 @@ void ClientManager::InitHooks() {
 		Hooks.push_back(new ClientInstance_Hook());
 		Hooks.push_back(new RenderContext());
 		Hooks.push_back(new GameMode_Hook());
-		Hooks.push_back(new KeyItem());
 		Hooks.push_back(new RakNetInstance_Hook());
 		Hooks.push_back(new AntiCheat());
 		Hooks.push_back(new Mouse_Hook());
+		Hooks.push_back(new ChatScreenController_Hook());
 	}
 
 	Utils::DebugLogOutput("Initializing Hooks...");
@@ -53,9 +54,13 @@ void ClientManager::InitHooks() {
 #include "Modules/FPS.h"
 #include "Modules/CPS.h"
 #include "Modules/Keystroke.h"
+#include "Modules/MenuGUI.h"
 #include "Modules/Uninject.h"
 
 void ClientManager::InitModules() {
+	ClientManager::CmdMgr = new CommandMgr();
+	CmdMgr->Init();
+
 	Modules.push_back(new AutoSprint());
 	Modules.push_back(new GUI());
 	Modules.push_back(new DiscordRPC());
@@ -64,6 +69,7 @@ void ClientManager::InitModules() {
 	Modules.push_back(new FPS());
 	Modules.push_back(new CPS());
 	Modules.push_back(new Keystroke());
+	Modules.push_back(new MenuGUI());
 	Modules.push_back(new Uninject());
 
 	for (int I = 0; I < Modules.size(); I++) { //Initialize Categories
@@ -75,6 +81,16 @@ void ClientManager::InitModules() {
 			Categories.push_back(Modules.at(I)->category);
 		}
 	}
+}
+
+class Module* ClientManager::GetModuleByName(std::string name) {
+	for (auto Module : Modules) {
+		if (Module->name == name) {
+			return Module;
+		}
+	}
+
+	return nullptr;
 }
 
 std::vector<class Module*> ClientManager::GetModulesFromCategory(std::string Category) {

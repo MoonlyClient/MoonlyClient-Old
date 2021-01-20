@@ -164,6 +164,9 @@
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Client\ClientManager.cpp" />
+    <ClCompile Include="Client\Command\CommandMgr.cpp" />
+    <ClCompile Include="Client\Command\Commands\Command.cpp" />
+    <ClCompile Include="Client\Command\Commands\UninjectCommand.cpp" />
     <ClCompile Include="Client\Modules\AutoSprint.cpp" />
     <ClCompile Include="Client\Modules\Compass.cpp" />
     <ClCompile Include="Client\Modules\CPS.cpp" />
@@ -172,18 +175,24 @@
     <ClCompile Include="Client\Modules\GUI.cpp" />
     <ClCompile Include="Client\Modules\Coords.cpp" />
     <ClCompile Include="Client\Modules\Keystroke.cpp" />
+    <ClCompile Include="Client\Modules\MenuGUI.cpp" />
     <ClCompile Include="Client\Modules\Uninject.cpp" />
+    <ClCompile Include="Other\Menu.cpp" />
     <ClCompile Include="Other\Module.cpp" />
     <ClCompile Include="Other\Utils.cpp" />
+    <ClCompile Include="Client\Command\Commands\TestCommand.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client\ClientManager.h" />
+    <ClInclude Include="Client\Command\Commands\Command.h" />
+    <ClInclude Include="Client\Command\CommandMgr.h" />
+    <ClInclude Include="Client\Command\Commands\UninjectCommand.h" />
     <ClInclude Include="Client\Hooks\AntiCheat.h" />
+    <ClInclude Include="Client\Hooks\ChatScreenController.h" />
     <ClInclude Include="Client\Hooks\ClientInstance.h" />
     <ClInclude Include="Client\Hooks\GameMode.h" />
     <ClInclude Include="Client\Hooks\Mouse.h" />
     <ClInclude Include="Client\Hooks\RakNetInstance.h" />
-    <ClInclude Include="Client\Hooks\KeyItem.h" />
     <ClInclude Include="Client\Hooks\RenderContext.h" />
     <ClInclude Include="Client\Modules\AutoSprint.h" />
     <ClInclude Include="Client\Modules\Compass.h" />
@@ -193,11 +202,13 @@
     <ClInclude Include="Client\Modules\GUI.h" />
     <ClInclude Include="Client\Modules\Coords.h" />
     <ClInclude Include="Client\Modules\Keystroke.h" />
+    <ClInclude Include="Client\Modules\MenuGUI.h" />
     <ClInclude Include="Client\Modules\Uninject.h" />
     <ClInclude Include="include\MinHook.h" />
     <ClInclude Include="include\discord_register.h" />
     <ClInclude Include="include\discord_rpc.h" />
     <ClInclude Include="Other\MathUtils.h" />
+    <ClInclude Include="Other\Menu.h" />
     <ClInclude Include="Other\Module.h" />
     <ClInclude Include="Other\Utils.h" />
     <ClInclude Include="resource.h" />
@@ -214,6 +225,7 @@
     <ClInclude Include="SDK\Classes\RakNetInstance.h" />
     <ClInclude Include="SDK\Classes\TextHolder.h" />
     <ClInclude Include="SDK\Minecraft.h" />
+    <ClInclude Include="Client\Command\Commands\TestCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MoonlyClient.rc" />

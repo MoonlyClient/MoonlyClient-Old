@@ -1,6 +1,8 @@
 #include "SDK/Minecraft.h"
 #include "SDK/Classes/HIDController.h"
 #include "Other/Utils.h"
+#include "Other/Menu.h"
+#include "Other/Module.h"
 #include "Client/ClientManager.h"
 
 #if defined _M_X64
@@ -38,8 +40,16 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 			bool* newKey = keyMapAddr + (4 * i);
 			bool newKeyPressed = (*newKey) && Minecraft::ClientInstance()->MinecraftGame()->canUseKeys();  // Disable Keybinds when in chat or inventory
 			bool* oldKey = keyMap + (4 * i);
+
+			if (newKeyPressed != *oldKey) {
+				for (auto Module : ClientManager::Modules) {
+					if (Module->isEnabled) Module->onKey((int)i, newKeyPressed);
+				}
+			}
 			
-			// onKey update event
+			if (*newKey != *oldKey) {
+				Menu::onKeyUpdate((int)i, *newKey);
+			}
 		}
 
 		if (*hidController != nullptr) {
@@ -47,6 +57,8 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 				bool newKey = (*hidController)->clickMap[key];
 				bool* oldKey = reinterpret_cast<bool*>(clickMap + key);
 				if (newKey != *oldKey) {
+					Menu::onMouseClickUpdate((int)key, newKey);
+
 					if (newKey) {
 						if ((int)key == 0)
 							Minecraft::leftclickCount++;

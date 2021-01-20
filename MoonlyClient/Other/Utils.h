@@ -571,6 +571,31 @@ public:
 	static std::map<uint64_t, bool> KeyMapping;
 	static bool isKeyDown(int);
 
+	static inline unsigned int getCrcHash(const char* str, int seed = 0) {
+		static unsigned int crc32_lut[256] = { 0 };
+		if (!crc32_lut[1]) {
+			const unsigned int polynomial = 0xEDB88320;
+			for (unsigned int i = 0; i < 256; i++) {
+				unsigned int crc = i;
+				for (unsigned int j = 0; j < 8; j++)
+					crc = (crc >> 1) ^ (((unsigned int)(-((int)(crc & 1)))) & polynomial);
+				crc32_lut[i] = crc;
+			}
+		}
+
+		seed = ~seed;
+		unsigned int crc = seed;
+		const unsigned char* current = (const unsigned char*)str;
+		{
+			while (unsigned char c = *current++) {
+				if (c == '#' && current[0] == '#' && current[1] == '#')
+					crc = seed;
+				crc = (crc >> 8) ^ crc32_lut[(crc & 0xFF) ^ c];
+			}
+		}
+		return ~crc;
+	}
+
 	static inline const char* getKeybindName(int keybind) {
 		return KeyNames[keybind];
 	};

@@ -24,8 +24,8 @@ public:
 	};
 
 	void displayClientMessage(std::string a2) {
-		using displayClientMessage = void(__thiscall*)(void*, TextHolder&);
-		static displayClientMessage displayMessageFunc = reinterpret_cast<displayClientMessage>(Utils::FindSig("48 89 5C 24 ?? 55 48 8D 6C 24 ?? 48 81 EC ?? ?? ?? ?? 48 C7 45 4F ?? ?? ?? ?? 33 DB 48 89 5D ?? 88 5D"));
+		using displayClientMessageF = void(__thiscall*)(void*, TextHolder&);
+		static displayClientMessageF displayMessageFunc = reinterpret_cast<displayClientMessageF>(Utils::FindSig("48 89 5C 24 ?? 55 48 8D 6C 24 ?? 48 81 EC ?? ?? ?? ?? 48 C7 45 4F ?? ?? ?? ?? 33 DB 48 89 5D ?? 88 5D"));
 
 		TextHolder text = TextHolder(a2);
 
