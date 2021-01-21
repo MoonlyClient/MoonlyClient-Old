@@ -3,7 +3,7 @@
 
 class MenuGUI : public Module {
 public:
-	MenuGUI() : Module::Module("MenuGUI", "Visuals", "MenuGUI") {
+	MenuGUI() : Module::Module("MenuGUI", "Visuals", "MenuGUI", 0x46) {
 		this->isEnabled = false;
 	};
 	void onEnable();

@@ -5,110 +5,82 @@
 
 #include <Windows.h>
 #include "Module.h"
+#include "../SDK/Classes/GuiData.h"
 
+bool wasLeftClickDown = false;
 bool isLeftClickDown = false;
 bool isRightClickDown = false;
 bool shouldToggleLeftClick = false;
 bool shouldToggleRightClick = false;
-bool resetStartPos = true;
-bool initialised = false;
 
-struct SavedWindowSettings {
-	Vec2 pos = { -1, -1 };
-	bool isExtended = true;
-	const char* name = "";
-};
+void Menu::DrawAll() {
+	auto guiData = Minecraft::GuiData();
 
-std::map<unsigned int, std::shared_ptr<ClickWindow>> windowMap;
-std::map<unsigned int, SavedWindowSettings> savedWindowSettings;
+	if (guiData == nullptr) return;
 
-bool isDragging = false;
-unsigned int draggedWindow = -1;
-Vec2 dragStart = Vec2();
+	Vec2 mousePos = *Minecraft::ClientInstance()->getMousePos();
 
-unsigned int focusedElement = -1;
-bool isFocused = false;
+	// Convert mouse pos
+	{
+		Vec2 windowSize = guiData->windowSize;
+		Vec2 windowSizeReal = guiData->windowSizeReal;
 
-static constexpr float textPadding = 1.0f;
-static constexpr float textSize = 1.0f;
-static constexpr float textHeight = textSize * 10.0f;
-static constexpr float categoryMargin = 0.5f;
-static constexpr float paddingRight = 13.5f;
-static constexpr float crossSize = textHeight / 2.f;
-static constexpr float crossWidth = 0.3f;
-static constexpr float backgroundAlpha = 1;
-static const MC_Colour selectedModuleColor = MC_Colour(28, 107, 201);
-static const MC_Colour moduleColor = MC_Colour(13, 29, 48);
-
-float currentYOffset = 0;
-float currentXOffset = 0;
-
-int timesRendered = 0;
-
-std::shared_ptr<ClickWindow> Menu::getWindow(const char* name) {
-	unsigned int id = Utils::getCrcHash(name);
-
-	auto search = windowMap.find(id);
-	if (search != windowMap.end()) {  // Window exists already
-		return search->second;
+		mousePos = mousePos.div(windowSizeReal);
+		mousePos = mousePos.mult(windowSize);
 	}
-	else {
-		std::shared_ptr<ClickWindow> newWindow = std::make_shared<ClickWindow>();
-		newWindow->name = name;
 
-		auto savedSearch = savedWindowSettings.find(id);
-		if (savedSearch != savedWindowSettings.end()) { // Use values from config
-			newWindow->isExtended = savedSearch->second.isExtended;
-			if (savedSearch->second.pos.x > 0)
-				newWindow->pos = savedSearch->second.pos;
+	float Xmodifier = guiData->widthGame / 6;
+	float Ymodifier = 50;
+
+	for (Module* module : ClientManager::Modules) {
+		if (module->name == "MenuGUI" || module->name == "GUI" || module->name == "DiscordRPC") continue;
+
+		if (Ymodifier >= guiData->heightGame - (guiData->heightGame / 6)) {
+			Ymodifier = 50;
+			Xmodifier += 120;
 		}
 
-		windowMap.insert(std::make_pair(id, newWindow));
-		return newWindow;
+		float boxWidth = RenderUtils::GetTextWidth(module->name, 1.f) + 8;
+		Vec4 boxPos = Vec4(Xmodifier, Ymodifier, Xmodifier + boxWidth, Ymodifier + 20);
+
+		if (!wasLeftClickDown && isLeftClickDown && boxPos.contains(mousePos)) {
+			module->isEnabled = !module->isEnabled;
+		}
+
+		RenderUtils::RenderText(module->name, Vec2(boxPos.x + 7, boxPos.y + 7), module->isEnabled ? MC_Colour(0, 255, 0) : MC_Colour(255, 0, 0), 1.f, boxPos.contains(mousePos) ? .5f : 1.f);
+		RenderUtils::FillRectangle(boxPos, MC_Colour(0, 0, 0), 0);
+
+		Ymodifier += 60;
 	}
-}
-
-std::shared_ptr<ClickModule> Menu::getClickModule(std::shared_ptr<ClickWindow> window, const char* name) {
-	unsigned int id = Utils::getCrcHash(name);
-
-	auto search = window->moduleMap.find(id);
-	if (search != window->moduleMap.end()) {  // Window exists already
-		return search->second;
-	}
-	else {  // Create window
-	 // TODO: restore settings for position etc
-		std::shared_ptr<ClickModule> newModule = std::make_shared<ClickModule>();
-
-		window->moduleMap.insert(std::make_pair(id, newModule));
-		return newModule;
-	}
-}
-
-void Menu::render() {
-	if (timesRendered < 10)
-		timesRendered++;
-
-	{
-		RenderUtils::FillRectangle(Vec4(
-			0,
-			0,
-			Minecraft::ClientInstance()->getGuiData()->widthGame,
-			Minecraft::ClientInstance()->getGuiData()->heightGame),
-			MC_Colour(33, 34, 48), 0.2f);
-	}
-
-	shouldToggleLeftClick = false;
-	shouldToggleRightClick = false;
-	resetStartPos = false;
 
 	RenderUtils::FlushText();
 }
 
-void Menu::init() { initialised = true; }
+void Menu::render() {
+
+	RenderUtils::FillRectangle(Vec4(
+		0,
+		0,
+		Minecraft::ClientInstance()->getGuiData()->widthGame,
+		Minecraft::ClientInstance()->getGuiData()->heightGame),
+		MC_Colour(0, 0, 0), 0.5f);
+
+	Menu::DrawAll();
+
+	shouldToggleLeftClick = false;
+	shouldToggleRightClick = false;
+
+	RenderUtils::FlushText();
+}
 
 void Menu::onMouseClickUpdate(int key, bool isDown) {
 	switch (key) {
 	case 0:  // Left Click
+		if (wasLeftClickDown && !isDown)
+			wasLeftClickDown = true;
+		else if (!wasLeftClickDown && isDown)
+			wasLeftClickDown = false;
+
 		isLeftClickDown = isDown;
 		shouldToggleLeftClick = isDown;
 		break;
@@ -120,10 +92,7 @@ void Menu::onMouseClickUpdate(int key, bool isDown) {
 }
 
 void Menu::onKeyUpdate(int key, bool isDown) {
-	if (!initialised)
-		return;
-
-	Module* menu = ClientManager::GetModuleByName("Menu");
+	Module* menu = ClientManager::GetModuleByName("MenuGUI");
 
 	if (menu == nullptr) {
 		return;
@@ -133,23 +102,14 @@ void Menu::onKeyUpdate(int key, bool isDown) {
 		return;
 
 	if (!menu->isEnabled) {
-		timesRendered = 0;
 		return;
 	}
-
-	if (timesRendered < 10)
-		return;
-	timesRendered = 0;
 
 	switch (key) {
 	case VK_ESCAPE:
 		menu->isEnabled = false;
 		return;
-	default:
-		if (key == menu->key)
-			menu->isEnabled = false;
 	}
-
 }
 
 void Menu::onLoadConfig(void* confVoid) {

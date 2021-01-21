@@ -10,6 +10,6 @@ void UninjectCommand::execute(std::vector<std::string> args)
 	if (guiData != nullptr) {
 		guiData->displayClientMessage("Uninjecting...");
 
-		// ToDo
+		Utils::running = false;
 	}
 }

@@ -22,16 +22,6 @@ void RenderCallback(__int64 a1, MinecraftUIRenderContext* Ctx) {
 		for (auto Module : ClientManager::Modules) {
 			if (Module->isEnabled) Module->onRender();
 		}
-
-		MenuGUI* menu = (MenuGUI*)ClientManager::GetModuleByName("MenuGUI");
-
-		if (menu != nullptr) {
-			//Utils::DebugLogOutput("Menu not null");
-
-			if (menu->isEnabled) {
-				// ToDo
-			}
-		}
 	}
 
 	_RenderContext(a1, Ctx);

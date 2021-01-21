@@ -9,6 +9,7 @@
 #pragma comment(lib, "MinHook.x64.lib")
 #endif
 #include <thread>
+#include "Other/Menu.h"
 
 DWORD WINAPI keyThread(LPVOID lpParam) {
 	Utils::DebugLogOutput("Key thread started");
@@ -35,23 +36,7 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 
 	HIDController** hidController = Minecraft::HIDController();
 
-	while (true) {
-		for (uintptr_t i = 0; i < 0xFF; i++) {
-			bool* newKey = keyMapAddr + (4 * i);
-			bool newKeyPressed = (*newKey) && Minecraft::ClientInstance()->MinecraftGame()->canUseKeys();  // Disable Keybinds when in chat or inventory
-			bool* oldKey = keyMap + (4 * i);
-
-			if (newKeyPressed != *oldKey) {
-				for (auto Module : ClientManager::Modules) {
-					if (Module->isEnabled) Module->onKey((int)i, newKeyPressed);
-				}
-			}
-			
-			if (*newKey != *oldKey) {
-				Menu::onKeyUpdate((int)i, *newKey);
-			}
-		}
-
+	while (Utils::running) {
 		if (*hidController != nullptr) {
 			for (uintptr_t key = 0; key < 5; key++) {
 				bool newKey = (*hidController)->clickMap[key];
@@ -76,7 +61,13 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 		Sleep(2);
 	}
 
+	MH_DisableHook(MH_ALL_HOOKS);
+
 	Sleep(200);  // Give the threads a bit of time to exit
+
+	MH_Uninitialize();
+
+	Sleep(100);
 
 	FreeLibraryAndExitThread(static_cast<HMODULE>(lpParam), 1);  // Uninject
 }
@@ -87,6 +78,8 @@ void Init(LPVOID lpParam) {
     Utils::DeletePath("MoonlyClient/Output.txt");
     Utils::DebugLogOutput("Injected...");
 
+	Utils::running = true;
+
     ClientManager::InitHooks();
     ClientManager::InitModules();
 
@@ -94,7 +87,7 @@ void Init(LPVOID lpParam) {
 	CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)keyThread, lpParam, NULL, &keyThreadId); 
 
     std::thread countThread([] {
-        while (true) {
+        while (Utils::running) {
             Sleep(1000);
 
             Minecraft::fps = Minecraft::frameCount;

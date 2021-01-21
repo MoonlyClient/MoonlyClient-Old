@@ -12,6 +12,7 @@ std::vector<std::string> ClientManager::Categories;
 #include "Hooks/AntiCheat.h"
 #include "Hooks/Mouse.h"
 #include "Hooks/ChatScreenController.h"
+#include "Hooks/Keyboard.h"
 
 int Minecraft::frameCount = 0;
 int Minecraft::fps = 0;
@@ -37,6 +38,7 @@ void ClientManager::InitHooks() {
 		Hooks.push_back(new AntiCheat());
 		Hooks.push_back(new Mouse_Hook());
 		Hooks.push_back(new ChatScreenController_Hook());
+		Hooks.push_back(new Keyboard_Hook());
 	}
 
 	Utils::DebugLogOutput("Initializing Hooks...");
@@ -70,7 +72,10 @@ void ClientManager::InitModules() {
 	Modules.push_back(new CPS());
 	Modules.push_back(new Keystroke());
 	Modules.push_back(new MenuGUI());
+
+#ifdef __DEBUG
 	Modules.push_back(new Uninject());
+#endif
 
 	for (int I = 0; I < Modules.size(); I++) { //Initialize Categories
 		bool exists = false;
@@ -89,8 +94,6 @@ class Module* ClientManager::GetModuleByName(std::string name) {
 			return Module;
 		}
 	}
-
-	return nullptr;
 }
 
 std::vector<class Module*> ClientManager::GetModulesFromCategory(std::string Category) {

@@ -191,6 +191,7 @@
     <ClInclude Include="Client\Hooks\ChatScreenController.h" />
     <ClInclude Include="Client\Hooks\ClientInstance.h" />
     <ClInclude Include="Client\Hooks\GameMode.h" />
+    <ClInclude Include="Client\Hooks\Keyboard.h" />
     <ClInclude Include="Client\Hooks\Mouse.h" />
     <ClInclude Include="Client\Hooks\RakNetInstance.h" />
     <ClInclude Include="Client\Hooks\RenderContext.h" />

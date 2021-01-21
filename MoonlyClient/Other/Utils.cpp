@@ -3,6 +3,7 @@
 #include "../SDK/Classes/GameSettingsInput.h"
 
 HMODULE Utils::hModule = nullptr;
+bool Utils::running = false;
 
 std::vector<std::string> SortArrayOfStrings(std::vector<std::string> stringVecArr) {
 	std::vector<std::string> stringArr;

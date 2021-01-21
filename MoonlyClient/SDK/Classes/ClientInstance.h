@@ -8,6 +8,7 @@
 #include "GameSettingsInput.h"
 #include "LoopbackPacketSender.h"
 
+class C_Player;
 
 class C_Minecraft {
 private:
@@ -174,13 +175,13 @@ private:
 	virtual __int64 getCameraEntity(void) const;
 
 public:
-	virtual void setCameraEntity(Actor*);
+	virtual void setCameraEntity(__int64*);
 
 private:
 	virtual __int64 getCameraTargetEntity(void) const;
 
 public:
-	virtual void setCameraTargetEntity(Actor*);
+	virtual void setCameraTargetEntity(__int64*);
 	virtual bool isLeavingGame(void) const;
 	virtual bool isDestroyingGame(void) const;
 
@@ -369,12 +370,12 @@ public:
 	virtual bool isGamepadCursorEnabled(void) const;
 
 private:
-	virtual void getServerData(void);
-	virtual void getServerData(void) const;
+	virtual C_Minecraft* getServerData(void);
+	virtual C_Minecraft* getServerData(void) const;
 
 public:
-	virtual void getLevel(void);
-	virtual void getLevel(void) const;
+	virtual __int64 getLevel(void);
+	virtual __int64 getLevel(void) const;
 	virtual bool isPreGame(void) const;
 	virtual bool isInMultiplayerGame(void) const;
 	virtual bool isMultiC_PlayerClient(void) const;
@@ -390,7 +391,7 @@ public:
 	virtual __int64 getLevelRenderer(void) const;
 	virtual __int64 getLevelRendererCameraProxy(void) const;
 public:
-	virtual void getCameraManager(void) const;
+	virtual __int64 getCameraManager(void) const;
 private:
 	virtual __int64 sub_1400CCC08(void) const;
 
@@ -398,7 +399,7 @@ public:
 	virtual __int64 getLightTexture(void);
 
 public:
-	virtual void setupLevelRendering(__int64&, Actor&);
+	virtual void setupLevelRendering(__int64&, __int64&);
 
 private:
 	virtual __int64 getViewportInfo(void) const;
@@ -448,13 +449,228 @@ public:
 	virtual C_GuiData* getGuiData(void);
 	virtual C_GuiData* getGuiData(void) const;
 
-public:
-		virtual void setSuspendInput(bool);
-		virtual void setDisableInput(bool);
+private:
+	virtual __int64 getGuidedFlowManager(void);
+	virtual __int64 getDpadScale(void) const;
+	virtual __int64 getDateManager(void) const;
+	virtual __int64 addOverrideHoursToDateTime(unsigned int);
+	virtual __int64 getToastManager(void);
+	virtual __int64 getTopScene(void);
+	virtual __int64 getTopScene(void) const;
+	virtual __int64 getActiveScene(void);
+	virtual __int64 getActiveScene(void) const;
+	virtual __int64 getSceneFactory(void) const;
+	virtual __int64 getClientSceneStack(void) const;
+	virtual __int64 getClientSceneStack(void);
+	virtual __int64 sub_140634B30(void) const;
+	virtual __int64 getMainSceneStack(void);
+	virtual __int64 getMainSceneStack(void) const;
+	virtual __int64 getCurrentSceneStack(void) const;
+	virtual __int64 getCurrentSceneStack(void);
+	virtual __int64 getCurrentUIRouter(void);
+	virtual __int64 getCurrentUIRouter(void) const;
+	virtual __int64 sub_14012BAB0(void) const;
+	virtual __int64 prepareSceneFor(__int64);
+	virtual __int64 getCachedScenes(void);
 
-		virtual void grabMouse(void);
-		virtual void releaseMouse(void);
-		virtual void refocusMouse(void);
+public:
+	virtual TextHolder getScreenName(void) const;
+
+private:
+	virtual __int64 getScreenTelemetry(void) const;
+	virtual __int64 getTopSceneType(void) const;
+	virtual __int64 getMobEffectsLayout(void);
+	virtual __int64 newFunc2(__int64 a2, __int64 a3, char a4);
+	virtual __int64 newFunc3(__int64 a2, __int64 a3);
+	virtual __int64 onMobEffectsChange(void);
+
+public:
+	virtual void setUISizeAndScale(int, int, float);
+
+private:
+	virtual __int64 forEachVisibleScreen(__int64, bool);
+	virtual __int64 forEachScreen(__int64, bool);
+	virtual __int64 forEachScreenConst(__int64, bool) const;
+	virtual __int64 updateSceneStack(void);
+	virtual __int64 forEachAlwaysAcceptInputScreen(__int64);
+	virtual __int64 forEachAlwaysAcceptInputScreenWithTop(__int64);
+	virtual __int64 showC_PlayerProfile(std::string const&, __int64);
+	virtual __int64 getCurrentInputMode(void) const;
+
+public:
+	virtual bool isTouchGameplayAllowed(void) const;
+
+private:
+	virtual __int64 getMinecraftInput(void) const;
+
+public:
+	virtual void setHoloInput(__int64);
+
+private:
+	virtual __int64 getHoloInput(void) const;
+	virtual __int64 getVoiceSystem(void) const;
+	virtual __int64 getKeyboardManager(void);
+
+public:
+	virtual void setVoiceSystem(__int64);
+	virtual void setLastPointerLocation(float, float, float);
+
+private:
+	virtual __int64 getLastPointerLocation(void);
+	virtual __int64 shouldUseLastPointerLocationOnFocusChange(void);
+	virtual __int64 adjustGazeCursorByMouse(float, float);
+	virtual __int64 currentScreenShouldStealMouse(void);
+	virtual __int64 getInProgressBAI(void) const;
+	virtual __int64 newDictationDataAvailable(void) const;
+	virtual __int64 clearDictationDataAvailable(void);
+	virtual __int64 getDictationText(void) const;
+	virtual __int64 getPacketSender(void);
+	virtual __int64 getClientNetworkSystem(void);
+	virtual __int64 getClientNetworkSystem(void) const;
+
+public:
+	virtual void setMoveTurnInput(__int64);
+	virtual __int64 getMoveTurnInput(void);
+
+public:
+	virtual void setupPersistentControls(__int64);
+
+private:
+	virtual __int64 resetC_PlayerMovement(void);
+	virtual __int64 onClientInputInitComplete(void);
+
+public:
+	virtual void setClientInputHandler(__int64);
+
+private:
+	virtual __int64 getInput(void) const;
+	virtual __int64 getControllerId(void) const;
+
+public:
+	virtual bool hasConnectedController(void) const;
+
+private:
+	virtual __int64 getClientSubId(void) const;
+
+public:
+	virtual void setSuspendInput(bool);
+	virtual void setDisableInput(bool);
+
+	virtual void grabMouse(void);
+	virtual void releaseMouse(void);
+	virtual void refocusMouse(void);
+
+private:
+	virtual __int64 resetBai(int);
+	virtual __int64 clearInProgressBAI(void);
+	virtual __int64 tickBuildAction(void);
+	virtual __int64 getSoundEngine(void) const;
+	virtual __int64 play(std::string const&, Vec3 const&, float, float);
+	virtual __int64 playUI(std::string const&, float, float);
+	virtual __int64 muteAudio(void);
+	virtual __int64 unMuteAudio(void);
+	virtual __int64 fadeOutMusic(void) const;
+	virtual __int64 getTaskGroup(void);
+	virtual __int64 onFullVanillaPackOnStack(void);
+
+public:
+	virtual bool isFullVanillaPackOnStack(void) const;
+
+private:
+	virtual __int64 onPlayerLoaded(C_Player&);
+
+public:
+	virtual void setClientGameMode(__int64);
+
+private:
+	virtual __int64 resetToDefaultGameMode(void);
+	virtual __int64 connectToThirdParyServer(std::string const&, std::string const&, int);
+	virtual __int64 startExternalNetworkWorld(__int64, std::string const&, bool);
+	virtual __int64 checkForPiracy(void);
+	virtual __int64 updateChatFilterStatus(void);
+	virtual void sub_1400D2A20(void);
+
+public:
+	virtual void setBehaviorCommandCallback(__int64);
+	virtual void setBehaviorCommandStatus(std::string, __int64);
+
+private:
+	virtual __int64 requestScreenshot(__int64&);
+	virtual void sub_1400BE0A0(char a2);
+	virtual __int64 getDevConsoleLogger(void) const;
+	virtual __int64 requestImageFromUrl(std::string const&, __int64);
+	virtual __int64 initializeRenderResources(void);
+	virtual __int64 postInitRenderResources(void);
+	virtual __int64 onAppSuspended(void);
+	virtual __int64 onActiveResourcePacksChanged(__int64 const&);
+	virtual __int64 reloadEntityRenderers(__int64 const&);
+	virtual __int64 getBlockTessellator(void);
+	virtual __int64 getBlockEntityRenderDispatcher(void);
+	virtual __int64 getEntityRenderDispatcher(void);
+	virtual __int64 getEntityBlockRenderer(void);
+	virtual __int64 getItemInHandRenderer(void);
+	virtual __int64 getItemRenderer(void);
+	virtual __int64 getSentMessageHistory(void);
+	virtual __int64 getUIProfanityContext(void) const;
+	virtual __int64 initTTSClient(__int64&);
+	virtual __int64 getTTSClient(void);
+	virtual __int64 getTTSClient(void) const;
+	virtual __int64 getTTSEventManager(void);
+	virtual __int64 addTTSMessage(std::string const&, __int64, bool, bool, bool);
+	virtual __int64 initCommands(void);
+	virtual __int64 getUserId(void) const;
+	virtual __int64 getServerConnectionTime(void) const;
+	virtual __int64 getHMDState(void);
+	virtual __int64 getHMDState(void) const;
+
+public:
+	virtual void setServerPingTime(unsigned int);
+
+private:
+	virtual __int64 getServerPingTime(void) const;
+
+public:
+	virtual void setDefaultPlayscreenTab(__int64);
+	virtual void setClientInstanceState(__int64 const&);
+	virtual void setUIEventCoordinator(__int64&&);
+
+private:
+	virtual __int64 getUIEventCoordinator(void);
+	virtual __int64 getEventCoordinator(void);
+	virtual __int64 computeScreenCoordsFromScreenNormCoords(float, float, short&, short&);
+	virtual __int64 getNoBlockBreakUntil(void);
+
+public:
+	virtual void setNoBlockBreakUntil(__int64);
+	virtual void setDictation(std::string const&);
+	virtual void setNewDictationString(bool);
+	virtual void setGameModule(__int64);
+
+private:
+	virtual __int64 getGameModule(void);
+	virtual __int64 getGameCallbacks(void);
+	virtual __int64 getStorageAreaStateListener(void);
+	virtual __int64 getScriptEngine(void);
+	virtual __int64 sendClientEnteredLevel(void);
+	virtual __int64 getHitDetectSystem(void);
+
+public:
+	virtual bool isPlaying(void) const;
+
+private:
+	virtual __int64 getLatencyGraphDisplay(void) const;
+	virtual __int64 createSkin(void);
+	virtual __int64 onExtendDiskSpace(bool, __int64&, unsigned long long const&, __int64);
+	virtual __int64 onLowDiskSpace(bool);
+	virtual __int64 onOutOfDiskSpace(bool);
+	virtual __int64 onCriticalDiskError(bool, __int64 const&);
+	virtual __int64 onLevelCorrupt(void);
+	virtual __int64 onGameModeChanged(void);
+	virtual __int64 onTick(int, int);
+	virtual __int64 onInternetUpdate(void);
+	virtual __int64 onGameSessionReset(void);
+	virtual __int64 onLevelExit(void);
+	virtual __int64 updateScreens(void);
 
 public:
 	class LocalPlayer* LocalPlayer() {
@@ -485,28 +701,9 @@ public:
 			displayMessageFunc(this, text);
 	}
 
-	bool isValidTarget(class Actor* Entity) {
-		if (Entity == nullptr) {
-			return false;
-		}
-
-		if (Entity->isInvisible() || !Entity->isAlive() || Entity->isImmobile()) {
-			return false;
-		}
-
-		if (Entity->getEntityTypeId() > 60 && Entity->getEntityTypeId() < 104 && Entity->getEntityTypeId() != 63) {
-			return false;
-		}
-
-		if (Entity->getFormattedNameTag().length() <= 1) {
-			return false;
-		}
-
-		if (!(this->LocalPlayer()->canAttack(Entity, false))) {
-			return false;
-		}
-
-		return true;
+	Vec2* getMousePos() {
+		uintptr_t _this = reinterpret_cast<uintptr_t>(this);
+		return reinterpret_cast<Vec2*>(_this + 0x448);
 	}
 
 	inline GameSettingsInput* getGameSettingsInput() { return this->ptr->ptr->ptr->settingsInput; };

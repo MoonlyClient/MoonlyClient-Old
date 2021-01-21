@@ -37,6 +37,7 @@ private:
 
 public:
 	static void init();
+	static void DrawAll();
 	static void render();
 	static void onKeyUpdate(int key, bool isDown);
 	static void onMouseClickUpdate(int key, bool isDown);

@@ -489,6 +489,16 @@ struct Vec4 {
 		this->x = x, this->y = y, this->z = z, this->w = w;
 	}
 
+	inline bool contains(Vec2 point) {
+		if (point.x <= x || point.y <= y)
+			return false;
+
+		if (point.x >= z || point.y >= w)
+			return false;
+
+		return true;
+	};
+
 	bool operator == (Vec4 v) { return v.x == x && v.y == y && v.z == z && v.w == w; };
 	bool operator != (Vec4 v) { return v.x != x || v.y != y || v.z != z || v.w != w; };
 };
@@ -558,6 +568,7 @@ struct MC_Colour {
 class Utils {
 public:
 	static HMODULE hModule;
+	static bool running;
 	static bool hasExtension(std::string fileName);
 	static bool doesPathExist(std::string);
 	static void CreateDir(std::string);
