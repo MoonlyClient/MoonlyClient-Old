@@ -1,12 +1,11 @@
 #pragma once
 #include "../../Other/Module.h"
 
-class DiscordRPC : public Module {
+class NightVision : public Module {
 public:
-	DiscordRPC() : Module::Module("DiscordRPC", "Other", "DiscordRPC") {
+	NightVision() : Module::Module("NightVision", "Visual", "NightVision") {
 		this->isEnabled = true;
 	};
 	void onEnable();
 	void onDisable();
-	void onGmTick();
 };

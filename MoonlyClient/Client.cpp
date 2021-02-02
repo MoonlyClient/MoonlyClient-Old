@@ -12,8 +12,6 @@
 #include "Other/Menu.h"
 
 DWORD WINAPI keyThread(LPVOID lpParam) {
-	Utils::DebugLogOutput("Key thread started");
-
 	bool* keyMap = static_cast<bool*>(malloc(0xFF * 4 + 0x4));
 	if (keyMap == nullptr)
 		throw std::exception("Keymap not allocated");
@@ -30,7 +28,6 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 		keyMapAddr = reinterpret_cast<bool*>(sigOffset + offset + 7);
 	}
 	else {
-		Utils::DebugLogOutput("Keymap not located");
 		throw std::exception("Keymap not located");
 	}
 
@@ -42,7 +39,7 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 				bool newKey = (*hidController)->clickMap[key];
 				bool* oldKey = reinterpret_cast<bool*>(clickMap + key);
 				if (newKey != *oldKey) {
-					Menu::onMouseClickUpdate((int)key, newKey);
+					//Menu::onMouseClickUpdate((int)key, newKey);
 
 					if (newKey) {
 						if ((int)key == 0)

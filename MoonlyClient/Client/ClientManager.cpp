@@ -50,7 +50,7 @@ void ClientManager::InitHooks() {
 
 #include "Modules/AutoSprint.h"
 #include "Modules/GUI.h"
-#include "Modules/DiscordRPC.h"
+#include "Modules/NightVision.h"
 #include "Modules/Compass.h"
 #include "Modules/Coords.h"
 #include "Modules/FPS.h"
@@ -65,13 +65,13 @@ void ClientManager::InitModules() {
 
 	Modules.push_back(new AutoSprint());
 	Modules.push_back(new GUI());
-	Modules.push_back(new DiscordRPC());
+	Modules.push_back(new NightVision());
 	Modules.push_back(new Compass());
 	Modules.push_back(new Coords());
 	Modules.push_back(new FPS());
 	Modules.push_back(new CPS());
 	Modules.push_back(new Keystroke());
-	Modules.push_back(new MenuGUI());
+	//Modules.push_back(new MenuGUI());
 
 #ifdef __DEBUG
 	Modules.push_back(new Uninject());

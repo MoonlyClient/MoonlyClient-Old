@@ -30,7 +30,7 @@ void KeyItemCallback(uint64_t key, bool isDown) {
 			if (Module->isEnabled) Module->onKey(key, isDown);
 		}
 
-		Menu::onKeyUpdate(key, isDown);
+		//Menu::onKeyUpdate(key, isDown);
 	
 	_AVKeyItem(key, isDown);
 }

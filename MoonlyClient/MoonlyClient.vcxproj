@@ -131,7 +131,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>MinHook.x64.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
     </Link>
@@ -157,7 +157,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>MinHook.x64.lib;discord-rpc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>MinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -170,7 +170,7 @@
     <ClCompile Include="Client\Modules\AutoSprint.cpp" />
     <ClCompile Include="Client\Modules\Compass.cpp" />
     <ClCompile Include="Client\Modules\CPS.cpp" />
-    <ClCompile Include="Client\Modules\DiscordRPC.cpp" />
+    <ClCompile Include="Client\Modules\NightVision.cpp" />
     <ClCompile Include="Client\Modules\FPS.cpp" />
     <ClCompile Include="Client\Modules\GUI.cpp" />
     <ClCompile Include="Client\Modules\Coords.cpp" />
@@ -198,7 +198,7 @@
     <ClInclude Include="Client\Modules\AutoSprint.h" />
     <ClInclude Include="Client\Modules\Compass.h" />
     <ClInclude Include="Client\Modules\CPS.h" />
-    <ClInclude Include="Client\Modules\DiscordRPC.h" />
+    <ClInclude Include="Client\Modules\NightVision.h" />
     <ClInclude Include="Client\Modules\FPS.h" />
     <ClInclude Include="Client\Modules\GUI.h" />
     <ClInclude Include="Client\Modules\Coords.h" />
@@ -206,8 +206,6 @@
     <ClInclude Include="Client\Modules\MenuGUI.h" />
     <ClInclude Include="Client\Modules\Uninject.h" />
     <ClInclude Include="include\MinHook.h" />
-    <ClInclude Include="include\discord_register.h" />
-    <ClInclude Include="include\discord_rpc.h" />
     <ClInclude Include="Other\MathUtils.h" />
     <ClInclude Include="Other\Menu.h" />
     <ClInclude Include="Other\Module.h" />
