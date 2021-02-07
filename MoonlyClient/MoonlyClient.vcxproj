@@ -125,6 +125,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -150,6 +151,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -205,7 +207,13 @@
     <ClInclude Include="Client\Modules\Keystroke.h" />
     <ClInclude Include="Client\Modules\MenuGUI.h" />
     <ClInclude Include="Client\Modules\Uninject.h" />
+    <ClInclude Include="include\atlrx.h" />
+    <ClInclude Include="include\httplib.h" />
     <ClInclude Include="include\MinHook.h" />
+    <ClInclude Include="include\RegExp.h" />
+    <ClInclude Include="include\StringProcess.h" />
+    <ClInclude Include="include\WinHttpClient.h" />
+    <ClInclude Include="Other\Authentification.h" />
     <ClInclude Include="Other\MathUtils.h" />
     <ClInclude Include="Other\Menu.h" />
     <ClInclude Include="Other\Module.h" />

@@ -43,8 +43,14 @@ void Menu::DrawAll() {
 		float boxWidth = RenderUtils::GetTextWidth(module->name, 1.f) + 8;
 		Vec4 boxPos = Vec4(Xmodifier, Ymodifier, Xmodifier + boxWidth, Ymodifier + 20);
 
-		if (!wasLeftClickDown && isLeftClickDown && boxPos.contains(mousePos)) {
-			module->isEnabled = !module->isEnabled;
+		HIDController** hidController = Minecraft::HIDController();
+
+		if (*hidController != nullptr) {
+			bool executeClick = isLeftClickDown && isLeftClickDown != wasLeftClickDown;
+
+			if (executeClick && boxPos.contains(mousePos)) {
+				module->isEnabled = !module->isEnabled;
+			}
 		}
 
 		RenderUtils::RenderText(module->name, Vec2(boxPos.x + 7, boxPos.y + 7), module->isEnabled ? MC_Colour(0, 255, 0) : MC_Colour(255, 0, 0), 1.f, boxPos.contains(mousePos) ? .5f : 1.f);
@@ -76,9 +82,9 @@ void Menu::render() {
 void Menu::onMouseClickUpdate(int key, bool isDown) {
 	switch (key) {
 	case 0:  // Left Click
-		if (wasLeftClickDown && !isDown)
+		if (wasLeftClickDown && isDown)
 			wasLeftClickDown = true;
-		else if (!wasLeftClickDown && isDown)
+		else if (!wasLeftClickDown && !isDown)
 			wasLeftClickDown = false;
 
 		isLeftClickDown = isDown;

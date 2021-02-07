@@ -43,10 +43,10 @@ public:
 	virtual __int64 drawText(BitmapFont* font, const float* pos, TextHolder* text, float* color, float alpha, unsigned int textAlignment, const TextMeasureData* textMeasureData, const uintptr_t* caretMeasureData);
 	virtual void flushText(float timeSinceLastFlush);
 	virtual __int64 drawImage(TexturePtr* texturePtr, Vec2& ImagePos, Vec2& ImageDimension, __int64& a4, Vec2& idk);
-	virtual __int64 drawNinesliceNOTIMPLEMENTED();
-	virtual __int64 flushImagesNOTIMPLEMENTED();
-	virtual __int64 beginSharedMeshBatchNOTIMPLEMENTED();
-	virtual __int64 endSharedMeshBatchNOTIMPLEMENTED();
+	virtual __int64 __func1(); // idk
+	virtual __int64 __func2(); // flushImages
+	virtual __int64 __func3(); // beginSharedMeshBatch
+	virtual __int64 __func4(); // endSharedMeshBatch
 	virtual void drawRectangle(struct Vec4 position, MC_Colour colour, float alpha, int lineWidth);
 	virtual void fillRectangle(struct Vec4 position, MC_Colour colour, float alpha);
 };

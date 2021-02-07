@@ -14,7 +14,7 @@ void Callback(ClientInstance* a1, void* a2) {
 	_C_Hook(a1, a2);
 }
 
-typedef float(__stdcall* GetGamma)(uintptr_t* a1);
+typedef float(__stdcall* GetGamma)(uintptr_t*);
 GetGamma _GetGamma;
 
 float GetGammaCallback(uintptr_t* a1) {
@@ -24,7 +24,8 @@ float GetGammaCallback(uintptr_t* a1) {
 		return 25.f;
 	}
 
-	return *((float*)*(a1 + 0x27) + 0x7A);
+	return _GetGamma(a1);
+	//return *((float*)*(a1 + 0x27) + 0x7A);
 }
 
 void ClientInstance_Hook::Install() {

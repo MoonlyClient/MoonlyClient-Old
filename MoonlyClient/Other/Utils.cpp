@@ -225,10 +225,19 @@ void RenderUtils::DrawKeystroke(char key, Vec2 pos) {
 	std::string keyString = Utils::getKeybindName(key);
 	GameSettingsInput* input = Minecraft::ClientInstance()->getGameSettingsInput();
 
-	if (key == *input->spaceBarKey) keyString = "-";
-
-	Vec4 rectPos(pos.x ,pos.y, pos.x + ((key == *input->spaceBarKey) ? 64.f : 20.f), pos.y + 20.f);
+	Vec4 rectPos(pos.x, pos.y, pos.x + ((key == *input->spaceBarKey) ? 64.f : 20.f), pos.y + 20.f);
 	Vec2 textPos((rectPos.x + 3.5 + (rectPos.z - rectPos.x) / 2) - (GetTextWidth(keyString, 1) / 1.f), rectPos.y + 12.f - CachedFont->getLineHeight() / 2.f);
+
+	if (key == *input->spaceBarKey) {
+		FillRectangle(rectPos, Utils::isKeyDown(key) ? MC_Colour(255, 255, 255) : MC_Colour(0, 0, 0), .15f);
+		FillRectangle(Vec4(
+			rectPos.x + 20,
+			rectPos.y + 13.f - CachedFont->getLineHeight() / 2.5f,
+			rectPos.x + 20 + 25,
+			(rectPos.y + 13.f - CachedFont->getLineHeight() / 2.5f) + 2), MC_Colour(255, 255, 255), 1.f);
+
+		return;
+	}
 
 	FillRectangle(rectPos, Utils::isKeyDown(key) ? MC_Colour(255, 255, 255) : MC_Colour(0, 0, 0), .15f);
 	RenderText(keyString, textPos, MC_Colour(255, 255, 255), 1.f, 1.f);

@@ -1,15 +1,18 @@
+#include <thread>
+
 #include "SDK/Minecraft.h"
 #include "SDK/Classes/HIDController.h"
 #include "Other/Utils.h"
 #include "Other/Menu.h"
 #include "Other/Module.h"
 #include "Client/ClientManager.h"
+#include "Other/Menu.h"
+#include "Other/Authentification.h"
 
 #if defined _M_X64
 #pragma comment(lib, "MinHook.x64.lib")
 #endif
-#include <thread>
-#include "Other/Menu.h"
+
 
 DWORD WINAPI keyThread(LPVOID lpParam) {
 	bool* keyMap = static_cast<bool*>(malloc(0xFF * 4 + 0x4));
@@ -38,8 +41,9 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 			for (uintptr_t key = 0; key < 5; key++) {
 				bool newKey = (*hidController)->clickMap[key];
 				bool* oldKey = reinterpret_cast<bool*>(clickMap + key);
+
 				if (newKey != *oldKey) {
-					//Menu::onMouseClickUpdate((int)key, newKey);
+					Menu::onMouseClickUpdate((int)key, newKey);
 
 					if (newKey) {
 						if ((int)key == 0)
@@ -60,13 +64,21 @@ DWORD WINAPI keyThread(LPVOID lpParam) {
 
 	MH_DisableHook(MH_ALL_HOOKS);
 
-	Sleep(200);  // Give the threads a bit of time to exit
+	Sleep(200);
 
 	MH_Uninitialize();
 
 	Sleep(100);
 
 	FreeLibraryAndExitThread(static_cast<HMODULE>(lpParam), 1);  // Uninject
+}
+
+DWORD WINAPI authThread(LPVOID lpParam) {
+	Utils::DebugLogOutput("Auth thread started");
+
+	// ToDo
+
+	return 0;
 }
 
 void Init(LPVOID lpParam) {
@@ -82,6 +94,9 @@ void Init(LPVOID lpParam) {
 
 	DWORD keyThreadId;
 	CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)keyThread, lpParam, NULL, &keyThreadId); 
+
+	DWORD authThreadId;
+	CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)authThread, lpParam, NULL, &authThreadId);
 
     std::thread countThread([] {
         while (Utils::running) {

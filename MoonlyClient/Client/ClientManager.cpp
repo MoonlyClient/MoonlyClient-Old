@@ -71,7 +71,7 @@ void ClientManager::InitModules() {
 	Modules.push_back(new FPS());
 	Modules.push_back(new CPS());
 	Modules.push_back(new Keystroke());
-	//Modules.push_back(new MenuGUI());
+	Modules.push_back(new MenuGUI());
 
 #ifdef __DEBUG
 	Modules.push_back(new Uninject());
@@ -94,6 +94,8 @@ class Module* ClientManager::GetModuleByName(std::string name) {
 			return Module;
 		}
 	}
+
+	return nullptr;
 }
 
 std::vector<class Module*> ClientManager::GetModulesFromCategory(std::string Category) {
