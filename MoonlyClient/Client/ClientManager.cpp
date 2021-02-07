@@ -20,6 +20,7 @@ int Minecraft::cpsLeft = 0;
 int Minecraft::leftclickCount = 0;
 int Minecraft::cpsRight = 0;
 int Minecraft::rightclickCount = 0;
+float Minecraft::lastReach = 0;
 
 ClientInstance* Minecraft::CachedInstance = nullptr; //Resolve error on compile
 C_GuiData* Minecraft::CachedGuiData = nullptr; //Resolve error on compile
@@ -55,6 +56,7 @@ void ClientManager::InitHooks() {
 #include "Modules/Coords.h"
 #include "Modules/FPS.h"
 #include "Modules/CPS.h"
+#include "Modules/Reach.h"
 #include "Modules/Keystroke.h"
 #include "Modules/MenuGUI.h"
 #include "Modules/Uninject.h"
@@ -70,6 +72,7 @@ void ClientManager::InitModules() {
 	Modules.push_back(new Coords());
 	Modules.push_back(new FPS());
 	Modules.push_back(new CPS());
+	Modules.push_back(new Reach());
 	Modules.push_back(new Keystroke());
 	Modules.push_back(new MenuGUI());
 

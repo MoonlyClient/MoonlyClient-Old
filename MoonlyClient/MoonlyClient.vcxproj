@@ -178,6 +178,7 @@
     <ClCompile Include="Client\Modules\Coords.cpp" />
     <ClCompile Include="Client\Modules\Keystroke.cpp" />
     <ClCompile Include="Client\Modules\MenuGUI.cpp" />
+    <ClCompile Include="Client\Modules\Reach.cpp" />
     <ClCompile Include="Client\Modules\Uninject.cpp" />
     <ClCompile Include="Other\Menu.cpp" />
     <ClCompile Include="Other\Module.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="Client\Modules\Coords.h" />
     <ClInclude Include="Client\Modules\Keystroke.h" />
     <ClInclude Include="Client\Modules\MenuGUI.h" />
+    <ClInclude Include="Client\Modules\Reach.h" />
     <ClInclude Include="Client\Modules\Uninject.h" />
     <ClInclude Include="include\atlrx.h" />
     <ClInclude Include="include\httplib.h" />

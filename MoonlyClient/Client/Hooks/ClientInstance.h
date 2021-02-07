@@ -25,7 +25,15 @@ float GetGammaCallback(uintptr_t* a1) {
 	}
 
 	return _GetGamma(a1);
-	//return *((float*)*(a1 + 0x27) + 0x7A);
+}
+
+typedef void(_stdcall* Actor_hurt)(Actor*, Actor&);
+Actor_hurt _Actor_hurt;
+
+void ActorHurtCallback(Actor* _this, Actor& actor) {
+	Minecraft::lastReach = _this->getPos()->distance(*actor.getPos());
+
+	return _Actor_hurt(_this, actor);
 }
 
 void ClientInstance_Hook::Install() {
@@ -57,5 +65,20 @@ void ClientInstance_Hook::Install() {
 	}
 	else {
 		Utils::DebugLogOutput("Failed to find address needed for the GetGamma Hook!");
+	}
+
+	uintptr_t sigOffset = Utils::FindSig("48 8D 05 ?? ?? ?? ?? 48 89 07 48 8D 8F ?? ?? ?? ?? 48 8B 87");
+
+	int offset = *reinterpret_cast<int*>(sigOffset + 3);
+	uintptr_t** localPlayerVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + 7);
+
+	if (localPlayerVtable == 0x0 || sigOffset == 0x0)
+		Utils::DebugLogOutput("LocalPlayer vtable not found");
+	else {
+		// Actor::hurt
+		if (MH_CreateHook((void*)localPlayerVtable[107], &ActorHurtCallback, reinterpret_cast<LPVOID*>(&_Actor_hurt)) == MH_OK) {
+			Utils::DebugLogOutput("Successfully created Actor::hurt Hook, Installing Hook now...");
+			MH_EnableHook((void*)localPlayerVtable[107]);
+		}
 	}
 }

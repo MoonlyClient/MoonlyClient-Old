@@ -14,6 +14,7 @@ public:
 	static int leftclickCount;
 	static int cpsRight;
 	static int rightclickCount;
+	static float lastReach;
 private:
 	static ClientInstance* CachedInstance;
 	static C_GuiData* CachedGuiData;
