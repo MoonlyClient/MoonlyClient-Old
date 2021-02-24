@@ -7,8 +7,10 @@ void AutoSprint::onGmTick() {
 		GameSettingsInput* input = Minecraft::ClientInstance()->getGameSettingsInput();
 
 		if (Player->velocity.magnitudexz() > 0.05f) {
-			if (Utils::isKeyDown((char)*input->forwardKey)) {
-				Player->setSprinting(true);
+			if (!Utils::isKeyDown((char)*input->sneakKey)) {
+				if (Utils::isKeyDown((char)*input->forwardKey)) {
+					Player->setSprinting(true);
+				}
 			}
 		}
 	}

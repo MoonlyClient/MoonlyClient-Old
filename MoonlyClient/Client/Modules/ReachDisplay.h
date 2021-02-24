@@ -3,7 +3,7 @@
 
 class Reach : public Module {
 public:
-	Reach() : Module::Module("Reach", "Visuals", "Reach") {
+	Reach() : Module::Module("ReachDisplay", "Visuals", "ReachDisplay") {
 		this->isEnabled = true;
 	};
 	void onRender();

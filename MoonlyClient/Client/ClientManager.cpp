@@ -56,7 +56,7 @@ void ClientManager::InitHooks() {
 #include "Modules/Coords.h"
 #include "Modules/FPS.h"
 #include "Modules/CPS.h"
-#include "Modules/Reach.h"
+#include "Modules/ReachDisplay.h"
 #include "Modules/Keystroke.h"
 #include "Modules/MenuGUI.h"
 #include "Modules/Uninject.h"

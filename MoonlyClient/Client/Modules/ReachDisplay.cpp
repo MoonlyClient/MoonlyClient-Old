@@ -1,6 +1,6 @@
 #include "../ClientManager.h"
 #include "../../Other/Utils.h"
-#include "Reach.h"
+#include "ReachDisplay.h"
 
 void Reach::onRender() {
 	LocalPlayer* player = Minecraft::ClientInstance()->LocalPlayer();

@@ -2,10 +2,11 @@
 #include "TextHolder.h"
 
 class RakNetInstance {
-private:
-	char pad_0x0008[0x368];  //0x0000
+	char pad_0000[856];    //0x0000
 public:
-	TextHolder serverIp; //0x370
+	TextHolder numericalIp;  //0x0360
+	TextHolder serverIp;        //0x0380
+	uint32_t serverPort;   //0x03A0
 
 private:
 	virtual ~RakNetInstance();
@@ -40,4 +41,7 @@ private:
 	virtual __int64 getIPv4Port(void) const;
 	virtual __int64 getIPv6Port(void) const;
 	virtual __int64 getGUID(void) const;
+
+public:
+	inline bool isOnAServer() { return !(serverIp.textLength == 0); }
 };

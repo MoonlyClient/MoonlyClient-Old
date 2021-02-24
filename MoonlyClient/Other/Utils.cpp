@@ -116,8 +116,7 @@ uintptr_t Utils::FindSig(const char* szSignature) {
 	BYTE patByte = GET_BYTE(pattern);
 	const char* oldPat = pattern;
 
-	for (uintptr_t pCur = rangeStart; pCur < rangeEnd; pCur++)
-	{
+	for (uintptr_t pCur = rangeStart; pCur < rangeEnd; pCur++) {
 		if (!*pattern)
 			return firstMatch;
 
@@ -133,18 +132,20 @@ uintptr_t Utils::FindSig(const char* szSignature) {
 				patByte = GET_BYTE(pattern);
 		}
 
-		if (*(PBYTE)pattern == '\?' || *(BYTE*)pCur == patByte)
-		{
+		if (*(PBYTE)pattern == '\?' || *(BYTE*)pCur == patByte) {
 			if (!firstMatch)
 				firstMatch = pCur;
 
-			if (!pattern[2])
+			if (!pattern[2] || !pattern[1])
 				return firstMatch;
 
+			//if (*(PWORD)pattern == '\?\?' || *(PBYTE)pattern != '\?')
+			//pattern += 3;
+
+			//else
 			pattern += 2;
 		}
-		else
-		{
+		else {
 			pattern = szSignature;
 			firstMatch = 0;
 		}
