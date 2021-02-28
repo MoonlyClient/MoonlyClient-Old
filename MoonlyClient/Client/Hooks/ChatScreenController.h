@@ -15,7 +15,7 @@ void sendMessageCallback(uint8_t* _this) {
 	if (messageHolder->getTextLength() > 0) {
 		char* message = messageHolder->getText();
 
-		if (*message == '.') {
+		if (*message == '.' && messageHolder->getTextLength() > 1) {
 			ClientManager::CmdMgr->execute(message);
 
 			messageHolder->resetWithoutDelete();
