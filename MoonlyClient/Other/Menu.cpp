@@ -81,16 +81,11 @@ void Menu::render() {
 
 void Menu::onMouseClickUpdate(int key, bool isDown) {
 	switch (key) {
-	case 0:  // Left Click
-		if (wasLeftClickDown && isDown)
-			wasLeftClickDown = true;
-		else if (!wasLeftClickDown && !isDown)
-			wasLeftClickDown = false;
-
+	case 1:  // Left Click
 		isLeftClickDown = isDown;
 		shouldToggleLeftClick = isDown;
 		break;
-	case 1:  // Right Click
+	case 2:  // Right Click
 		isRightClickDown = isDown;
 		shouldToggleRightClick = isDown;
 		break;

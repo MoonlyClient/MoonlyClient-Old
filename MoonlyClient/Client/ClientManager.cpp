@@ -52,6 +52,7 @@ void ClientManager::InitHooks() {
 #include "Modules/AutoSprint.h"
 #include "Modules/GUI.h"
 #include "Modules/NightVision.h"
+#include "Modules/Zoom.h"
 #include "Modules/Compass.h"
 #include "Modules/Coords.h"
 #include "Modules/FPS.h"
@@ -68,6 +69,7 @@ void ClientManager::InitModules() {
 	Modules.push_back(new AutoSprint());
 	Modules.push_back(new GUI());
 	Modules.push_back(new NightVision());
+	Modules.push_back(new Zoom());
 	Modules.push_back(new Compass());
 	Modules.push_back(new Coords());
 	Modules.push_back(new FPS());

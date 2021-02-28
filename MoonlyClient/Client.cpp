@@ -21,6 +21,31 @@ DWORD WINAPI authThread(LPVOID lpParam) {
 	return 0;
 }
 
+DWORD WINAPI countThread(LPVOID lpParam) {
+    Utils::DebugLogOutput("Count thread started");
+
+    while (Utils::running) {
+        Sleep(1000);
+
+        Minecraft::fps = Minecraft::frameCount;
+        Minecraft::frameCount = 0;
+        Minecraft::cpsLeft = Minecraft::leftclickCount;
+        Minecraft::leftclickCount = 0;
+        Minecraft::cpsRight = Minecraft::rightclickCount;
+        Minecraft::rightclickCount = 0;
+    }
+
+    MH_DisableHook(MH_ALL_HOOKS);
+
+    Sleep(200);
+
+    MH_Uninitialize();
+
+    Sleep(100);
+
+    FreeLibraryAndExitThread(static_cast<HMODULE>(lpParam), 1);  // Uninject
+}
+
 void Init(LPVOID lpParam) {
     Utils::hModule = (HMODULE)lpParam;
 
@@ -32,25 +57,11 @@ void Init(LPVOID lpParam) {
     ClientManager::InitHooks();
     ClientManager::InitModules();
 
+    DWORD countThreadId;
+    CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)countThread, lpParam, NULL, &countThreadId);
+
 	DWORD authThreadId;
 	CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)authThread, lpParam, NULL, &authThreadId);
-
-    std::thread countThread([] {
-        while (Utils::running) {
-            Sleep(1000);
-
-            Minecraft::fps = Minecraft::frameCount;
-            Minecraft::frameCount = 0;
-            Minecraft::cpsLeft = Minecraft::leftclickCount;
-            Minecraft::leftclickCount = 0;
-            Minecraft::cpsRight = Minecraft::rightclickCount;
-            Minecraft::rightclickCount = 0;
-        }
-    });
-
-    countThread.detach();
-
-    Utils::DebugLogOutput("Count thread started");
 
     ExitThread(0);
 }

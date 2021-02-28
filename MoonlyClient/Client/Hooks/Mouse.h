@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Other/Module.h"
+#include "../../Other/Menu.h"
 #include "../../SDK/Classes/HIDController.h"
 
 class Mouse_Hook : public Hook {
@@ -27,6 +28,8 @@ void ClickCallback(__int64 a1, char mouseButton, char isDown, __int16 mouseX, __
 		if (mouseButton != 0)
 			return;
 	}
+
+	Menu::onMouseClickUpdate((int)mouseButton, isDown);
 
 	if (isDown)
 		if (mouseButton == 1)
