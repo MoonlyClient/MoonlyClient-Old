@@ -43,7 +43,7 @@ float LevelRendererPlayerGetFovCallback(__int64 _this, float a2, bool a3) {
 	Module* zoom = ClientManager::GetModuleByName("Zoom");
 	
 	if (zoom != nullptr && zoom->isEnabled) {
-		return 130.f;
+		return 15.f;
 	}
 		
 	return _LevelRendererPlayer_getFov(_this, a2, a3);
@@ -85,7 +85,7 @@ void ClientInstance_Hook::Install() {
 	sigAddr = Utils::FindSig("40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F");
 	if (sigAddr) {
 		Utils::DebugLogOutput("Found address needed for the getFov Hook, Preparing Hook install now...");
-		if (MH_CreateHook((void*)sigAddr, &GetGammaCallback, reinterpret_cast<LPVOID*>(&_GetGamma)) == MH_OK) {
+		if (MH_CreateHook((void*)sigAddr, &LevelRendererPlayerGetFovCallback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov)) == MH_OK) {
 			Utils::DebugLogOutput("Successfully created getFov Hook, Installing Hook now...");
 			MH_EnableHook((void*)sigAddr);
 		}

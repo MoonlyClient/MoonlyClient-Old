@@ -91,6 +91,12 @@ void ClientManager::InitModules() {
 			Categories.push_back(Modules.at(I)->category);
 		}
 	}
+
+	for (;;) {
+		for (int I = 0; I < Modules.size(); I++) { //Loop Modules
+			Modules.at(I)->onLoop();
+		}
+	}
 }
 
 class Module* ClientManager::GetModuleByName(std::string name) {

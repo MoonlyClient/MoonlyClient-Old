@@ -33,7 +33,7 @@ void Menu::DrawAll() {
 	float Ymodifier = 50;
 
 	for (Module* module : ClientManager::Modules) {
-		if (module->name == "MenuGUI" || module->name == "GUI" || module->name == "DiscordRPC") continue;
+		if (module->name == "MenuGUI" || module->name == "GUI" || module->name == "DiscordRPC" || module->name == "Zoom") continue;
 
 		if (Ymodifier >= guiData->heightGame - (guiData->heightGame / 6)) {
 			Ymodifier = 50;
