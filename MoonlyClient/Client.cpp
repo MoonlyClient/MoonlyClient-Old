@@ -13,66 +13,6 @@
 #pragma comment(lib, "MinHook.x64.lib")
 #endif
 
-
-DWORD WINAPI keyThread(LPVOID lpParam) {
-	bool* keyMap = static_cast<bool*>(malloc(0xFF * 4 + 0x4));
-	if (keyMap == nullptr)
-		throw std::exception("Keymap not allocated");
-
-	auto clickMap = reinterpret_cast<uintptr_t>(malloc(5));
-	if (clickMap == 0)
-		throw std::exception("Clickmap not allocated");
-
-	bool* keyMapAddr = nullptr;
-	uintptr_t sigOffset = Utils::FindSig("48 8D 0D ?? ?? ?? ?? 89 1C B9");
-
-	if (sigOffset != 0x0) {
-		int offset = *reinterpret_cast<int*>((sigOffset + 3));
-		keyMapAddr = reinterpret_cast<bool*>(sigOffset + offset + 7);
-	}
-	else {
-		throw std::exception("Keymap not located");
-	}
-
-	HIDController** hidController = Minecraft::HIDController();
-
-	while (Utils::running) {
-		if (*hidController != nullptr) {
-			for (uintptr_t key = 0; key < 5; key++) {
-				bool newKey = (*hidController)->clickMap[key];
-				bool* oldKey = reinterpret_cast<bool*>(clickMap + key);
-
-				if (newKey != *oldKey) {
-					Menu::onMouseClickUpdate((int)key, newKey);
-
-					if (newKey) {
-						if ((int)key == 0)
-							Minecraft::leftclickCount++;
-						else if ((int)key == 1)
-							Minecraft::rightclickCount++;
-					}
-				}
-			}
-
-			memcpy(reinterpret_cast<void*>(clickMap), &(*hidController)->leftClickDown, 5);
-		}
-
-		memcpy_s(keyMap, 0xFF * 4, keyMapAddr, 0xFF * 4);
-
-		Sleep(2);
-	}
-
-	MH_DisableHook(MH_ALL_HOOKS);
-
-	Sleep(200);
-
-	MH_Uninitialize();
-
-	Sleep(100);
-
-	FreeLibraryAndExitThread(static_cast<HMODULE>(lpParam), 1);  // Uninject
-}
-
 DWORD WINAPI authThread(LPVOID lpParam) {
 	Utils::DebugLogOutput("Auth thread started");
 
@@ -91,9 +31,6 @@ void Init(LPVOID lpParam) {
 
     ClientManager::InitHooks();
     ClientManager::InitModules();
-
-	DWORD keyThreadId;
-	CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)keyThread, lpParam, NULL, &keyThreadId); 
 
 	DWORD authThreadId;
 	CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)authThread, lpParam, NULL, &authThreadId);
