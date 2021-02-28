@@ -6,7 +6,7 @@ public:
 	void Install();
 };
 
-typedef void(__fastcall* sendMessage)(uint8_t*);
+typedef void(__stdcall* sendMessage)(uint8_t*);
 sendMessage _sendMessage;
 
 void sendMessageCallback(uint8_t* _this) {

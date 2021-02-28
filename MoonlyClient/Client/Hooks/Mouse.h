@@ -8,14 +8,14 @@ public:
 	void Install();
 };
 
-typedef void(__fastcall* Mouse)(HIDController*, void*, void*);
+typedef void(__stdcall* Mouse)(HIDController*, void*, void*);
 Mouse _Mouse;
 void MouseCallback(HIDController* _this, void* a2, void* a3) {
 	Minecraft::SetHIDController(_this);
 	return _Mouse(_this, a2, a3);
 }
 
-typedef void(__fastcall* Click)(__int64, char, char, __int16, __int16, __int16, __int16, char);
+typedef void(__stdcall* Click)(__int64, char, char, __int16, __int16, __int16, __int16, char);
 Click _Click;
 void ClickCallback(__int64 a1, char mouseButton, char isDown, __int16 mouseX, __int16 mouseY, __int16 relativeMovementX, __int16 relativeMovementY, char a8) {
 	Module* menu = ClientManager::GetModuleByName("MenuGUI");

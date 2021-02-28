@@ -6,7 +6,7 @@ public:
 	void Install();
 };
 
-typedef void(__fastcall* C_Hook)(ClientInstance* a1, void* a2);
+typedef void(__stdcall* C_Hook)(ClientInstance* a1, void* a2);
 C_Hook _C_Hook;
 
 void Callback(ClientInstance* a1, void* a2) {

@@ -6,7 +6,7 @@ public:
 	void Install();
 };
 
-typedef void(__fastcall* GmTick)(GameMode* GM);
+typedef void(__stdcall* GmTick)(GameMode* GM);
 GmTick _GmTick;
 GmTick _SmTick;
 
