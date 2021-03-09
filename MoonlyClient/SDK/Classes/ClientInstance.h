@@ -169,7 +169,7 @@ public:
 	virtual void setupClientGame(__int64&&, bool);
 
 private:
-	virtual __int64 sub_1400C5D00(void) const;
+	virtual __int64 getRegion(void) const;
 	virtual __int64 getLocalC_Player(void);
 	virtual __int64 getLocalC_Player(void) const;
 	virtual __int64 getCameraEntity(void) const;
@@ -186,7 +186,7 @@ public:
 	virtual bool isDestroyingGame(void) const;
 
 private:
-	virtual __int64 sub_1400C98E0(void) const;
+	virtual __int64 isShuttingDown(void) const;
 	virtual __int64 useLowFrequencyUIRender(void) const;
 
 public:
@@ -216,7 +216,7 @@ public:
 	virtual bool isPlatformNX(void) const;
 	virtual bool isLocalSplitscreenWith(__int64 const&) const;
 	virtual bool isValidCrossPlatformSkin(void) const;
-	virtual __int64 sub_1400C9B70(void);
+	virtual __int64 isSelectedSkinInitialized(void);
 
 private:
 	virtual __int64 getSplitScreenInfo(void) const;
@@ -233,7 +233,7 @@ public:
 	virtual void setRealityModeToggleTriggered(bool);
 
 private:
-	virtual bool sub_1400C9C50(void);
+	virtual bool getHandlingControllerDisconnect(void);
 
 public:
 	virtual void setOpenControllerDisconnectScreen(bool);
@@ -271,7 +271,7 @@ private:
 	virtual __int64 getAutomationClient(void) const;
 	virtual __int64 getScreenshotStreamer(void) const;
 	virtual __int64 getEventing(void) const;
-	virtual __int64 sub_1400CA2E0(__int64 a1);
+	virtual __int64 unknown(__int64 a1);
 	virtual __int64 sub_1400CA2E8(__int64 a1);
 	virtual __int64 sub_1400CA2F0(__int64 a1);
 	virtual BitmapFont* getFont(void) const;
@@ -284,8 +284,8 @@ private:
 	virtual __int64 getResourcePackManager(void) const;
 	virtual __int64 getSkinRepository(void) const;
 	virtual __int64 getSkinRepositoryClientInterface(void) const;
-	virtual __int64 sub_140630650(void) const;
-	virtual __int64 sub_1400CA400(void) const;
+	virtual __int64 getPersonaPieceCollectionModel(void) const;
+	virtual __int64 getPersonaRepository(void) const;
 	virtual __int64 getTextures(void) const;
 	virtual __int64 getStoreCacheTextures(void) const;
 	virtual __int64 getMinecraftGraphics(void) const;
@@ -310,7 +310,7 @@ private:
 	virtual __int64 navigateToServersScreen(bool);
 	virtual __int64 navigateToHowToPlayScreen(std::string const&);
 	virtual __int64 tryPushLeaveGameScreen(void);
-	virtual char sub_1400D16A0(void) const;
+	virtual char tryStartDayOneExperience(void) const;
 
 public:
 	virtual bool isReadyToRender(void) const;
@@ -433,8 +433,8 @@ public:
 	virtual __int64 clearGraphicsCache(void);
 	virtual __int64 getNormalizedUICursorTransform(__int64&, float);
 	virtual __int64 shouldRenderUICursor(void) const;
-	virtual bool sub_1400CD3B0(void);
-	virtual bool sub_1400CD3B1(void);
+	virtual __int64 getRenderPlayerModel(void);
+	virtual __int64 getCameraFacesPlayerFront(void);
 	virtual __int64 getGuiScale(void) const;
 	virtual __int64 getGuiScaleOption(void) const;
 	virtual __int64 getGuiScaleOffset(void) const;
@@ -480,7 +480,7 @@ private:
 	virtual __int64 getScreenTelemetry(void) const;
 	virtual __int64 getTopSceneType(void) const;
 	virtual __int64 getMobEffectsLayout(void);
-	virtual __int64 newFunc2(__int64 a2, __int64 a3, char a4);
+	virtual __int64 emoticonifyText(__int64 a2, __int64 a3, char a4);
 	virtual __int64 newFunc3(__int64 a2, __int64 a3);
 	virtual __int64 onMobEffectsChange(void);
 
