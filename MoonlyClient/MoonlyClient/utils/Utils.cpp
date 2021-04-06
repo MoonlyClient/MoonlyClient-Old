@@ -1,6 +1,6 @@
 ﻿#include "Utils.h"
-#include "../SDK/Minecraft.h"
-#include "../SDK/Classes/GameSettingsInput.h"
+#include "../data/GameData.h"
+#include "../sdk/GameSettingsInput.h"
 
 HMODULE Utils::hModule = nullptr;
 bool Utils::running = false;
@@ -167,95 +167,10 @@ bool Utils::isKeyDown(int key) {
 		uintptr_t sigOffset = FindSig("48 8D 0D ?? ?? ?? ?? 89 1C B9");
 		if (sigOffset != 0x0) {
 			int offset = *reinterpret_cast<int*>((sigOffset + 3));
-			keyMapOffset = sigOffset - Minecraft::ModuleBase() + offset + 7;
-			Utils::DebugLogOutput("KeyMap: " + std::to_string(keyMapOffset + Minecraft::ModuleBase()));
+			keyMapOffset = sigOffset - gData.getModuleBase() + offset + 7;
+			Utils::DebugLogOutput("KeyMap: " + std::to_string(keyMapOffset + gData.getModuleBase()));
 		}
 	}
 
-	return *reinterpret_cast<bool*>(Minecraft::ModuleBase() + keyMapOffset + ((uintptr_t)key * 0x4));
-}
-
-/* Render Utils */
-
-#include "../SDK/Classes/ClientInstance.h"
-
-class MinecraftUIRenderContext* RenderUtils::CachedContext = nullptr;
-class BitmapFont* RenderUtils::CachedFont = nullptr;
-
-void RenderUtils::SetContext(class MinecraftUIRenderContext* Context, class BitmapFont* Font) {
-	CachedContext = Context;
-	CachedFont = Font;
-}
-
-void RenderUtils::FlushText() {
-	if (CachedContext != nullptr) CachedContext->flushText(0);
-}
-
-float RenderUtils::GetTextWidth(std::string text, float textSize) {
-	if (CachedContext != nullptr) {
-		TextHolder myText(text);
-		return CachedContext->getLineLength(CachedFont, &myText, textSize, false);
-	}
-}
-
-void RenderUtils::RenderText(std::string textStr, Vec2 pos, MC_Colour color, float textSize, float alpha) {
-	TextHolder text(textStr);
-	static uintptr_t caretMeasureData = 0xFFFFFFFF;
-
-	pos.y -= 1;
-
-	float posF[4];
-	posF[0] = pos.x;
-	posF[1] = pos.x + 1000;
-	posF[2] = pos.y;
-	posF[3] = pos.y + 1000;
-
-	TextMeasureData textMeasure{};
-	memset(&textMeasure, 0, sizeof(TextMeasureData));
-	textMeasure.textSize = textSize;
-
-	CachedContext->drawText(CachedFont, posF, &text, color.arr, alpha, 0, &textMeasure, &caretMeasureData);
-};
-
-void RenderUtils::DrawCenteredText(Vec2 pos, std::string text, MC_Colour colour, float size, float textOpacity) {
-	pos.x -= RenderUtils::GetTextWidth(text, size) / 2;
-	RenderUtils::RenderText(text, pos, colour, size, textOpacity);
-}
-
-void RenderUtils::DrawKeystroke(char key, Vec2 pos) {
-	std::string keyString = Utils::getKeybindName(key);
-	GameSettingsInput* input = Minecraft::ClientInstance()->getGameSettingsInput();
-
-	Vec4 rectPos(pos.x, pos.y, pos.x + ((key == *input->spaceBarKey) ? 64.f : 20.f), pos.y + 20.f);
-	Vec2 textPos((rectPos.x + 3.5 + (rectPos.z - rectPos.x) / 2) - (GetTextWidth(keyString, 1) / 1.f), rectPos.y + 12.f - CachedFont->getLineHeight() / 2.f);
-
-	if (key == *input->spaceBarKey) {
-		FillRectangle(rectPos, Utils::isKeyDown(key) ? MC_Colour(255, 255, 255) : MC_Colour(0, 0, 0), .15f);
-		FillRectangle(Vec4(
-			rectPos.x + 20,
-			rectPos.y + 13.f - CachedFont->getLineHeight() / 2.5f,
-			rectPos.x + 20 + 25,
-			(rectPos.y + 13.f - CachedFont->getLineHeight() / 2.5f) + 2), MC_Colour(255, 255, 255), 1.f);
-
-		return;
-	}
-
-	FillRectangle(rectPos, Utils::isKeyDown(key) ? MC_Colour(255, 255, 255) : MC_Colour(0, 0, 0), .15f);
-	RenderText(keyString, textPos, MC_Colour(255, 255, 255), 1.f, 1.f);
-}
-
-void RenderUtils::FillRectangle(Vec4 position, MC_Colour colour, float alpha) {
-	if (CachedContext != nullptr) {
-		CachedContext->fillRectangle(Vec4(position.x, position.z, position.y, position.w), colour, alpha);
-	}
-}
-
-void RenderUtils::DrawRectangle(Vec4 position, MC_Colour colour, float alpha, float lineWidth) {
-	if (CachedContext != nullptr) {
-		lineWidth /= 2;
-		FillRectangle(Vec4(position.x - lineWidth, position.y - lineWidth, position.z + lineWidth, position.y + lineWidth), colour, alpha);
-		FillRectangle(Vec4(position.x - lineWidth, position.y, position.x + lineWidth, position.w), colour, alpha);
-		FillRectangle(Vec4(position.z - lineWidth, position.y, position.z + lineWidth, position.w), colour, alpha);
-		FillRectangle(Vec4(position.x - lineWidth, position.w - lineWidth, position.z + lineWidth, position.w + lineWidth), colour, alpha);
-	}
+	return *reinterpret_cast<bool*>(gData.getModuleBase() + keyMapOffset + ((uintptr_t)key * 0x4));
 }

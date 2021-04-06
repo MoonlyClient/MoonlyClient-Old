@@ -6,6 +6,7 @@ public:
 	uint64_t listStart; //0x0050
 	uint64_t listEnd; //0x0058
 	uintptr_t endAddr; //0x0060
+
 public:
 
 	inline class Actor* get(size_t idx) {

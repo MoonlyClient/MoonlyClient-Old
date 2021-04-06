@@ -17,54 +17,55 @@ public:
 	int rightclickCount;
 	float lastReach;
 private:
-	ClientInstance* CachedInstance;
-	C_GuiData* CachedGuiData;
-	HIDController* CachedHIDController;
-	GameMode* CachedGameMode;
-	RakNetInstance* CachedRakNetInstance;
+	ClientInstance* cachedInstance;
+	C_GuiData* cachedGuiData;
+	HIDController* cachedHIDController;
+	GameMode* cachedGameMode;
+	RakNetInstance* cachedRakNetInstance;
+
 public:
-	UINT64 ModuleBase() {
+	UINT64 getModuleBase() {
 		return (UINT64)GetModuleHandle(NULL);
 	}
 
-	void SetClientInstance(ClientInstance* obj) {
-		if (obj != nullptr) CachedInstance = obj;
+	void setClientInstance(ClientInstance* obj) {
+		if (obj != nullptr) cachedInstance = obj;
 	}
 
-	ClientInstance* ClientInstance() {
-		return CachedInstance;
+	ClientInstance* getClientInstance() {
+		return cachedInstance;
 	}
 
-	void SetHIDController(HIDController* obj) {
-		if (obj != nullptr) CachedHIDController = obj;
+	void setHIDController(HIDController* obj) {
+		if (obj != nullptr) cachedHIDController = obj;
 	}
 
-	HIDController** HIDController() {
-		return &CachedHIDController;
+	HIDController** getHIDController() {
+		return &cachedHIDController;
 	}
 
-	void SetGuiData(C_GuiData* obj) {
-		if (obj != nullptr) CachedGuiData = obj;
+	void setGuiData(C_GuiData* obj) {
+		if (obj != nullptr) cachedGuiData = obj;
 	}
 
-	C_GuiData* GuiData() {
-		return CachedGuiData;
+	C_GuiData* getGuiData() {
+		return cachedGuiData;
 	}
 
-	void SetGamemode(GameMode* GM) {
-		if (GM != nullptr) CachedGameMode = GM;
+	void setGamemode(GameMode* GM) {
+		if (GM != nullptr) cachedGameMode = GM;
 	}
 
-	GameMode* GameMode() {
-		return CachedGameMode;
+	GameMode* getGameMode() {
+		return cachedGameMode;
 	}
 
-	void SetRakNetInstance(RakNetInstance* RI) {
-		CachedRakNetInstance = RI;
+	void setRakNetInstance(RakNetInstance* RI) {
+		cachedRakNetInstance = RI;
 	}
 
-	RakNetInstance* RakNetInstance() {
-		return CachedRakNetInstance;
+	RakNetInstance* getRakNetInstance() {
+		return cachedRakNetInstance;
 	}
 };
 

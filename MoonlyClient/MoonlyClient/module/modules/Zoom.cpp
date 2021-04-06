@@ -9,8 +9,8 @@ void Zoom::onDisable() {
 }
 
 void Zoom::onLoop() {
-	LocalPlayer* Player = Minecraft::ClientInstance()->LocalPlayer();
-	MinecraftGame* mcGame = Minecraft::ClientInstance()->MinecraftGame();
+	LocalPlayer* Player = gData.getClientInstance()->LocalPlayer();
+	MinecraftGame* mcGame = gData.getClientInstance()->MinecraftGame();
 
 	if (Utils::isKeyDown(this->key)) {
 		if (Player != nullptr && mcGame != nullptr && mcGame->canUseKeys()) {

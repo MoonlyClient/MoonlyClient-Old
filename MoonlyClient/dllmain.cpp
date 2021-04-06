@@ -7,6 +7,8 @@
 #pragma comment(lib, "MinHook.x64.lib")
 #endif
 
+#include "MoonlyClient/hook/HookManager.h"
+#include "MoonlyClient/module/ModuleManager.h"
 #include "MoonlyClient/data/GameData.h"
 #include "MoonlyClient/utils/Utils.h"
 
@@ -41,8 +43,8 @@ void Init(LPVOID lpParam) {
 
 	Utils::running = true;
 
-    hookMgr.initHooks();
-    modulesMgr.initModules();
+    hookMgr.init();
+    moduleMgr.init();
 
     DWORD countThreadId;
     CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)countThread, lpParam, NULL, &countThreadId);

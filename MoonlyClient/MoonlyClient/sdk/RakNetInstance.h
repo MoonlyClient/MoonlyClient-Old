@@ -1,8 +1,10 @@
 #pragma once
+
 #include "TextHolder.h"
 
 class RakNetInstance {
 	char pad_0000[856];    //0x0000
+
 public:
 	TextHolder numericalIp;  //0x0360
 	TextHolder serverIp;        //0x0380

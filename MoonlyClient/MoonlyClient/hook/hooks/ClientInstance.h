@@ -1,37 +1,42 @@
 #pragma once
-#include "../../Other/Module.h"
 
-class ClientInstance_Hook : public Hook {
+#include "../Hook.h"
+#include "../../data/GameData.h"
+#include "../../module/ModuleManager.h"
+#include "../../sdk/ClientInstance.h"
+
+class ClientInstanceHook : public Hook {
 public:
-	void Install();
+	void install();
 };
 
-typedef void(__stdcall* C_Hook)(ClientInstance* a1, void* a2);
-C_Hook _C_Hook;
+typedef void(__stdcall* ClientInstance_tick)(ClientInstance* a1, void* a2);
+ClientInstance_tick _ClientInstance_tick;
 
-void Callback(ClientInstance* a1, void* a2) {
-	Minecraft::SetClientInstance(a1);
-	_C_Hook(a1, a2);
+void tick_callback(ClientInstance* a1, void* a2) {
+	gData.setClientInstance(a1);
+
+	_ClientInstance_tick(a1, a2);
 }
 
-typedef float(__stdcall* GetGamma)(uintptr_t*);
-GetGamma _GetGamma;
+typedef float(__stdcall* getGamme)(uintptr_t*);
+getGamme _getGamma;
 
-float GetGammaCallback(uintptr_t* a1) {
-	Module* nightvision = ClientManager::GetModuleByName("NightVision");
+float getGamma_callback(uintptr_t* a1) {
+	Module* nightvision = moduleMgr.getModuleByName("NightVision");
 
 	if (nightvision != nullptr && nightvision->isEnabled) {
 		return 25.f;
 	}
 
-	return _GetGamma(a1);
+	return _getGamma(a1);
 }
 
 typedef void(_stdcall* Actor_hurt)(Actor*, Actor&);
 Actor_hurt _Actor_hurt;
 
-void ActorHurtCallback(Actor* _this, Actor& actor) {
-	Minecraft::lastReach = _this->getPos()->distance(*actor.getPos());
+void Actor_hurt_callback(Actor* _this, Actor& actor) {
+	gData.lastReach = _this->getPos()->distance(*actor.getPos());
 
 	return _Actor_hurt(_this, actor);
 }
@@ -39,8 +44,8 @@ void ActorHurtCallback(Actor* _this, Actor& actor) {
 typedef float(_stdcall* LevelRendererPlayer_getFov)(__int64, float, bool);
 LevelRendererPlayer_getFov _LevelRendererPlayer_getFov;
 
-float LevelRendererPlayerGetFovCallback(__int64 _this, float a2, bool a3) {
-	Module* zoom = ClientManager::GetModuleByName("Zoom");
+float LevelRendererPlayer_getFov_callback(__int64 _this, float a2, bool a3) {
+	Module* zoom = moduleMgr.getModuleByName("Zoom");
 	
 	if (zoom != nullptr && zoom->isEnabled) {
 		return 15.f;
@@ -49,54 +54,14 @@ float LevelRendererPlayerGetFovCallback(__int64 _this, float a2, bool a3) {
 	return _LevelRendererPlayer_getFov(_this, a2, a3);
 }
 
-void ClientInstance_Hook::Install() {
-	uintptr_t sigAddr = Utils::FindSig("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B F9 48 8B 01");
-	if (sigAddr) {
-		Utils::DebugLogOutput("Found address needed for the ClientInstance Hook, Preparing Hook install now...");
-		if (MH_CreateHook((void*)sigAddr, &Callback, reinterpret_cast<LPVOID*>(&_C_Hook)) == MH_OK) {
-			Utils::DebugLogOutput("Successfully created ClientInstance Hook, Installing Hook now...");
-			MH_EnableHook((void*)sigAddr);
-		}
-		else {
-			Utils::DebugLogOutput("Failed to create ClientInstance Hook!");
-		}
-	}
-	else {
-		Utils::DebugLogOutput("Failed to find address needed for the ClientInstance Hook!");
-	}
+void ClientInstanceHook::install() {
+	this->hookSig("ClientInstance::tick", "48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B F9 48 8B 01", &tick_callback, reinterpret_cast<LPVOID*>(&_ClientInstance_tick));
 
-	// getGamma
-	sigAddr = Utils::FindSig("48 83 EC 28 80 B9 ?? ?? ?? ?? 00 48 8D 54 24 30 74 36 41 B8 ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8B 10 48 85 D2 74 3C 48 8B 8A ?? ?? ?? ?? 48 85 C9 74 0A E8 ?? ?? ?? ?? 48 83 C4 28 C3");
-	if (sigAddr) {
-		Utils::DebugLogOutput("Found address needed for the getGamma Hook, Preparing Hook install now...");
-		if (MH_CreateHook((void*)sigAddr, &GetGammaCallback, reinterpret_cast<LPVOID*>(&_GetGamma)) == MH_OK) {
-			Utils::DebugLogOutput("Successfully created getGamma Hook, Installing Hook now...");
-			MH_EnableHook((void*)sigAddr);
-		}
-		else {
-			Utils::DebugLogOutput("Failed to create getGamma Hook!");
-		}
-	}
-	else {
-		Utils::DebugLogOutput("Failed to find address needed for the GetGamma Hook!");
-	}
+	this->hookSig("getGamma", "48 83 EC 28 80 B9 ?? ?? ?? ?? 00 48 8D 54 24 30 74 36 41 B8 ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8B 10 48 85 D2 74 3C 48 8B 8A ?? ?? ?? ?? 48 85 C9 74 0A E8 ?? ?? ?? ?? 48 83 C4 28 C3", &getGamma_callback, reinterpret_cast<LPVOID*>(&_getGamma));
 
-	// getFov
-	sigAddr = Utils::FindSig("40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F");
-	if (sigAddr) {
-		Utils::DebugLogOutput("Found address needed for the getFov Hook, Preparing Hook install now...");
-		if (MH_CreateHook((void*)sigAddr, &LevelRendererPlayerGetFovCallback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov)) == MH_OK) {
-			Utils::DebugLogOutput("Successfully created getFov Hook, Installing Hook now...");
-			MH_EnableHook((void*)sigAddr);
-		}
-		else {
-			Utils::DebugLogOutput("Failed to create getFov Hook!");
-		}
-	}
-	else {
-		Utils::DebugLogOutput("Failed to find address needed for the getFov Hook!");
-	}
+	this->hookSig("LevelRendererPlayer::getFov", "40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F", &LevelRendererPlayer_getFov_callback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov));
 
+	// ToDo : Add a method to hook address
 	uintptr_t sigOffset = Utils::FindSig("48 8D 05 ?? ?? ?? ?? 48 89 07 48 8D 8F ?? ?? ?? ?? 48 8B 87");
 
 	int offset = *reinterpret_cast<int*>(sigOffset + 3);
@@ -105,9 +70,8 @@ void ClientInstance_Hook::Install() {
 	if (localPlayerVtable == 0x0 || sigOffset == 0x0)
 		Utils::DebugLogOutput("LocalPlayer vtable not found");
 	else {
-		// Actor::hurt
-		if (MH_CreateHook((void*)localPlayerVtable[107], &ActorHurtCallback, reinterpret_cast<LPVOID*>(&_Actor_hurt)) == MH_OK) {
-			Utils::DebugLogOutput("Successfully created Actor::hurt Hook, Installing Hook now...");
+		if (MH_CreateHook((void*)localPlayerVtable[107], &Actor_hurt_callback, reinterpret_cast<LPVOID*>(&_Actor_hurt)) == MH_OK) {
+			Utils::DebugLogOutput("Successfully created LocalPlayer::hurt hook, installing...");
 			MH_EnableHook((void*)localPlayerVtable[107]);
 		}
 	}

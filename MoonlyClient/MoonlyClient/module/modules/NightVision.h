@@ -1,5 +1,6 @@
 #pragma once
-#include "../../Other/Module.h"
+
+#include "../Module.h"
 
 class NightVision : public Module {
 public:

@@ -3,6 +3,7 @@
 class HIDController {
 private:
 	char pad_0x0000[0x50];  //0x0000
+
 public:
 	union {
 		struct {
@@ -12,6 +13,7 @@ public:
 			bool mouse4Down;      //0x0053
 			bool mouse5Down;      //0x0054
 		};
+
 		bool clickMap[5];
 	};
 };

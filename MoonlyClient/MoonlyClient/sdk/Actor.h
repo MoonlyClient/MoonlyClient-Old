@@ -1,5 +1,7 @@
 #pragma once
+
 #include "MultiPlayerLevel.h"
+#include "../utils/Utils.h"
 
 class Actor {
 public:

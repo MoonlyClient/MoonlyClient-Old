@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Actor.h"
+#include "LocalPlayer.h"
+
 class GameMode {
 public:
 	LocalPlayer* Player; //0x0008

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "TextHolder.h"
 #include "MinecraftUIRenderContext.h"
 #include "Actor.h"

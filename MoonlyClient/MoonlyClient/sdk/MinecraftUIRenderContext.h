@@ -1,10 +1,15 @@
 #pragma once
 
+#include "Color.h"
+#include "../utils/Utils.h"
+
 class TexturePtr {
 private:
 	char pad_0x0[0x18];  //0x0000
+
 public:
 	TextHolder filePath;  //0x0018
+
 private:
 	char pad_0x0038[0x20];  //0x0038
 };
@@ -47,6 +52,6 @@ public:
 	virtual __int64 __func2(); // flushImages
 	virtual __int64 __func3(); // beginSharedMeshBatch
 	virtual __int64 __func4(); // endSharedMeshBatch
-	virtual void drawRectangle(struct Vec4 position, MC_Colour colour, float alpha, int lineWidth);
-	virtual void fillRectangle(struct Vec4 position, MC_Colour colour, float alpha);
+	virtual void drawRectangle(struct Vec4 position, Color colour, float alpha, int lineWidth);
+	virtual void fillRectangle(struct Vec4 position, Color colour, float alpha);
 };

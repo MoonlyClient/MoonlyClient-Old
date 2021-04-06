@@ -1,5 +1,9 @@
 #pragma once
-#include "../../Other/Module.h"
+
+#include "../Module.h"
+#include "../../data/GameData.h"
+#include "../../utils/Utils.h"
+#include "../../sdk/LocalPlayer.h"
 
 class AutoSprint : public Module {
 public:

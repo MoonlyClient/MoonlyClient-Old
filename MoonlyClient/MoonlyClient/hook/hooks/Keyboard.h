@@ -1,21 +1,21 @@
 #pragma once
-#include "../../Other/Module.h"
-#include "../../Other/Menu.h"
-#include "../ClientManager.h"
-#include "../Modules/MenuGUI.h"
 
-class Keyboard_Hook : public Hook {
+#include "../Hook.h"
+#include "../../data/GameData.h"
+#include "../../module/ModuleManager.h"
+
+class KeyboardHook : public Hook {
 public:
-	void Install();
+	void install();
 };
 
 typedef void(WINAPI* AVKeyItem)(uint64_t key, bool isDown);
 AVKeyItem _AVKeyItem;
 
-void KeyItemCallback(uint64_t key, bool isDown) {
+void KeyItem_callback(uint64_t key, bool isDown) {
 	Utils::KeyMapping[key] = isDown;
 
-		for (auto Module : ClientManager::Modules) {
+		for (auto Module : moduleMgr.modules) {
 			if (isDown) {
 				if ((int)key == (int)Module->key) {
 					Module->isEnabled = !Module->isEnabled;
@@ -27,27 +27,15 @@ void KeyItemCallback(uint64_t key, bool isDown) {
 				}
 			}
 
-			if (Module->isEnabled) Module->onKey(key, isDown);
+			if (Module->isEnabled)
+				Module->onKey(key, isDown);
 		}
 
-		Menu::onKeyUpdate(key, isDown);
+		// ToDo : Menu
 	
 	_AVKeyItem(key, isDown);
 }
 
-void Keyboard_Hook::Install() {
-	uintptr_t sigAddr = Utils::FindSig("48 89 5C 24 ?? ?? 48 83 EC ?? 8B 05 ?? ?? ?? ?? 8B DA");
-	if (sigAddr) {
-		Utils::DebugLogOutput("Found address needed for the KeyItem Hook, Preparing Hook install now...");
-		if (MH_CreateHook((void*)sigAddr, &KeyItemCallback, reinterpret_cast<LPVOID*>(&_AVKeyItem)) == MH_OK) {
-			Utils::DebugLogOutput("Successfully created KeyItem Hook, Installing Hook now...");
-			MH_EnableHook((void*)sigAddr);
-		}
-		else {
-			Utils::DebugLogOutput("Failed to create KeyItem Hook!");
-		}
-	}
-	else {
-		Utils::DebugLogOutput("Failed to find address needed for the KeyItem Hook!");
-	}
+void KeyboardHook::install() {
+	this->hookSig("AVKeyItem", "48 89 5C 24 ?? ?? 48 83 EC ?? 8B 05 ?? ?? ?? ?? 8B DA", &KeyItem_callback, reinterpret_cast<LPVOID*>(&_AVKeyItem));
 }

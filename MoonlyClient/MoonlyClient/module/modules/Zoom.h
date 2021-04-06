@@ -1,5 +1,8 @@
 #pragma once
-#include "../../Other/Module.h"
+
+#include "../Module.h"
+#include "../../data/GameData.h"
+#include "../../sdk/LocalPlayer.h"
 
 class Zoom : public Module {
 public:

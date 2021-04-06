@@ -1,6 +1,7 @@
 #pragma once
-#include "Utils.h"
-#include "../SDK/Minecraft.h"
+
+#include "../utils/Utils.h"
+#include "../sdk/GameMode.h"
 
 class Module {
 public:
@@ -9,7 +10,7 @@ public:
 
 	bool isEnabled = false, wasEnabled = false;
 	Module(std::string name, std::string category, std::string description, uint64_t key = NULL);
-	
+
 	virtual void onLoop() {};
 	virtual void onTick() {};
 	virtual void onEnable() {};
@@ -18,11 +19,4 @@ public:
 	virtual void onRender() {};
 	virtual void onGmTick() {};
 	virtual void onKey(uint64_t key, bool isDown) {};
-
-	virtual void onStartDestroyBlock(GameMode* GM, Vec3_i* blockPos, uint8_t blockFace) {};
-};
-
-class Hook {
-public:
-	virtual void Install() {};
 };

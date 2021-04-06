@@ -1,13 +1,10 @@
 #pragma once
 
-#include<Windows.h>
-#include "../../../include/MinHook.h"
-
 #include "../Hook.h"
 
 class AntiCheat : public Hook {
 public:
-	void Install();
+	void install();
 };
 
 typedef HMODULE(WINAPI* TYPE_LoadLibraryA)(LPCSTR);
@@ -24,19 +21,19 @@ HMODULE WINAPI LoadLibraryExACallback(LPCSTR lpLibFileName, _In_ HANDLE hFile, _
 	return NULL;
 }
 
-void AntiCheat::Install() {
+void AntiCheat::install() {
 	if (MH_CreateHook(&LoadLibraryA, &LoadLibraryACallback, (LPVOID*)(&_LoadLibraryA)) == MH_OK) {
-		Utils::DebugLogOutput("Successfully created LoadLibraryA Hook, Installing Hook now...");
+		Utils::DebugLogOutput("Successfully created LoadLibraryA hook, installing...");
 		MH_EnableHook(&LoadLibraryA);
 	} else {
-		Utils::DebugLogOutput("Failed to create LoadLibraryA Hook!");
+		Utils::DebugLogOutput("Failed to create LoadLibraryA hook!");
 	}
 
 	if (MH_CreateHook(&LoadLibraryExA, &LoadLibraryExACallback, (LPVOID*)(&_LoadLibraryExA)) == MH_OK) {
-		Utils::DebugLogOutput("Successfully created LoadLibraryExA Hook, Installing Hook now...");
+		Utils::DebugLogOutput("Successfully created LoadLibraryExA hook, enabling...");
 		MH_EnableHook(&LoadLibraryExA);
 	} else {
-		Utils::DebugLogOutput("Failed to create LoadLibraryExA Hook!");
+		Utils::DebugLogOutput("Failed to create LoadLibraryExA hook!");
 	}
 
 	// ToDo : Block all methods used to inject dll

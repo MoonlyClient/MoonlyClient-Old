@@ -1,10 +1,10 @@
 #include "AutoSprint.h"
 
 void AutoSprint::onGmTick() {
-	LocalPlayer* Player = Minecraft::ClientInstance()->LocalPlayer();
+	LocalPlayer* Player = gData.getClientInstance()->LocalPlayer();
 
 	if (Player != nullptr) {
-		GameSettingsInput* input = Minecraft::ClientInstance()->getGameSettingsInput();
+		GameSettingsInput* input = gData.getClientInstance()->getGameSettingsInput();
 
 		if (Player->velocity.magnitudexz() > 0.05f) {
 			if (!Utils::isKeyDown((char)*input->sneakKey)) {

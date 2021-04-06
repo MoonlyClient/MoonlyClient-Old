@@ -5,7 +5,7 @@
 
 class HookManager {
 public:
-	std::vector<Hook*> hooks;
+	std::vector<class Hook*> hooks;
 
 	void init();
 };
