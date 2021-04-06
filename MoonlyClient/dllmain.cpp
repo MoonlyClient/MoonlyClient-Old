@@ -1,38 +1,25 @@
 #include <thread>
+#include <Windows.h>
 
-#include "SDK/Minecraft.h"
-#include "SDK/Classes/HIDController.h"
-#include "Other/Utils.h"
-#include "Other/Menu.h"
-#include "Other/Module.h"
-#include "Client/ClientManager.h"
-#include "Other/Menu.h"
-#include "Other/Authentification.h"
+#include "include/MinHook.h"
 
 #if defined _M_X64
 #pragma comment(lib, "MinHook.x64.lib")
 #endif
 
-DWORD WINAPI authThread(LPVOID lpParam) {
-	Utils::DebugLogOutput("Auth thread started");
-
-	// ToDo
-
-	return 0;
-}
+#include "MoonlyClient/data/GameData.h"
+#include "MoonlyClient/utils/Utils.h"
 
 DWORD WINAPI countThread(LPVOID lpParam) {
-    Utils::DebugLogOutput("Count thread started");
-
     while (Utils::running) {
         Sleep(1000);
 
-        Minecraft::fps = Minecraft::frameCount;
-        Minecraft::frameCount = 0;
-        Minecraft::cpsLeft = Minecraft::leftclickCount;
-        Minecraft::leftclickCount = 0;
-        Minecraft::cpsRight = Minecraft::rightclickCount;
-        Minecraft::rightclickCount = 0;
+        gData.fps = gData.frameCount;
+        gData.frameCount = 0;
+        gData.cpsLeft = gData.leftclickCount;
+        gData.leftclickCount = 0;
+        gData.cpsRight = gData.rightclickCount;
+        gData.rightclickCount = 0;
     }
 
     MH_DisableHook(MH_ALL_HOOKS);
@@ -54,14 +41,11 @@ void Init(LPVOID lpParam) {
 
 	Utils::running = true;
 
-    ClientManager::InitHooks();
-    ClientManager::InitModules();
+    hookMgr.initHooks();
+    modulesMgr.initModules();
 
     DWORD countThreadId;
     CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)countThread, lpParam, NULL, &countThreadId);
-
-	DWORD authThreadId;
-	CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)authThread, lpParam, NULL, &authThreadId);
 
     ExitThread(0);
 }

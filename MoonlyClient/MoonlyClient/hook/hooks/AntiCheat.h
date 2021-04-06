@@ -1,5 +1,9 @@
 #pragma once
-#include "../../Other/Module.h"
+
+#include<Windows.h>
+#include "../../../include/MinHook.h"
+
+#include "../Hook.h"
 
 class AntiCheat : public Hook {
 public:
