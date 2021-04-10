@@ -5,19 +5,17 @@
 
 class Actor {
 public:
-	char pad_0008[280]; //0x0008
-	Vec2 bodyRot; //0x0120
+	char pad_0000[288]; //0x0000
+	Vec2 bodyRotation; //0x0120
 	char pad_0128[152]; //0x0128
 	bool onGround; //0x01C0
 	char pad_01C1[95]; //0x01C1
-	float stepHeight; //0x0220 | Default = 0.5625
-	char pad_0224[308]; //0x0224
-	class MultiPlayerLevel* MultiPlayerLevel; //0x0358
-	char pad_0360[340]; //0x0360
-	Vec2 collision; //0x04B4
-	char pad_04BC[24]; //0x04BC
+	float stepHeight; //0x0220
+	char pad_0224[652]; //0x0224
+	Vec2 collision; //0x04B0
+	char pad_04B8[28]; //0x04B8
 	Vec3 velocity; //0x04D4
-	char pad_04E0[880]; //0x04E0
+	char pad_04E0[936]; //0x04E0
 
 	virtual void Function0();
 	virtual void Function1();
