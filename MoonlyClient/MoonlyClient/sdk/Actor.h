@@ -1,12 +1,11 @@
 #pragma once
 
-#include "MultiPlayerLevel.h"
 #include "../utils/Utils.h"
 
 class Actor {
 public:
 	char pad_0000[288]; //0x0000
-	Vec2 bodyRotation; //0x0120
+	Vec2 bodyRot; //0x0120
 	char pad_0128[152]; //0x0128
 	bool onGround; //0x01C0
 	char pad_01C1[95]; //0x01C1

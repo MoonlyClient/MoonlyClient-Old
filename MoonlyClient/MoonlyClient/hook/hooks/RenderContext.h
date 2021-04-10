@@ -10,10 +10,10 @@ public:
 	void install();
 };
 
-typedef void(__stdcall* RenderUIContext_render)(__int64 a1, MinecraftUIRenderContext* ctx);
+typedef void(__stdcall* RenderUIContext_render)(__int64 _this, MinecraftUIRenderContext* ctx);
 RenderUIContext_render _RenderUIContext_render;
 
-void RenderUIContext_render_callback(__int64 a1, MinecraftUIRenderContext* ctx) {
+void RenderUIContext_render_callback(__int64 _this, MinecraftUIRenderContext* ctx) {
 	ClientInstance* Curr = gData.getClientInstance();
 	MinecraftGame* mcGame = Curr->MinecraftGame();
 
@@ -28,7 +28,7 @@ void RenderUIContext_render_callback(__int64 a1, MinecraftUIRenderContext* ctx) 
 		}
 	}
 
-	_RenderUIContext_render(a1, ctx);
+	_RenderUIContext_render(_this, ctx);
 }
 
 void RenderContextHook::install() {

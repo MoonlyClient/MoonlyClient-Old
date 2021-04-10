@@ -1,6 +1,6 @@
 #include "AutoSprint.h"
 
-void AutoSprint::onGmTick() {
+void AutoSprint::onLoop() {
 	LocalPlayer* Player = gData.getClientInstance()->LocalPlayer();
 
 	if (Player != nullptr) {
@@ -9,7 +9,7 @@ void AutoSprint::onGmTick() {
 		if (Player->velocity.magnitudexz() > 0.05f) {
 			if (!Utils::isKeyDown((char)*input->sneakKey)) {
 				if (Utils::isKeyDown((char)*input->forwardKey)) {
-					Player->setSprinting(true);
+					//Player->setSprinting(true);
 				}
 			}
 		}

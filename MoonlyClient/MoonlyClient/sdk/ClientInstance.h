@@ -86,7 +86,7 @@ public:
 class MinecraftGame {
 public:
 	class BitmapFont* MCFont() {
-		return *reinterpret_cast<class BitmapFont**>(reinterpret_cast<__int64>(this) + 0xD8);
+		return *reinterpret_cast<class BitmapFont**>(reinterpret_cast<__int64>(this) + 0xF8);
 	}
 
 	bool canUseKeys() {

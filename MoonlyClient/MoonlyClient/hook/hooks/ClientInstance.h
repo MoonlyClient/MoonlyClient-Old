@@ -16,9 +16,6 @@ ClientInstance_tick _ClientInstance_tick;
 void tick_callback(ClientInstance* _this, void* a1) {
 	gData.setClientInstance(_this);
 
-	Utils::DebugLogOutput("ClientInstance ptr : " + Utils::ptrToStr((uintptr_t)_this));
-	Utils::DebugLogOutput("LocalPlayer ptr : " + Utils::ptrToStr((uintptr_t)_this->LocalPlayer()));
-
 	_ClientInstance_tick(_this, a1);
 }
 
@@ -62,9 +59,9 @@ void ClientInstanceHook::install() {
 
 	this->hookSig("getGamma", "48 83 EC 28 80 B9 ?? ?? ?? ?? 00 48 8D 54 24 30 74 36 41 B8 ?? ?? ?? ?? E8 ?? ?? ?? ?? 48 8B 10 48 85 D2 74 3C 48 8B 8A ?? ?? ?? ?? 48 85 C9 74 0A E8 ?? ?? ?? ?? 48 83 C4 28 C3", &getGamma_callback, reinterpret_cast<LPVOID*>(&_getGamma));
 
-	/*
 	this->hookSig("LevelRendererPlayer::getFov", "40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F", &LevelRendererPlayer_getFov_callback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov));
 
+	/*
 	// ToDo : Add a method to hook address
 	uintptr_t sigOffset = Utils::FindSig("48 8D 05 ?? ?? ?? ?? 48 89 07 48 8D 8F ?? ?? ?? ?? 48 8B 87");
 

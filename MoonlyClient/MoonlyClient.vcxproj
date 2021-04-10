@@ -230,7 +230,6 @@
     <ClInclude Include="MoonlyClient\sdk\LocalPlayer.h" />
     <ClInclude Include="MoonlyClient\sdk\LoopbackPacketSender.h" />
     <ClInclude Include="MoonlyClient\sdk\MinecraftUIRenderContext.h" />
-    <ClInclude Include="MoonlyClient\sdk\MultiPlayerLevel.h" />
     <ClInclude Include="MoonlyClient\sdk\RakNetInstance.h" />
     <ClInclude Include="MoonlyClient\sdk\TextHolder.h" />
   </ItemGroup>

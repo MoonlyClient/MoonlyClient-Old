@@ -65,9 +65,9 @@ void RenderUtils::drawKeystroke(char key, Vec2 pos) {
 			fillRectangle(rectPos, Utils::isKeyDown(key) ? Color(255, 255, 255) : Color(0, 0, 0), .15f);
 			fillRectangle(Vec4(
 				rectPos.x + 20,
-				rectPos.y + 13.f - cachedFont->getLineHeight() / 2.5f,
+				rectPos.y + 10.f,
 				rectPos.x + 20 + 25,
-				(rectPos.y + 13.f - cachedFont->getLineHeight() / 2.5f) + 2), Color(255, 255, 255), 1.f);
+				(rectPos.y + 5.f) + 2), Color(255, 255, 255), 1.f);
 
 			return;
 		}
