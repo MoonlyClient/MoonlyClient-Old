@@ -38,7 +38,7 @@ DWORD WINAPI countThread(LPVOID lpParam) {
 void Init(LPVOID lpParam) {
     Utils::hModule = (HMODULE)lpParam;
 
-    Utils::DeletePath("MoonlyClient/Output.txt");
+    Utils::DeletePath("MoonlyClient/logs.txt");
     Utils::DebugLogOutput("Injected...");
 
 	Utils::running = true;

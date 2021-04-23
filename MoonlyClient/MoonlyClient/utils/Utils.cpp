@@ -83,7 +83,7 @@ void Utils::WriteToFile(std::string str, std::string path) {
 }
 
 void Utils::DebugLogOutput(std::string str) {
-	WriteToFile(str, "MoonlyClient/Output.txt");
+	WriteToFile(str, "MoonlyClient/logs.txt");
 	return;
 }
 
@@ -168,7 +168,6 @@ bool Utils::isKeyDown(int key) {
 		if (sigOffset != 0x0) {
 			int offset = *reinterpret_cast<int*>((sigOffset + 3));
 			keyMapOffset = sigOffset - gData.getModuleBase() + offset + 7;
-			Utils::DebugLogOutput("KeyMap: " + std::to_string(keyMapOffset + gData.getModuleBase()));
 		}
 	}
 
