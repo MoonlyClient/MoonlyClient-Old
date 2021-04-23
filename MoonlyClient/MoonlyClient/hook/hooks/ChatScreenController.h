@@ -8,10 +8,11 @@ public:
 	void install();
 };
 
-typedef void(__stdcall* sendMessage)(uint8_t*);
+typedef void(__stdcall* sendMessage)(__int64);
 sendMessage _sendMessage;
 
-void sendMessage_callback(uint8_t* _this) {
+void sendMessage_callback(__int64 _this) {
+	/* ToDo : Fix
 	TextHolder* messageHolder = reinterpret_cast<TextHolder*>(_this + 0xA70);
 
 	if (messageHolder->getTextLength() > 0) {
@@ -20,11 +21,13 @@ void sendMessage_callback(uint8_t* _this) {
 		if (*message == '.' && messageHolder->getTextLength() > 1) {
 			// ToDo
 
-			messageHolder->resetWithoutDelete();
+			//messageHolder->resetWithoutDelete();
+
 			return;
 		}
 	}
-
+	*/
+	
 	_sendMessage(_this);
 }
 
