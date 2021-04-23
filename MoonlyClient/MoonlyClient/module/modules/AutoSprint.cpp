@@ -1,15 +1,15 @@
 #include "AutoSprint.h"
 
 void AutoSprint::onLoop() {
-	LocalPlayer* Player = gData.getClientInstance()->LocalPlayer();
+	LocalPlayer* player = gData.getClientInstance()->LocalPlayer();
 
-	if (Player != nullptr) {
+	if (player != nullptr) {
 		GameSettingsInput* input = gData.getClientInstance()->getGameSettingsInput();
 
-		if (Player->velocity.magnitudexz() > 0.05f) {
+		if (player->velocity.magnitudexz() > 0.05f) {
 			if (!Utils::isKeyDown((char)*input->sneakKey)) {
 				if (Utils::isKeyDown((char)*input->forwardKey)) {
-					//Player->setSprinting(true);
+					//player->setSprinting(true);
 				}
 			}
 		}
