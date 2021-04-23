@@ -90,7 +90,7 @@ public:
 	}
 
 	bool canUseKeys() {
-		return *(bool*)(reinterpret_cast<uintptr_t>(this) + 0x260);
+		return *(bool*)(reinterpret_cast<uintptr_t>(this) + 0x260); // ToDo : Fix
 	}
 };
 
