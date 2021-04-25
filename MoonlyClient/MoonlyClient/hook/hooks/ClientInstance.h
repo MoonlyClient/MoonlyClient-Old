@@ -32,13 +32,15 @@ float getGamma_callback(uintptr_t* a1) {
 	return _getGamma(a1);
 }
 
-typedef void(_stdcall* Actor_hurt)(Actor*, Actor&);
-Actor_hurt _Actor_hurt;
+typedef void(_stdcall* Actor_attack)(Actor*, Actor&);
+Actor_attack _Actor_attack;
 
-void Actor_hurt_callback(Actor* _this, Actor& actor) {
+void Actor_attack_callback(Actor* _this, Actor& actor) {
+	Utils::DebugLogOutput("Actor::attack called");
+
 	gData.lastReach = _this->getPos()->distance(*actor.getPos());
 
-	return _Actor_hurt(_this, actor);
+	return _Actor_attack(_this, actor);
 }
 
 typedef float(_stdcall* LevelRendererPlayer_getFov)(__int64, float, bool);
@@ -61,20 +63,5 @@ void ClientInstanceHook::install() {
 
 	this->hookSig("LevelRendererPlayer::getFov", "40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F", &LevelRendererPlayer_getFov_callback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov));
 
-	/*
-	// not dead
-	uintptr_t sigOffset = Utils::FindSig("48 8D 05 ?? ?? ?? ?? 48 89 07 48 8D 8F ?? ?? ?? ?? 48 8B 87");
-
-	int offset = *reinterpret_cast<int*>(sigOffset + 3);
-	uintptr_t** localPlayerVtable = reinterpret_cast<uintptr_t**>(sigOffset + offset + 7);
-
-	if (localPlayerVtable == 0x0 || sigOffset == 0x0)
-		Utils::DebugLogOutput("LocalPlayer vtable not found");
-	else {
-		// ToDo : Update offset
-		if (MH_CreateHook((void*)localPlayerVtable[107], &Actor_hurt_callback, reinterpret_cast<LPVOID*>(&_Actor_hurt)) == MH_OK) {
-			Utils::DebugLogOutput("Successfully created LocalPlayer::hurt hook, installing...");
-			MH_EnableHook((void*)localPlayerVtable[107]);
-		}
-	}*/
+	//this->hookSig("Actor::attack", "48 89 5C 24 ? 57 48 83 EC 20 48 8B F9 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 FF 90 ? ? ? ? 45 33 C9 4C 8B C3 48 8B C8 48 8B D7 E8 ? ? ? ?", &Actor_attack_callback, reinterpret_cast<LPVOID*>(&_Actor_attack));
 }

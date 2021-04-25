@@ -29,4 +29,15 @@ public:
 			Utils::DebugLogOutput("[HookManager] Failed to find " + name + " address!");
 		}
 	}
+
+	inline void hookAddr(std::string name, uintptr_t addr, LPVOID pDetour, LPVOID* ppOriginal) {
+		if (MH_CreateHook((void*)addr, pDetour, ppOriginal) == MH_OK) {
+			Utils::DebugLogOutput("[HookManager] Successfully created " + name + " hook, enabling...");
+
+			MH_EnableHook((void*)addr);
+			}
+		else {
+				Utils::DebugLogOutput("[HookManager] Failed to create " + name + " hook!");
+		}
+	}
 };

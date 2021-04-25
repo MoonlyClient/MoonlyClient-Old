@@ -15,18 +15,16 @@ GmTick _GmTick;
 GmTick _SmTick;
 
 void GmTick_callback(GameMode* GM) {
-	Utils::DebugLogOutput("GameMode::tick called lmao");
+	LocalPlayer* player = gData.getClientInstance()->LocalPlayer();
 
-	LocalPlayer* Player = gData.getClientInstance()->LocalPlayer();
-
-	if (GM != nullptr && GM->Player != nullptr && Player != nullptr) {
+	if (GM != nullptr && GM->Player != nullptr && player != nullptr) {
 		C_GuiData* guiData = gData.getClientInstance()->getGuiData();
 
 		if (guiData != nullptr) {
 			gData.setGuiData(guiData);
 		}
 
-		if (Player == GM->Player) {
+		if (player == GM->Player) {
 			gData.setGamemode(GM);
 
 			for (auto Module : moduleMgr.modules) {
@@ -40,18 +38,16 @@ void GmTick_callback(GameMode* GM) {
 }
 
 void SmTick_callback(GameMode* GM) {
-	Utils::DebugLogOutput("SurvivalGameMode::tick called lmao");
+	LocalPlayer* player = gData.getClientInstance()->LocalPlayer();
 
-	LocalPlayer* Player = gData.getClientInstance()->LocalPlayer();
-
-	if (GM != nullptr && GM->Player != nullptr && Player != nullptr) {
+	if (GM != nullptr && GM->Player != nullptr && player != nullptr) {
 		C_GuiData* guiData = gData.getClientInstance()->getGuiData();
 
 		if (guiData != nullptr) {
 			gData.setGuiData(guiData);
 		}
 
-		if (Player == GM->Player) {
+		if (player == GM->Player) {
 			gData.setGamemode(GM);
 
 			for (auto Module : moduleMgr.modules) {
