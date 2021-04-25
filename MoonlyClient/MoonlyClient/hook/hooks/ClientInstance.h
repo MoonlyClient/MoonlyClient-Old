@@ -16,8 +16,6 @@ ClientInstance_tick _ClientInstance_tick;
 void tick_callback(ClientInstance* _this, void* a1) {
 	gData.setClientInstance(_this);
 
-	Utils::DebugLogOutput(std::to_string(_this->getServerPingTime()));
-
 	_ClientInstance_tick(_this, a1);
 }
 
