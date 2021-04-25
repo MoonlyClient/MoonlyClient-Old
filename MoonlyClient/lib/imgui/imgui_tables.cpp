@@ -1,4 +1,4 @@
-// dear imgui, v1.83 WIP
+// dear imgui, v1.82
 // (tables and columns code)
 
 /*
@@ -8,7 +8,6 @@ Index of this file:
 // [SECTION] Commentary
 // [SECTION] Header mess
 // [SECTION] Tables: Main code
-// [SECTION] Tables: Simple accessors
 // [SECTION] Tables: Row changes
 // [SECTION] Tables: Columns changes
 // [SECTION] Tables: Columns width management
@@ -74,7 +73,7 @@ Index of this file:
 // (Read carefully because this is subtle but it does make sense!)
 //-----------------------------------------------------------------------------
 // About 'outer_size':
-// Its meaning needs to differ slightly depending on if we are using ScrollX/ScrollY flags.
+// Its meaning needs to differ slightly depending of if we are using ScrollX/ScrollY flags.
 // Default value is ImVec2(0.0f, 0.0f).
 //   X
 //   - outer_size.x <= 0.0f  ->  Right-align from window/work-rect right-most edge. With -FLT_MIN or 0.0f will align exactly on right-most edge.
@@ -91,7 +90,7 @@ Index of this file:
 // Outer size is also affected by the NoHostExtendX/NoHostExtendY flags.
 // Important to that note how the two flags have slightly different behaviors!
 //   - ImGuiTableFlags_NoHostExtendX -> Make outer width auto-fit to columns (overriding outer_size.x value). Only available when ScrollX/ScrollY are disabled and Stretch columns are not used.
-//   - ImGuiTableFlags_NoHostExtendY -> Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY is disabled. Data below the limit will be clipped and not visible.
+//   - ImGuiTableFlags_NoHostExtendY -> Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.
 // In theory ImGuiTableFlags_NoHostExtendY could be the default and any non-scrolling tables with outer_size.y != 0.0f would use exact height.
 // This would be consistent but perhaps less useful and more confusing (as vertically clipped items are not easily noticeable)
 //-----------------------------------------------------------------------------
@@ -133,7 +132,7 @@ Index of this file:
 //   - the typical use of mixing sizing policies is: any number of LEADING Fixed columns, followed by one or two TRAILING Stretch columns.
 //   - using mixed policies with ScrollX does not make much sense, as using Stretch columns with ScrollX does not make much sense in the first place!
 //     that is, unless 'inner_width' is passed to BeginTable() to explicitly provide a total width to layout columns in.
-//   - when using ImGuiTableFlags_SizingFixedSame with mixed columns, only the Fixed/Auto columns will match their widths to the width of the maximum contents.
+//   - when using ImGuiTableFlags_SizingFixedSame with mixed columns, only the Fixed/Auto columns will match their widths to the maximum contents width.
 //   - when using ImGuiTableFlags_SizingStretchSame with mixed columns, only the Stretch columns will match their weight/widths.
 //-----------------------------------------------------------------------------
 // About using column width:
@@ -141,9 +140,9 @@ Index of this file:
 //   - you may use GetContentRegionAvail().x to query the width available in a given column.
 //   - right-side alignment features such as SetNextItemWidth(-x) or PushItemWidth(-x) will rely on this width.
 // If the column is not resizable and has no width specified with TableSetupColumn():
-//   - its width will be automatic and be set to the max of items submitted.
+//   - its width will be automatic and be the set to the max of items submitted.
 //   - therefore you generally cannot have ALL items of the columns use e.g. SetNextItemWidth(-FLT_MIN).
-//   - but if the column has one or more items of known/fixed size, this will become the reference width used by SetNextItemWidth(-FLT_MIN).
+//   - but if the column has one or more item of known/fixed size, this will become the reference width used by SetNextItemWidth(-FLT_MIN).
 //-----------------------------------------------------------------------------
 
 
@@ -162,7 +161,7 @@ Index of this file:
 // - Both TableSetColumnIndex() and TableNextColumn() return true when the column is visible or performing
 //   width measurements. Otherwise, you may skip submitting the contents of a cell/column, BUT ONLY if you know
 //   it is not going to contribute to row height.
-//   In many situations, you may skip submitting contents for every column but one (e.g. the first one).
+//   In many situations, you may skip submitting contents for every columns but one (e.g. the first one).
 // - Case A: column is not hidden by user, and at least partially in sight (most common case).
 // - Case B: column is clipped / out of sight (because of scrolling or parent ClipRect): TableNextColumn() return false as a hint but we still allow layout output.
 // - Case C: column is hidden explicitly by the user (e.g. via the context menu, or _DefaultHide column flag, etc.).
@@ -173,7 +172,7 @@ Index of this file:
 //           ClipRect:    normal      zero-width   zero-width  -> [internal] when ClipRect is zero, ItemAdd() will return false and most widgets will early out mid-way.
 //  ImDrawList output:    normal      dummy        dummy       -> [internal] when using the dummy channel, ImDrawList submissions (if any) will be wasted (because cliprect is zero-width anyway).
 //
-// - We need to distinguish those cases because non-hidden columns that are clipped outside of scrolling bounds should still contribute their height to the row.
+// - We need distinguish those cases because non-hidden columns that are clipped outside of scrolling bounds should still contribute their height to the row.
 //   However, in the majority of cases, the contribution to row height is the same for all columns, or the tallest cells are known by the programmer.
 //-----------------------------------------------------------------------------
 // About clipping/culling of whole Tables:
@@ -235,19 +234,6 @@ Index of this file:
 
 //-----------------------------------------------------------------------------
 // [SECTION] Tables: Main code
-//-----------------------------------------------------------------------------
-// - TableFixFlags() [Internal]
-// - TableFindByID() [Internal]
-// - BeginTable()
-// - BeginTableEx() [Internal]
-// - TableBeginInitMemory() [Internal]
-// - TableBeginApplyRequests() [Internal]
-// - TableSetupColumnFlags() [Internal]
-// - TableUpdateLayout() [Internal]
-// - TableUpdateBorders() [Internal]
-// - EndTable()
-// - TableSetupColumn()
-// - TableSetupScrollFreeze()
 //-----------------------------------------------------------------------------
 
 // Configuration
@@ -470,14 +456,10 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
     table->MemoryCompacted = false;
 
     // Setup memory buffer (clear data if columns count changed)
-    ImGuiTableColumn* old_columns_to_preserve = NULL;
-    void* old_columns_raw_data = NULL;
-    const int old_columns_count = table->Columns.size();
-    if (old_columns_count != 0 && old_columns_count != columns_count)
+    const int stored_size = table->Columns.size();
+    if (stored_size != 0 && stored_size != columns_count)
     {
-        // Attempt to preserve width on column count change (#4046)
-        old_columns_to_preserve = table->Columns.Data;
-        old_columns_raw_data = table->RawData;
+        IM_FREE(table->RawData);
         table->RawData = NULL;
     }
     if (table->RawData == NULL)
@@ -500,24 +482,14 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
         for (int n = 0; n < columns_count; n++)
         {
             ImGuiTableColumn* column = &table->Columns[n];
-            if (old_columns_to_preserve && n < old_columns_count)
-            {
-                // FIXME: We don't attempt to preserve column order in this path.
-                *column = old_columns_to_preserve[n];
-            }
-            else
-            {
-                float width_auto = column->WidthAuto;
-                *column = ImGuiTableColumn();
-                column->WidthAuto = width_auto;
-                column->IsPreserveWidthAuto = true; // Preserve WidthAuto when reinitializing a live table: not technically necessary but remove a visible flicker
-                column->IsEnabled = column->IsEnabledNextFrame = true;
-            }
+            float width_auto = column->WidthAuto;
+            *column = ImGuiTableColumn();
+            column->WidthAuto = width_auto;
+            column->IsPreserveWidthAuto = true; // Preserve WidthAuto when reinitializing a live table: not technically necessary but remove a visible flicker
             column->DisplayOrder = table->DisplayOrderToIndex[n] = (ImGuiTableColumnIdx)n;
+            column->IsEnabled = column->IsEnabledNextFrame = true;
         }
     }
-    if (old_columns_raw_data)
-        IM_FREE(old_columns_raw_data);
 
     // Load settings
     if (table->IsSettingsRequestLoad)
@@ -1463,20 +1435,6 @@ void ImGui::TableSetupScrollFreeze(int columns, int rows)
     table->IsUnfrozenRows = (table->FreezeRowsCount == 0); // Make sure this is set before TableUpdateLayout() so ImGuiListClipper can benefit from it.b
 }
 
-//-----------------------------------------------------------------------------
-// [SECTION] Tables: Simple accessors
-//-----------------------------------------------------------------------------
-// - TableGetColumnCount()
-// - TableGetColumnName()
-// - TableGetColumnName() [Internal]
-// - TableSetColumnEnabled() [Internal]
-// - TableGetColumnFlags()
-// - TableGetCellBgRect() [Internal]
-// - TableGetColumnResizeID() [Internal]
-// - TableGetHoveredColumn() [Internal]
-// - TableSetBgColor()
-//-----------------------------------------------------------------------------
-
 int ImGui::TableGetColumnCount()
 {
     ImGuiContext& g = *GImGui;
@@ -1505,9 +1463,6 @@ const char* ImGui::TableGetColumnName(const ImGuiTable* table, int column_n)
     return &table->ColumnsNames.Buf[column->NameOffset];
 }
 
-// Request enabling/disabling a column (often perceived as "showing/hiding" from users point of view)
-// Note that end-user can use the context menu to change this themselves (right-click in headers, or right-click in columns body with ImGuiTableFlags_ContextMenuInBody)
-// Request will be applied during next layout, which happens on the first call to TableNextRow() after BeginTable()
 // For the getter you can use (TableGetColumnFlags() & ImGuiTableColumnFlags_IsEnabled)
 void ImGui::TableSetColumnEnabled(int column_n, bool enabled)
 {
@@ -2723,19 +2678,18 @@ void ImGui::TableSortSpecsBuild(ImGuiTable* table)
     // Write output
     table->SortSpecsMulti.resize(table->SortSpecsCount <= 1 ? 0 : table->SortSpecsCount);
     ImGuiTableColumnSortSpecs* sort_specs = (table->SortSpecsCount == 0) ? NULL : (table->SortSpecsCount == 1) ? &table->SortSpecsSingle : table->SortSpecsMulti.Data;
-    if (sort_specs != NULL)
-        for (int column_n = 0; column_n < table->ColumnsCount; column_n++)
-        {
-            ImGuiTableColumn* column = &table->Columns[column_n];
-            if (column->SortOrder == -1)
-                continue;
-            IM_ASSERT(column->SortOrder < table->SortSpecsCount);
-            ImGuiTableColumnSortSpecs* sort_spec = &sort_specs[column->SortOrder];
-            sort_spec->ColumnUserID = column->UserID;
-            sort_spec->ColumnIndex = (ImGuiTableColumnIdx)column_n;
-            sort_spec->SortOrder = (ImGuiTableColumnIdx)column->SortOrder;
-            sort_spec->SortDirection = column->SortDirection;
-        }
+    for (int column_n = 0; column_n < table->ColumnsCount; column_n++)
+    {
+        ImGuiTableColumn* column = &table->Columns[column_n];
+        if (column->SortOrder == -1)
+            continue;
+        IM_ASSERT(column->SortOrder < table->SortSpecsCount);
+        ImGuiTableColumnSortSpecs* sort_spec = &sort_specs[column->SortOrder];
+        sort_spec->ColumnUserID = column->UserID;
+        sort_spec->ColumnIndex = (ImGuiTableColumnIdx)column_n;
+        sort_spec->SortOrder = (ImGuiTableColumnIdx)column->SortOrder;
+        sort_spec->SortDirection = column->SortDirection;
+    }
     table->SortSpecs.Specs = sort_specs;
     table->SortSpecs.SpecsCount = table->SortSpecsCount;
     table->SortSpecs.SpecsDirty = true; // Mark as dirty for user
@@ -3364,9 +3318,6 @@ static void TableSettingsHandler_WriteAll(ImGuiContext* ctx, ImGuiSettingsHandle
         for (int column_n = 0; column_n < settings->ColumnsCount; column_n++, column++)
         {
             // "Column 0  UserID=0x42AD2D21 Width=100 Visible=1 Order=0 Sort=0v"
-            bool save_column = column->UserID != 0 || save_size || save_visible || save_order || (save_sort && column->SortOrder != -1);
-            if (!save_column)
-                continue;
             buf->appendf("Column %-2d", column_n);
             if (column->UserID != 0)                    buf->appendf(" UserID=%08X", column->UserID);
             if (save_size && column->IsStretch)         buf->appendf(" Weight=%.4f", column->WidthOrWeight);

@@ -8,14 +8,15 @@
 #include <dxgi.h>
 #include <d3d12.h>
 #pragma comment(lib, "d3d12.lib")
+
 #include "../../../lib/imgui/imgui.h"
-#include "../../../lib/imgui/backends/imgui_impl_win32.h"
-#include "../../../lib/imgui/backends/imgui_impl_dx12.h"
+#include "../../../lib/imgui/imgui_impl_win32.h"
+#include "../../../lib/imgui/imgui_impl_dx12.h"
+
 #include <d3d12.h>
 #include <dxgi1_4.h>
 
 #include "../../../lib/kiero/kiero.h"
-
 
 class D3D12Hook : public Hook {
 public:
@@ -68,7 +69,7 @@ uint32_t buffersCounts = -1;
 FrameContext* frameContext;
 
 bool shut = false;
-bool menuOpen = true;
+bool isOpen = true;
 
 typedef long(__stdcall* Present12) (IDXGISwapChain3* pSwapChain, UINT SyncInterval, UINT Flags);
 Present12 oPresent12 = NULL;
@@ -85,7 +86,7 @@ static LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 long __fastcall hookPresentD3D12(IDXGISwapChain3* pSwapChain, UINT SyncInterval, UINT Flags) {
 	static bool init = false;
 
-	// ToDo : Menu keybinds
+	// ToDo keybinds
 
 	if (!init) {
 		if (SUCCEEDED(pSwapChain->GetDevice(__uuidof(ID3D12Device), (void**)&d3d12Device))) {
@@ -160,7 +161,7 @@ long __fastcall hookPresentD3D12(IDXGISwapChain3* pSwapChain, UINT SyncInterval,
 
 			ImGui_ImplDX12_CreateDeviceObjects();
 
-			oWndProc = (WNDPROC)SetWindowLongPtr((HWND)FindWindow(0, L"Minecraft"), GWLP_WNDPROC, (__int3264)(LONG_PTR)WndProc);
+			// ToDo : Hook inputs for imgui
 		}
 
 		init = true;
@@ -174,11 +175,9 @@ long __fastcall hookPresentD3D12(IDXGISwapChain3* pSwapChain, UINT SyncInterval,
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		// ImGui overlay
+		// Menu
 		{
 			// ToDo
-
-			ImGui::End();
 		}
 
 		FrameContext& currentFrameContext = frameContext[pSwapChain->GetCurrentBackBufferIndex()];
