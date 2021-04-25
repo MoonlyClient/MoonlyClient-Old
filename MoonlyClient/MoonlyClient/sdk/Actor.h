@@ -17,9 +17,9 @@ public:
 	char pad_04E0[936]; //0x04E0
 
 	virtual bool hasComponent(class HashedString* param_1);
-	virtual void __int64Func_1(void* param_1, void* param_2);
+	virtual void UndefinedFunc_1(void* param_1, void* param_2);
 	virtual void reloadHardcodedClient(class InitializationMethod* param_1, class VariantParameterList* param_2);
-	virtual void __int64Func_3(void* param_1, void* param_2);
+	virtual void UndefinedFunc_3(void* param_1, void* param_2);
 	virtual void reloadComponents(class InitializationMethod* param_1, class VariantParameterList* param_2);
 	virtual void _serverInitItemStackIds();
 	virtual void _doInitialMove();
@@ -123,7 +123,7 @@ public:
 	virtual bool getReturnPolicy7();
 	virtual bool canAttack(class Actor* param_1, bool param_2);
 	virtual void setTarget(class Actor* param_1);
-	virtual int __int64Func_107();
+	virtual int UndefinedFunc_107();
 	virtual __int64 __vcrt_uninitialize6();
 	virtual bool attack(class Actor* param_1);
 	virtual void performRangedAttack(class Actor* param_1, float param_2);
@@ -188,7 +188,7 @@ public:
 	virtual class AABB* getHandleWaterAABB();
 	virtual void handleInsidePortal(class BlockPos* param_1);
 	virtual int getPortalCooldown();
-	virtual int __int64Func_172();
+	virtual int UndefinedFunc_172();
 	virtual __int64* getDimensionId();
 	virtual __int64 __vcrt_uninitialize7();
 	virtual void _guard_check_icall9();
@@ -229,11 +229,11 @@ public:
 	virtual void swing();
 	virtual void useItem(class ItemStackBase* param_1, class ItemUseMethod* param_2, bool param_3);
 	virtual bool getReturnPolicy9();
-	virtual int __int64Func_213();
+	virtual int UndefinedFunc_213();
 	virtual void getDebugText(__int64 param_1);
 	virtual float getMapDecorationRotation();
 	virtual float getRiderYRotation(class Actor* param_1);
-	virtual float __int64Func_217();
+	virtual float UndefinedFunc_217();
 	virtual bool getReturnPolicy10();
 	virtual bool getReturnPolicy11();
 	virtual bool getReturnPolicy12();
@@ -277,7 +277,7 @@ public:
 	virtual void spawnTrailBubbles();
 	virtual void updateInsideBlock();
 	virtual class LootTable* getLootTable();
-	virtual int __int64Func_261();
+	virtual int UndefinedFunc_261();
 	virtual void _removeRider(class ActorUniqueID* param_1, bool param_2, bool param_3, bool param_4);
 	virtual void _onSizeUpdated();
 	virtual void _guard_check_icall13();

@@ -2,11 +2,13 @@
 
 class LoopbackPacketSender {
 public:
-	virtual ~LoopbackPacketSender();
-	//virtual __int64 send(Packet* packet);
-	//virtual __int64 sendToServer(Packet* packet);
-	//virtual __int64 sendToClient(const void* networkIdentifier, const Packet* packet, int a4);
-	//virtual __int64 sendBroadcast(const Packet* packet);
-	//virtual __int64 sendBroadcast(const void* networkIdentifier, int a3, const Packet* packet);
-	virtual __int64 flush(void* networkIdentifier, int a3);
+	virtual void* UndefinedFunc_0(void* param_1);
+	virtual void send(class Packet* param_1);
+	virtual void sendToServer(class Packet* param_1);
+	virtual void sendToClient(class NetworkIdentifier* param_1, class Packet* param_2, unsigned char param_3);
+	virtual void sendToClients(__int64* param_1, class Packet* param_2);
+	virtual void sendBroadcast(class NetworkIdentifier* param_1, unsigned char param_2, class Packet* param_3);
+	virtual void sendBroadcast(class Packet* param_1);
+	virtual void flush(class NetworkIdentifier* param_1, std::function<void(void)>* param_2);
+	virtual void* UndefinedFunc_8(void* param_1);
 };
