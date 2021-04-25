@@ -9,7 +9,7 @@ void AutoSprint::onLoop() {
 		if (player->velocity.magnitudexz() > 0.05f) {
 			if (!Utils::isKeyDown((char)*input->sneakKey)) {
 				if (Utils::isKeyDown((char)*input->forwardKey)) {
-					//player->setSprinting(true);
+					player->setSprinting(true);
 				}
 			}
 		}
