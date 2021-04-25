@@ -36,9 +36,6 @@ struct TextMeasureData {
 };
 
 class MinecraftUIRenderContext {
-private:
-	float _[140];
-
 public:
 	virtual void Constructor(void);
 	virtual float getLineLength(class BitmapFont* font, class TextHolder* text, float textSize, bool unknown);

@@ -28,7 +28,8 @@ void GmTick_callback(GameMode* GM) {
 			gData.setGamemode(GM);
 
 			for (auto Module : moduleMgr.modules) {
-				if (Module->isEnabled) Module->onGmTick();
+				if (Module->isEnabled)
+					Module->onGmTick();
 			}
 		}
 	}
@@ -50,7 +51,8 @@ void SmTick_callback(GameMode* GM) {
 			gData.setGamemode(GM);
 
 			for (auto Module : moduleMgr.modules) {
-				if (Module->isEnabled) Module->onGmTick();
+				if (Module->isEnabled)
+					Module->onGmTick();
 			}
 		}
 	}
@@ -59,7 +61,7 @@ void SmTick_callback(GameMode* GM) {
 }
 
 void GameModeHook::install() {
-	this->hookSig("GameMode::tick", "8B 41 20 89 41 1C C3", &GmTick_callback, reinterpret_cast<LPVOID*>(&_GmTick));
+	//this->hookSig("GameMode::tick", "8B 41 20 89 41 1C C3", &GmTick_callback, reinterpret_cast<LPVOID*>(&_GmTick));
 
-	this->hookSig("SurvivalMode::tick", "48 89 5C 24 ?? 48 89 74 24 ?? 55 57 41 56 48 8D 6C 24 B9 48 81 ?? ?? ?? ?? ?? 48 8B 05 0F F3 8A 01", &SmTick_callback, reinterpret_cast<LPVOID*>(&_SmTick));
+	//this->hookSig("SurvivalMode::tick", "48 89 5C 24 ?? 48 89 74 24 ?? 55 57 41 56 48 8D 6C 24 B9 48 81 ?? ?? ?? ?? ?? 48 8B 05 0F F3 8A 01", &SmTick_callback, reinterpret_cast<LPVOID*>(&_SmTick));
 }

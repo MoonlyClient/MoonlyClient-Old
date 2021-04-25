@@ -62,7 +62,7 @@ void ClientInstanceHook::install() {
 	this->hookSig("LevelRendererPlayer::getFov", "40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F", &LevelRendererPlayer_getFov_callback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov));
 
 	/*
-	// ToDo : Add a method to hook address
+	// not dead
 	uintptr_t sigOffset = Utils::FindSig("48 8D 05 ?? ?? ?? ?? 48 89 07 48 8D 8F ?? ?? ?? ?? 48 8B 87");
 
 	int offset = *reinterpret_cast<int*>(sigOffset + 3);
@@ -71,6 +71,7 @@ void ClientInstanceHook::install() {
 	if (localPlayerVtable == 0x0 || sigOffset == 0x0)
 		Utils::DebugLogOutput("LocalPlayer vtable not found");
 	else {
+		// ToDo : Update offset
 		if (MH_CreateHook((void*)localPlayerVtable[107], &Actor_hurt_callback, reinterpret_cast<LPVOID*>(&_Actor_hurt)) == MH_OK) {
 			Utils::DebugLogOutput("Successfully created LocalPlayer::hurt hook, installing...");
 			MH_EnableHook((void*)localPlayerVtable[107]);
