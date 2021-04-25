@@ -16,6 +16,8 @@ ClientInstance_tick _ClientInstance_tick;
 void tick_callback(ClientInstance* _this, void* a1) {
 	gData.setClientInstance(_this);
 
+	Utils::DebugLogOutput(std::to_string(_this->getServerPingTime()));
+
 	_ClientInstance_tick(_this, a1);
 }
 
@@ -62,6 +64,6 @@ void ClientInstanceHook::install() {
 	this->hookSig("getGamma", "48 83 EC ? 80 B9 ? ? ? ? ? 48 8D 54 24 ? 74 ? 41 B8 ? ? ? ? E8 ? ? ? ? 48 8B 10 48 85 D2 74 ? 48 8B 42 ? 48 8B 88 ? ? ? ? 48 85 C9 74 ? E8 ? ? ? ? 48 83 C4 ? C3 F3 0F 10 42", &getGamma_callback, reinterpret_cast<LPVOID*>(&_getGamma));
 
 	this->hookSig("LevelRendererPlayer::getFov", "40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F", &LevelRendererPlayer_getFov_callback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov));
-
-	//this->hookSig("Actor::attack", "48 89 5C 24 ? 57 48 83 EC 20 48 8B F9 48 8B DA 48 8B 89 ? ? ? ? 48 8B 01 FF 90 ? ? ? ? 45 33 C9 4C 8B C3 48 8B C8 48 8B D7 E8 ? ? ? ?", &Actor_attack_callback, reinterpret_cast<LPVOID*>(&_Actor_attack));
+	
+	// LocalPlayer::attack offset : 109
 }

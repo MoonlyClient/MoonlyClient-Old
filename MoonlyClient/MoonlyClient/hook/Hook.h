@@ -30,7 +30,7 @@ public:
 		}
 	}
 
-	inline void hookAddr(std::string name, uintptr_t addr, LPVOID pDetour, LPVOID* ppOriginal) {
+	inline void hookAddr(std::string name, LPVOID addr, LPVOID pDetour, LPVOID* ppOriginal) {
 		if (MH_CreateHook((void*)addr, pDetour, ppOriginal) == MH_OK) {
 			Utils::DebugLogOutput("[HookManager] Successfully created " + name + " hook, enabling...");
 
