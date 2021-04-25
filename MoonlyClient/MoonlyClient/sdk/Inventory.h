@@ -8,7 +8,7 @@ class Inventory {
 public:
 	virtual void* UndefinedFunc_0(void* param_1);
 	virtual void init();
-	virtual void serverInitItemStackIds(int param_1, int param_2, std::function<void(int, class ItemStack const& ___ptr64)>* param_3);
+	virtual void serverInitItemStackIds(int param_1, int param_2, class std::function<void(int, class ItemStack const&)>* param_3);
 	virtual void addContentChangeListener(class ContainerContentChangeListener* param_1);
 	virtual void removeContentChangeListener(class ContainerContentChangeListener* param_1);
 	virtual class ItemStack* getItem(int param_1);
