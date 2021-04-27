@@ -4,12 +4,10 @@
 
 class Actor {
 public:
-	Vec2 bodyRot; //0x0120
-	float pitch; //0x0128
-	float yaw; //0x012C
-	char pad_0130[16]; //0x0130
-	Vec3 pos; //0x0140
-	char pad_014C[120]; //0x014C
+	char pad_0000[280]; //0x0000
+	float pitch; //0x0120
+	float yaw; // 0x124
+	char pad_0128[152]; //0x0128
 	bool onGround; //0x01C4
 	char pad_01C5[95]; //0x01C5
 	float stepHeight; //0x0224
@@ -21,8 +19,9 @@ public:
 	char pad_04B8[16]; //0x04B8
 	Vec2 collision; //0x04C8
 	Vec3 pos4; //0x04D0
-	Vec3 velocity; //0x04DC
-	char pad_04E8[972]; //0x04E8
+	char pad_04DC[4]; //0x04DC
+	Vec3 velocity; //0x4E0
+	char pad_04E8[972]; //0x4EC
 
 	virtual bool hasComponent(class HashedString* param_1);
 	virtual void UndefinedFunc_1(void* param_1, void* param_2);
