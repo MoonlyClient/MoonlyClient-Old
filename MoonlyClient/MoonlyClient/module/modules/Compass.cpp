@@ -8,9 +8,9 @@ void Compass::onRender() {
 	auto extraPoints = std::multimap<int, std::string>{};
 	std::vector<Vec2> stacking{};
 
-	const int deg = (int)(player->bodyRot.y + 180);
+	const int deg = (int)(player->yaw + 180);
 	const float degSubOffset = 0;
-	const float sCenter = gData.getGuiData()->widthGame / 2;
+	const float sCenter = gData.getGuiData()->getGuiScale() / 2;
 
 	for (int off = -range; off <= range; off++) {
 		int oDeg = (deg + off) % 360;

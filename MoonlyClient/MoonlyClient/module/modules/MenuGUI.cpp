@@ -6,11 +6,11 @@ void MenuGUI::onEnable() {
 		return;
 	}
 
-	gData.getClientInstance()->releaseMouse();
+	//gData.getClientInstance()->releaseMouse();
 }
 
 void MenuGUI::onDisable() {
-	gData.getClientInstance()->grabMouse();
+	//gData.getClientInstance()->grabMouse();
 }
 
 void MenuGUI::onRender() {
@@ -18,7 +18,7 @@ void MenuGUI::onRender() {
 
 	if (player == nullptr) return;
 	
-	gData.getClientInstance()->releaseMouse();
+	//gData.getClientInstance()->releaseMouse();
 
 	// ToDo : Make it cleaner
 }

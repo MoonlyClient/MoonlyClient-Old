@@ -5,7 +5,7 @@ void Keystroke::onRender() {
 
 	if (player == nullptr || !gData.getClientInstance()->MinecraftGame()->canUseKeys()) return;
 
-	Vec2 windowSize = gData.getClientInstance()->getGuiData()->windowSize;
+	Vec2 windowSize = gData.getClientInstance()->getGuiData()->scaledRes;
 
 	GameSettingsInput* input = gData.getClientInstance()->getGameSettingsInput();
 	RenderUtils::drawKeystroke(*input->forwardKey, Vec2(32.f, windowSize.y - 74));
