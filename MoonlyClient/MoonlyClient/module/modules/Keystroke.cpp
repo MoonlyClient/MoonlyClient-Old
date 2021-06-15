@@ -3,7 +3,7 @@
 void Keystroke::onRender() {
 	LocalPlayer* player = gData.getClientInstance()->LocalPlayer();
 
-	if (player == nullptr || !gData.getClientInstance()->MinecraftGame()->canUseKeys()) return;
+	if (player == nullptr || gData.getClientInstance()->getGuiData() == nullptr || !gData.getClientInstance()->MinecraftGame()->canUseKeys()) return;
 
 	Vec2 windowSize = gData.getClientInstance()->getGuiData()->scaledRes;
 

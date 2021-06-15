@@ -12,16 +12,21 @@
 #include "MoonlyClient/data/GameData.h"
 #include "MoonlyClient/utils/Utils.h"
 
+std::string lol = "Not gonna try to skid Moonly, don't forget signatures are stripped lol gl.";
+
 DWORD WINAPI countThread(LPVOID lpParam) {
+    Utils::DebugLogOutput("idk created lol");
+
     while (Utils::running) {
         Sleep(1000);
 
         gData.fps = gData.frameCount;
+        Utils::DebugLogOutput(std::to_string(gData.fps));
         gData.frameCount = 0;
-        gData.cpsLeft = gData.leftclickCount;
-        gData.leftclickCount = 0;
-        gData.cpsRight = gData.rightclickCount;
-        gData.rightclickCount = 0;
+        gData.cpsLeft = gData.leftClickCount;
+        gData.leftClickCount = 0;
+        gData.cpsRight = gData.rightClickCount;
+        gData.rightClickCount = 0;
     }
 
     MH_DisableHook(MH_ALL_HOOKS);
@@ -48,8 +53,6 @@ void Init(LPVOID lpParam) {
 
     DWORD countThreadId;
     CreateThread(nullptr, NULL, (LPTHREAD_START_ROUTINE)countThread, lpParam, NULL, &countThreadId);
-
-    ExitThread(0);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved) {

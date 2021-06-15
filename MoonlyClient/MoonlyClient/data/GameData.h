@@ -12,9 +12,9 @@ public:
 	int frameCount;
 	int fps;
 	int cpsLeft;
-	int leftclickCount;
+	int leftClickCount;
 	int cpsRight;
-	int rightclickCount;
+	int rightClickCount;
 	float lastReach;
 private:
 	ClientInstance* cachedInstance;

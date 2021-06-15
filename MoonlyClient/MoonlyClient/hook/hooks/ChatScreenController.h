@@ -32,5 +32,5 @@ void sendMessage_callback(__int64 _this) {
 }
 
 void ChatScreenControllerHook::install() {
-	this->hookSig("sendMessage", "48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B D9 48 83 B9", &sendMessage_callback, reinterpret_cast<LPVOID*>(&_sendMessage));
+	this->hookSig("sendMessage", xorstr_("48 89 5C 24 ? 48 89 74 24 ? 57 48 83 EC ? 48 8B D9 48 83 B9"), &sendMessage_callback, reinterpret_cast<LPVOID*>(&_sendMessage));
 }

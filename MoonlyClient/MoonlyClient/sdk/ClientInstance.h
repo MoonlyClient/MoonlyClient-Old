@@ -83,10 +83,50 @@ public:
 	}
 };
 
+struct FontEntry {
+public:
+	BitmapFont* font;
+
+private:
+	void* sharedFontPtr;
+};
+
+struct FontList {
+public:
+	FontEntry fontEntries[9];
+};
+
+struct FontRepository {
+private:
+	uintptr_t* font_repository_vtable;  // 0x0000
+	__int64 pad;                        // 0x0008
+	void* ptrToSelf;                    // 0x0010
+	void* ptrToSelfSharedPtr;           // 0x0018
+	__int64 pad2;                       // 0x0020
+public:
+	FontList* fontList;   //0x0028
+};
+
 class MinecraftGame {
 public:
-	class BitmapFont* MCFont() {
-		return *reinterpret_cast<class BitmapFont**>(reinterpret_cast<__int64>(this) + 0x100);
+	FontRepository* getFontRepository() {
+		return *reinterpret_cast<FontRepository**>(reinterpret_cast<__int64>(this) + 0x100);
+	}
+
+	BitmapFont* getWtfFont() {
+		return this->getFontRepository()->fontList->fontEntries[0].font;
+	};
+
+	BitmapFont* getCleanFont() {
+		return this->getFontRepository()->fontList->fontEntries[7].font;
+	};
+
+	BitmapFont* getCrashFont() {
+		return this->getFontRepository()->fontList->fontEntries[6].font;
+	}
+
+	BitmapFont* getMinecraftiaFont() {
+		return this->getFontRepository()->fontList->fontEntries[3].font;
 	}
 
 	bool canUseKeys() {
@@ -118,20 +158,30 @@ struct PtrToGameSettings1 {
 class ClientInstance {
 public:
 	char firstPad[0x90];  //0x0008
+
 	MinecraftGame* minecraftGame;  //0x0098
+
 	MinecraftGame* N0000080C;  //0x00A0
+
 	MinecraftGame* N0000080D;  //0x00A8
+
 	C_Minecraft* minecraft;  //0x00B0
+
 	char pad_0x0068[0x8];  //0x00B8
+
 	LevelRenderer* levelRenderer;  //0x00C0
+
 	char pad_0x0078[0x8];  //0x00C8
+
 	LoopbackPacketSender* loopbackPacketSender;  //0x00D0
+
 	char pad_0x0088[0x18];  //0x00D8
+
 	PtrToGameSettings1* ptr;  //0x00F0
 
 	class LocalPlayer* LocalPlayer() {
 		if (this != nullptr) {
-			return *reinterpret_cast<class LocalPlayer**>((uintptr_t)(this) + 0x138);
+			return *reinterpret_cast<class LocalPlayer**>(reinterpret_cast<__int64>(this) + 0x138);
 		}
 		else {
 			return nullptr;

@@ -1,6 +1,6 @@
 #include "AutoSprint.h"
 
-void AutoSprint::onLoop() {
+void AutoSprint::onGmTick() {
 	LocalPlayer* player = gData.getClientInstance()->LocalPlayer();
 
 	if (player != nullptr) {

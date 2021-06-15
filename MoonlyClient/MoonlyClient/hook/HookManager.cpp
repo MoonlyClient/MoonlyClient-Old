@@ -18,7 +18,7 @@ void HookManager::init() {
 		return;
 	}
 
-	hooks.push_back(new AntiCheat());
+	//hooks.push_back(new AntiCheat());
 	//hooks.push_back(new ChatScreenControllerHook());
 	hooks.push_back(new ClientInstanceHook());
 	//hooks.push_back(new D3D12Hook());

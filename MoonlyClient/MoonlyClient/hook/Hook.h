@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "../../include/MinHook.h"
+#include "../../include/xorstr.hpp"
 #include "../utils/Utils.h"
 
 class Hook {

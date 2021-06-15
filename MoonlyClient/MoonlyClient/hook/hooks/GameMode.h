@@ -20,6 +20,8 @@ void GmTick_callback(GameMode* GM) {
 	if (GM != nullptr && GM->Player != nullptr && player != nullptr) {
 		C_GuiData* guiData = gData.getClientInstance()->getGuiData();
 
+		Utils::DebugLogOutput(Utils::ptrToStr((uintptr_t)guiData));
+
 		if (guiData != nullptr) {
 			gData.setGuiData(guiData);
 		}
@@ -61,7 +63,7 @@ void SmTick_callback(GameMode* GM) {
 }
 
 void GameModeHook::install() {
-	uintptr_t sigAddr = Utils::FindSig("48 8D 05 ? ? ? ? 48 8B D9 48 89 01 8B FA 48 8B 89 ? ? ? ? 48 85 C9 74 ? 48 8B 01 BA ? ? ? ? FF 10 48 8B 8B");
+	uintptr_t sigAddr = Utils::FindSig(xorstr_("48 8D 05 ? ? ? ? 48 8B D9 48 89 01 8B FA 48 8B 89 ? ? ? ? 48 85 C9 74 ? 48 8B 01 BA ? ? ? ? FF 10 48 8B 8B"));
 
 	if (!sigAddr)
 		return;

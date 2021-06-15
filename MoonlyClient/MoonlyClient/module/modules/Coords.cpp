@@ -17,7 +17,7 @@ void Coords::onRender() {
 	RenderUtils::renderText("Y: " + std::to_string(y), Vec2(7, Ymodifier + 2 + 10), Color(255, 255, 255), 1.f, 1.f);
 	RenderUtils::renderText("Z: " + std::to_string(z), Vec2(7, Ymodifier + 2 + 10 + 10), Color(255, 255, 255), 1.f, 1.f);
 
-	RenderUtils::drawCenteredText(Vec2(7 + 55, Ymodifier + 2 + 8), getDirection(player->yaw - 90), Color(255, 255, 255), 1.5f, 1.f);
+	RenderUtils::drawCenteredText(Vec2(7 + 55, Ymodifier + 2 + 8), getDirection(player->bodyRot.y - 90), Color(255, 255, 255), 1.5f, 1.f);
 
 	RenderUtils::fillRectangle(boxPos, Color(0, 0, 0), .15f);
 	RenderUtils::flushText();

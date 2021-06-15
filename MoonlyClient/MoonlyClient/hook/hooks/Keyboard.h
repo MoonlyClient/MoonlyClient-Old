@@ -37,5 +37,5 @@ void KeyItem_callback(uint64_t key, bool isDown) {
 }
 
 void KeyboardHook::install() {
-	this->hookSig("AVKeyItem", "48 89 5C 24 ?? ?? 48 83 EC ?? 8B 05 ?? ?? ?? ?? 8B DA", &KeyItem_callback, reinterpret_cast<LPVOID*>(&_AVKeyItem));
+	this->hookSig("AVKeyItem", xorstr_("48 89 5C 24 ?? ?? 48 83 EC ?? 8B 05 ?? ?? ?? ?? 8B DA"), &KeyItem_callback, reinterpret_cast<LPVOID*>(&_AVKeyItem));
 }

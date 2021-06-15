@@ -4,24 +4,19 @@
 
 class Actor {
 public:
-	char pad_0000[280]; //0x0000
-	float pitch; //0x0120
-	float yaw; // 0x124
+	char pad_0008[280]; //0x0008
+	Vec2 bodyRot; //0x0120
 	char pad_0128[152]; //0x0128
-	bool onGround; //0x01C4
-	char pad_01C5[95]; //0x01C5
-	float stepHeight; //0x0224
-	char pad_0228[268]; //0x0228
-	float speed; //0x0334
-	char pad_0338[360]; //0x0338
-	Vec3 pos2; //0x04A0
-	Vec3 pos3; //0x04AC
-	char pad_04B8[16]; //0x04B8
-	Vec2 collision; //0x04C8
-	Vec3 pos4; //0x04D0
-	char pad_04DC[4]; //0x04DC
-	Vec3 velocity; //0x4E0
-	char pad_04E8[972]; //0x4EC
+	bool onGround; //0x01C0
+	char pad_01C1[95]; //0x01C1
+	float stepHeight; //0x0220 | Default = 0.5625
+	char pad_0224[308]; //0x0224
+	class MultiPlayerLevel* MultiPlayerLevel; //0x0358
+	char pad_0360[340]; //0x0360
+	Vec2 collision; //0x04B4
+	char pad_04BC[24]; //0x04BC
+	Vec3 velocity; //0x04D4
+	char pad_04E0[880]; //0x04E0
 
 	virtual bool hasComponent(class HashedString* param_1);
 	virtual void reloadHardcoded(class InitializationMethod* param_1, class VariantParameterList* param_2);
@@ -35,35 +30,35 @@ public:
 	virtual int getOnDeathExperience();
 	virtual class ActorType* getOwnerEntityType();
 	virtual void remove();
-	virtual void setPos(class Vec3* param_1);
+	virtual void setPos(struct Vec3* param_1);
 	virtual __int64 __vcrt_uninitialize0();
 	virtual class PredictedMovementValues* getPredictedMovementValues();
-	virtual class Vec3* getPos();
-	virtual class Vec3* getPosOld();
-	virtual class Vec3* getPosExtrapolated(float param_1);
-	virtual class Vec3* getAttachPos(class ActorLocation* param_1, float param_2);
-	virtual class Vec3* getFiringPos();
-	virtual void setRot(class Vec2* param_1);
-	virtual void move(class IActorMovementProxy* param_1, class Vec3* param_2);
-	virtual void move(class Vec3* param_1);
-	virtual class Vec3* getInterpolatedRidingPosition(float param_1);
+	virtual struct Vec3* getPos();
+	virtual struct Vec3* getPosOld();
+	virtual struct Vec3* getPosExtrapolated(float param_1);
+	virtual struct Vec3* getAttachPos(class ActorLocation* param_1, float param_2);
+	virtual struct Vec3* getFiringPos();
+	virtual void setRot(struct Vec2* param_1);
+	virtual void move(class IActorMovementProxy* param_1, struct Vec3* param_2);
+	virtual void move(struct Vec3* param_1);
+	virtual struct Vec3* getInterpolatedRidingPosition(float param_1);
 	virtual float getInterpolatedBodyRot(float param_1);
 	virtual float getInterpolatedHeadRot(float param_1);
 	virtual float getInterpolatedBodyYaw(float param_1);
 	virtual float getYawSpeedInDegreesPerSecond();
 	virtual float getInterpolatedWalkAnimSpeed(float param_1);
-	virtual class Vec3* getWorldPosition();
+	virtual struct Vec3* getWorldPosition();
 	virtual void checkBlockCollisions(class AABB* param_1, class std::function<void __cdecl(class BlockSource const&, class Block const&, class BlockPos const&, class Actor&)>* param_2);
 	virtual void updateEntityInside();
 	virtual void updateEntityInside(class AABB* param_1);
 	virtual bool isFireImmune();
 	virtual __int64 getReturnPolicy0();
 	virtual void blockedByShield(class ActorDamageSource* param_1, class Actor* param_2);
-	virtual void teleportTo(class Vec3* param_1, bool param_2, int param_3, int param_4);
-	virtual bool tryTeleportTo(class Vec3* param_1, bool param_2, bool param_3, int param_4, int param_5);
-	virtual void chorusFruitTeleport(class Vec3* param_1);
-	virtual void lerpTo(class Vec3* param_1, class Vec2* param_2, int param_3);
-	virtual void lerpMotion(class Vec3* param_1);
+	virtual void teleportTo(struct Vec3* param_1, bool param_2, int param_3, int param_4);
+	virtual bool tryTeleportTo(struct Vec3* param_1, bool param_2, bool param_3, int param_4, int param_5);
+	virtual void chorusFruitTeleport(struct Vec3* param_1);
+	virtual void lerpTo(struct Vec3* param_1, struct Vec2* param_2, int param_3);
+	virtual void lerpMotion(struct Vec3* param_1);
 	virtual class AddActorBasePacket* tryCreateAddActorPacket();
 	virtual void normalTick();
 	virtual void baseTick();
@@ -74,9 +69,9 @@ public:
 	virtual void addRider(class Actor* param_1);
 	virtual void flagRiderToRemove(class Actor* param_1);
 	virtual std::string* getExitTip(std::string* param_1, class InputMode* param_2);
-	virtual bool intersects(class Vec3* param_1, class Vec3* param_2);
-	virtual bool isFree(class Vec3* param_1);
-	virtual bool isFree(class Vec3* param_1, float param_2);
+	virtual bool intersects(struct Vec3* param_1, struct Vec3* param_2);
+	virtual bool isFree(struct Vec3* param_1);
+	virtual bool isFree(struct Vec3* param_1, float param_2);
 	virtual bool isInWall();
 	virtual bool isInvisible();
 	virtual bool canShowNameTag();
@@ -96,14 +91,14 @@ public:
 	virtual bool isInLava();
 	virtual bool isUnderLiquid(class MaterialType* param_1);
 	virtual bool isOverWater();
-	virtual void setBlockMovementSlowdownMultiplier(class Vec3* param_1);
+	virtual void setBlockMovementSlowdownMultiplier(struct Vec3* param_1);
 	virtual void resetBlockMovementSlowdownMultiplier();
 	virtual __int64 stbir__support_zero0();
 	virtual float getShadowHeightOffs();
 	virtual float getShadowRadius();
-	virtual class Vec3* getHeadLookVector(float param_1);
+	virtual struct Vec3* getHeadLookVector(float param_1);
 	virtual __int64 getReturnPolicy2();
-	virtual bool canSee(class Vec3* param_1);
+	virtual bool canSee(struct Vec3* param_1);
 	virtual bool canSee(class Actor* param_1);
 	virtual bool isSkyLit(float param_1);
 	virtual float getBrightness(float param_1);
@@ -207,8 +202,8 @@ public:
 	virtual void checkFallDamage(float param_1, bool param_2);
 	virtual void causeFallDamage(float param_1, float param_2, class ActorDamageSource* param_3);
 	virtual void handleFallDistanceOnServer(float param_1, float param_2, bool param_3);
-	virtual void playSynchronizedSound(class LevelSoundEvent* param_1, class Vec3* param_2, int param_3, bool param_4);
-	virtual void playSynchronizedSound(class LevelSoundEvent* param_1, class Vec3* param_2, class Block* param_3, bool param_4);
+	virtual void playSynchronizedSound(class LevelSoundEvent* param_1, struct Vec3* param_2, int param_3, bool param_4);
+	virtual void playSynchronizedSound(class LevelSoundEvent* param_1, struct Vec3* param_2, class Block* param_3, bool param_4);
 	virtual void onSynchedDataUpdate(int param_1);
 	virtual bool canAddRider(class Actor* param_1);
 	virtual __int64 __vcrt_uninitialize7();
@@ -249,7 +244,7 @@ public:
 	virtual __int64 getReturnPolicy12();
 	virtual bool add(class ItemStack* param_1);
 	virtual bool drop(class ItemStack* param_1, bool param_2);
-	virtual bool getInteraction(class Player* param_1, class ActorInteraction* param_2, class Vec3* param_3);
+	virtual bool getInteraction(class Player* param_1, class ActorInteraction* param_2, struct Vec3* param_3);
 	virtual __int64 __vcrt_uninitialize10();
 	virtual __int64 _guard_check_icall9();
 	virtual void setSize(float param_1, float param_2);
@@ -285,7 +280,7 @@ public:
 	virtual void _playFlySound(class BlockPos* param_1, class Block* param_2);
 	virtual __int64 getReturnPolicy13();
 	virtual void checkInsideBlocks(float param_1);
-	virtual void pushOutOfBlocks(class Vec3* param_1);
+	virtual void pushOutOfBlocks(struct Vec3* param_1);
 	virtual bool updateWaterState();
 	virtual void doWaterSplashEffect();
 	virtual void spawnTrailBubbles();
@@ -294,4 +289,13 @@ public:
 	virtual void _onSizeUpdated();
 	virtual __int64 _guard_check_icall12();
 	virtual void knockback(class Actor* param_1, int param_2, float param_3, float param_4, float param_5, float param_6, float param_7);
+
+	inline class MultiPlayerLevel* getMultiPlayerLevel() {
+		if (this != nullptr) {
+			return *reinterpret_cast<class MultiPlayerLevel**>(reinterpret_cast<__int64>(this) + 0x378);
+		}
+		else {
+			return nullptr;
+		}
+	}
 };
