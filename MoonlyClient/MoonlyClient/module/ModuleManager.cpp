@@ -17,13 +17,13 @@ ModuleManager moduleMgr;
 
 void ModuleManager::init() {
 	modules.push_back(new AutoSprint());
-	//modules.push_back(new Compass());
+	modules.push_back(new Compass());
 	modules.push_back(new Coords());
 	modules.push_back(new CPS());
 	modules.push_back(new FPS());
 	modules.push_back(new GUI());
 	modules.push_back(new Keystroke());
-	//modules.push_back(new MenuGUI());
+	modules.push_back(new MenuGUI());
 	//modules.push_back(new NightVision());
 	//modules.push_back(new ReachDisplay());
 	//modules.push_back(new Uninject());

@@ -4,19 +4,17 @@
 
 class Actor {
 public:
-	char pad_0008[280]; //0x0008
-	Vec2 bodyRot; //0x0120
-	char pad_0128[152]; //0x0128
-	bool onGround; //0x01C0
-	char pad_01C1[95]; //0x01C1
-	float stepHeight; //0x0220 | Default = 0.5625
-	char pad_0224[308]; //0x0224
-	class MultiPlayerLevel* MultiPlayerLevel; //0x0358
-	char pad_0360[340]; //0x0360
-	Vec2 collision; //0x04B4
-	char pad_04BC[24]; //0x04BC
-	Vec3 velocity; //0x04D4
-	char pad_04E0[880]; //0x04E0
+	char pad_0000[320]; //0x0000
+	Vec2 bodyRot; //0x0140
+	char pad_0148[152]; //0x0148
+	bool onGround; //0x01E0
+	char pad_01E1[95]; //0x01E1
+	float stepHeight; //0x0240
+	char pad_0244[652]; //0x0244
+	Vec3 position; //0x04D0
+	char pad_04DC[60]; //0x04DC
+	Vec3 velocity; //0x0518
+	char pad_0524[924]; //0x0524
 
 	virtual bool hasComponent(class HashedString* param_1);
 	virtual void reloadHardcoded(class InitializationMethod* param_1, class VariantParameterList* param_2);

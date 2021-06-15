@@ -10,7 +10,7 @@ void Compass::onRender() {
 
 	const int deg = (int)(player->bodyRot.y + 180);
 	const float degSubOffset = 0;
-	const float sCenter = gData.getGuiData()->res.y / 2;
+	const float sCenter = gData.getGuiData()->scaledRes.x / 2;
 
 	for (int off = -range; off <= range; off++) {
 		int oDeg = (deg + off) % 360;
