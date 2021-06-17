@@ -87,18 +87,16 @@ void Utils::DebugLogOutput(std::string str) {
 	return;
 }
 
-uintptr_t Utils::FindAddr(uintptr_t ptrBase, std::vector<unsigned int> offsets) {
-	uintptr_t curr = NULL;
-	if (ptrBase != NULL) {
-		curr = ptrBase;
-		for (unsigned int I = 0; I < offsets.size(); I++) {
-			curr = *(uintptr_t*)(curr += offsets[I]);
-			if (curr == NULL) {
-				break;
-			}
-		}
-	}
-	return curr;
+uintptr_t Utils::FindAddr(uintptr_t ptr, std::vector<unsigned int> offsets) {
+	 uintptr_t addr = ptr;
+
+    for (unsigned int i = 0; i < offsets.size(); ++i)
+    {
+        addr = *(uintptr_t*)addr;
+        addr += offsets[i];
+    }
+
+    return addr;
 }
 
 uintptr_t Utils::FindSig(const char* szSignature) {

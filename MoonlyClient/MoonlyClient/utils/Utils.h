@@ -242,6 +242,10 @@ public:
 
 	static std::map<uint64_t, bool> KeyMapping;
 	static bool isKeyDown(int);
+	
+	static inline void** getVtable(void* obj) {
+		return *((void***)obj);
+	}
 
 	static inline unsigned int getCrcHash(const char* str, int seed = 0) {
 		static unsigned int crc32_lut[256] = { 0 };

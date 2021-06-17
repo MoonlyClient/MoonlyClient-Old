@@ -12,15 +12,12 @@ public:
 
 typedef void(__stdcall* GmTick)(GameMode* GM);
 GmTick _GmTick;
-GmTick _SmTick;
 
 void GmTick_callback(GameMode* GM) {
 	LocalPlayer* player = gData.getClientInstance()->LocalPlayer();
 
 	if (GM != nullptr && GM->Player != nullptr && player != nullptr) {
 		C_GuiData* guiData = gData.getClientInstance()->getGuiData();
-
-		Utils::DebugLogOutput(Utils::ptrToStr((uintptr_t)guiData));
 
 		if (guiData != nullptr) {
 			gData.setGuiData(guiData);
@@ -39,27 +36,15 @@ void GmTick_callback(GameMode* GM) {
 	_GmTick(GM);
 }
 
-void SmTick_callback(GameMode* GM) {
-	LocalPlayer* player = gData.getClientInstance()->LocalPlayer();
+typedef void(_stdcall* GameMode_attack)(GameMode*, Actor*);
+GameMode_attack _GameMode_attack;
 
-	if (GM != nullptr && GM->Player != nullptr && player != nullptr) {
-		C_GuiData* guiData = gData.getClientInstance()->getGuiData();
+void GameMode_attack_callback(GameMode* _this, Actor* actor) {
+	Utils::DebugLogOutput("Actor::attack called");
 
-		if (guiData != nullptr) {
-			gData.setGuiData(guiData);
-		}
+	gData.lastReach = _this->Player->getPos()->distance(*actor->getPos());
 
-		if (player == GM->Player) {
-			gData.setGamemode(GM);
-
-			for (auto Module : moduleMgr.modules) {
-				if (Module->isEnabled)
-					Module->onGmTick();
-			}
-		}
-	}
-
-	_SmTick(GM);
+	return _GameMode_attack(_this, actor);
 }
 
 void GameModeHook::install() {
@@ -72,4 +57,5 @@ void GameModeHook::install() {
 	uintptr_t** vtable = reinterpret_cast<uintptr_t**>(sigAddr + offset + 7);
 
 	this->hookAddr("GameMode::tick", (void*)vtable[10], &GmTick_callback, (LPVOID*)&_GmTick);
+	this->hookAddr("GameMode::attack", (void*)vtable[14], &GameMode_attack_callback, (LPVOID*)&_GameMode_attack);
 }

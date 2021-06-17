@@ -24,10 +24,10 @@ void ModuleManager::init() {
 	modules.push_back(new GUI());
 	modules.push_back(new Keystroke());
 	modules.push_back(new MenuGUI());
-	//modules.push_back(new NightVision());
-	//modules.push_back(new ReachDisplay());
+	modules.push_back(new NightVision());
+	modules.push_back(new ReachDisplay());
 	//modules.push_back(new Uninject());
-	//modules.push_back(new Zoom());
+	modules.push_back(new Zoom());
 
 	for (int i = 0; i < modules.size(); i++) {
 		bool exists = false;
