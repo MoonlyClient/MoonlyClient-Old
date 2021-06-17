@@ -40,8 +40,6 @@ typedef void(_stdcall* GameMode_attack)(GameMode*, Actor*);
 GameMode_attack _GameMode_attack;
 
 void GameMode_attack_callback(GameMode* _this, Actor* actor) {
-	Utils::DebugLogOutput("Actor::attack called");
-
 	gData.lastReach = _this->Player->getPos()->distance(*actor->getPos());
 
 	return _GameMode_attack(_this, actor);
