@@ -4,7 +4,7 @@
 
 class Actor {
 public:
-	char pad_0000[320]; //0x0000
+	char pad_0008[312]; //0x0008
 	Vec2 bodyRot; //0x0140
 	char pad_0148[152]; //0x0148
 	bool onGround; //0x01E0
@@ -14,7 +14,7 @@ public:
 	Vec3 position; //0x04D0
 	char pad_04DC[60]; //0x04DC
 	Vec3 velocity; //0x0518
-	char pad_0524[924]; //0x0524
+	char pad_0524[888]; //0x0524
 
 	virtual bool hasComponent(class HashedString* param_1);
 	virtual void reloadHardcoded(class InitializationMethod* param_1, class VariantParameterList* param_2);
