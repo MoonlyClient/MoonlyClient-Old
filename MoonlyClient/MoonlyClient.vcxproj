@@ -113,6 +113,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -177,13 +178,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="lib\imgui\imgui.cpp" />
-    <ClCompile Include="lib\imgui\imgui_draw.cpp" />
-    <ClCompile Include="lib\imgui\imgui_impl_dx12.cpp" />
-    <ClCompile Include="lib\imgui\imgui_impl_win32.cpp" />
-    <ClCompile Include="lib\imgui\imgui_tables.cpp" />
-    <ClCompile Include="lib\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="lib\kiero\kiero.cpp" />
     <ClCompile Include="MoonlyClient\data\GameData.cpp" />
     <ClCompile Include="MoonlyClient\hook\HookManager.cpp" />
     <ClCompile Include="MoonlyClient\module\Module.cpp" />
@@ -205,21 +199,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\xorstr.hpp" />
-    <ClInclude Include="lib\imgui\imconfig.h" />
-    <ClInclude Include="lib\imgui\imgui.h" />
-    <ClInclude Include="lib\imgui\imgui_impl_dx12.h" />
-    <ClInclude Include="lib\imgui\imgui_impl_win32.h" />
-    <ClInclude Include="lib\imgui\imgui_internal.h" />
-    <ClInclude Include="lib\imgui\imstb_rectpack.h" />
-    <ClInclude Include="lib\imgui\imstb_textedit.h" />
-    <ClInclude Include="lib\imgui\imstb_truetype.h" />
-    <ClInclude Include="lib\kiero\kiero.h" />
     <ClInclude Include="MoonlyClient\data\GameData.h" />
     <ClInclude Include="MoonlyClient\hook\Hook.h" />
     <ClInclude Include="MoonlyClient\hook\hooks\AntiCheat.h" />
     <ClInclude Include="MoonlyClient\hook\hooks\ChatScreenController.h" />
     <ClInclude Include="MoonlyClient\hook\hooks\ClientInstance.h" />
-    <ClInclude Include="MoonlyClient\hook\hooks\D3D12.h" />
     <ClInclude Include="MoonlyClient\hook\hooks\GameMode.h" />
     <ClInclude Include="MoonlyClient\hook\HookManager.h" />
     <ClInclude Include="MoonlyClient\hook\hooks\Keyboard.h" />
