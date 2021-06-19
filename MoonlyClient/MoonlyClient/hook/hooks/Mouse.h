@@ -5,10 +5,9 @@
 #include "../../module/ModuleManager.h"
 #include "../../sdk/HIDController.h"
 
-#pragma data_seg (".HookSection")
+#pragma comment( lib, "user32.lib" )
+
 HHOOK hHook = NULL;
-#pragma data_seg ()
-#pragma comment(linker,"/SECTION:.HookSection,RWS")
 
 class MouseHook : public Hook {
 public:

@@ -1,6 +1,7 @@
 ﻿#include "Utils.h"
 #include "../data/GameData.h"
 #include "../sdk/GameSettingsInput.h"
+#include "../../include/xorstr.hpp"
 
 HMODULE Utils::hModule = nullptr;
 bool Utils::running = false;
@@ -162,7 +163,7 @@ bool Utils::isKeyDown(int key) {
 	static uintptr_t keyMapOffset = 0x0;
 
 	if (keyMapOffset == 0x0) {
-		uintptr_t sigOffset = FindSig("48 8D 0D ?? ?? ?? ?? 89 1C B9");
+		uintptr_t sigOffset = FindSig(xorstr_("48 8D 0D ?? ?? ?? ?? 89 1C B9"));
 		if (sigOffset != 0x0) {
 			int offset = *reinterpret_cast<int*>((sigOffset + 3));
 			keyMapOffset = sigOffset - gData.getModuleBase() + offset + 7;

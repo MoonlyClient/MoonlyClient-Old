@@ -48,7 +48,7 @@ float LevelRendererPlayer_getFov_callback(__int64 _this, float a2, bool a3) {
 void ClientInstanceHook::install() {
 	this->hookSig("ClientInstance::tick", xorstr_("48 89 5C 24 ?? 48 89 74 24 ?? 57 48 83 EC ?? 48 8B F9 48 8B 01"), &tick_callback, reinterpret_cast<LPVOID*>(&_ClientInstance_tick));
 
-	this->hookSig("getGamma", xorstr_("48 83 EC ? 80 B9 ? ? ? ? ? 48 8D 54 24 ? 74 ? 41 B8 ? ? ? ? E8 ? ? ? ? 48 8B 10 48 85 D2 74 ? 48 8B 42 ? 48 8B 88 ? ? ? ? 48 85 C9 74 ? E8 ? ? ? ? 48 83 C4 ? C3 F3 0F 10 42"), &getGamma_callback, reinterpret_cast<LPVOID*>(&_getGamma));
+	//this->hookSig("getGamma", xorstr_("F3 0F 10 42 ? 48 83 C4 ? C3 41 B8 ? ? ? ? FF 50 ? 48 8B 10 48 85 D2 75 ? E8 ? ? ? ? CC E8 ? ? ? ? CC CC CC CC CC CC CC CC CC CC F3 0F 11 4C 24"), &getGamma_callback, reinterpret_cast<LPVOID*>(&_getGamma));
 
 	this->hookSig("LevelRendererPlayer::getFov", xorstr_("40 53 48 83 EC 70 0F 29 7C 24 ? 44 0F 29 4C 24 ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 44 24 ? F3 0F 10 3D ? ? ? ? 44 0F"), &LevelRendererPlayer_getFov_callback, reinterpret_cast<LPVOID*>(&_LevelRendererPlayer_getFov));
 }
