@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../utils/Utils.h"
+#include "TextHolder.h"
 
 class Actor {
 public:
