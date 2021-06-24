@@ -25,7 +25,6 @@ void Mouse_callback(HIDController* _this, void* a2, void* a3) {
 
 LRESULT CALLBACK HookProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-
     if (nCode >= 0)
     {
         if (wParam == WM_RBUTTONDOWN)
