@@ -5,7 +5,7 @@
 #include "../../module/ModuleManager.h"
 #include "../../sdk/HIDController.h"
 
-#pragma comment( lib, "user32.lib" )
+#pragma comment(lib, "user32.lib" )
 
 HHOOK hHook = NULL;
 
