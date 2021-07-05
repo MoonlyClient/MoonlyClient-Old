@@ -80,7 +80,7 @@ public:
 	virtual __int64 JS_GetContextOpaque();
 	virtual TextHolder* getFormattedNameTag();
 	virtual void filterFormattedNameTag(class UIProfanityContext* param_1);
-	virtual void setNameTag(std::string* param_1);
+	virtual void setNameTag(TextHolder* param_1);
 	virtual __int64 __vcrt_uninitialize2();
 	virtual void setScoreTag(TextHolder* param_1);
 	virtual TextHolder* getScoreTag();
