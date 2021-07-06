@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../include/xorstr.hpp"
+
 #include "TextHolder.h"
 #include "MinecraftUIRenderContext.h"
 #include "Actor.h"
@@ -8,80 +10,6 @@
 #include "GuiData.h"
 #include "GameSettingsInput.h"
 #include "LoopbackPacketSender.h"
-
-class C_Player;
-
-class C_Minecraft {
-public:
-	char pad_0x0000[0xB0];  //0x0000
-
-	float* timer;  //0x00B0
-};
-
-class BlockTessellator;
-
-class ResourceLocation {
-public:
-	char pad[0x28];
-	__int64 hashCode; // 0x28
-	char pad2[8];
-};
-
-namespace mce {
-	class TextureGroup;
-	class MaterialPtr;
-	class Mesh {
-	public:
-		void renderMesh(__int64 screenContext, mce::MaterialPtr* material, size_t numTextures, __int64** textureArray);
-
-		template <size_t numTextures>
-		void renderMesh(__int64 screenContext, mce::MaterialPtr* material, std::array<__int64*, numTextures> textures) {
-			this->renderMesh(screenContext, material, numTextures, &textures[0]);
-		}
-	};
-	class TexturePtr {
-	public:
-		__int64* clientTexture;
-		char pad[0x8];
-		ResourceLocation resourceLocation; // 0x10
-
-	
-		__int64* getClientTexture() {
-			return this->clientTexture;
-		}
-	};
-	class MaterialPtr {
-	public:
-		std::shared_ptr<void> materialPtr;
-
-	
-		MaterialPtr(const std::string& materialName);
-	};
-};
-
-
-class LevelRenderer {
-public:
-	char pad_0x0000[0x58];  //0x0000
-
-	mce::TextureGroup* textureGroup; // 0x0058
-
-	char pad_0x0060[0xE0];  //0x0060
-
-	mce::TexturePtr atlasTexture; // 0x140
-
-	char pad_0x0188[0x150];  //0x0188
-
-	BlockTessellator* blockTessellator; // 0x02D8
-
-	char pad_0x02F0[0x5EC];  //0x02E0
-
-	Vec3 origin;  //0x0890
-
-	__int64 getLevelRendererPlayer() {
-		return reinterpret_cast<__int64>(this) + 0x310;
-	}
-};
 
 struct FontEntry {
 public:
@@ -130,7 +58,12 @@ public:
 	}
 
 	bool canUseKeys() {
-		return *(bool*)(reinterpret_cast<uintptr_t>(this) + 0x2F8);
+		static unsigned int offset = NULL;
+
+		if (offset == NULL)
+			offset = *reinterpret_cast<int*>(Utils::FindSig(xorstr_("C6 83 ? ? ? ? ? 48 8D 4C 24 ? E8 ? ? ? ? 90 48 8B 40 ? 48 8B 08 48 8B 01 FF 90 ? ? ? ? 90 F0 48 FF 0D ? ? ? ? 48 8B 44 24 ? 48 85 C0 74 ? 48 83 38 ? 74 ? 80 7C 24 ? ? 74 ? F0 48 FF 0D ? ? ? ? 48 8B 4C 24 ? 48 85 C9 74 ? 80 7C 24 ? ? 74 ? E8 ? ? ? ? C6 44 24 ? ? 48 8D 4C 24 ? E8 ? ? ? ? 48 8D 4C 24 ? E8 ? ? ? ? 80 7C 24 ? ? 74 ? 48 8B 4C 24 ? E8 ? ? ? ? 90 48 83 C4 ? 5B C3 B9 ? ? ? ? E8 ? ? ? ? CC CC CC CC CC CC CC 48 89 5C 24")) + 2);
+
+		return *reinterpret_cast<bool*>((uintptr_t)(this) + offset);
 	}
 };
 
@@ -165,11 +98,11 @@ public:
 
 	MinecraftGame* N0000080D;  //0x00A8
 
-	C_Minecraft* minecraft;  //0x00B0
+	__int64* minecraft;  //0x00B0
 
 	char pad_0x0068[0x8];  //0x00B8
 
-	LevelRenderer* levelRenderer;  //0x00C0
+	__int64* levelRenderer;  //0x00C0
 
 	char pad_0x0078[0x8];  //0x00C8
 
@@ -412,8 +345,8 @@ public:
 	virtual bool isGamepadCursorEnabled(void) const;
 
 
-	virtual C_Minecraft* getServerData(void);
-	virtual C_Minecraft* getServerData(void) const;
+	virtual __int64* getServerData(void);
+	virtual __int64* getServerData(void) const;
 
 
 	virtual __int64 getLevel(void);
@@ -619,7 +552,7 @@ public:
 	virtual bool isFullVanillaPackOnStack(void) const;
 
 
-	virtual __int64 onPlayerLoaded(C_Player&);
+	virtual __int64 onPlayerLoaded(__int64&);
 
 
 	virtual void setClientGameMode(__int64);
@@ -734,16 +667,6 @@ public:
 		else {
 			return nullptr;
 		}
-	}
-
-	void displayClientMessage(std::string* a2) {
-		using displayClientMessage = void(__thiscall*)(void*, TextHolder&);
-		static displayClientMessage displayMessageFunc = reinterpret_cast<displayClientMessage>(Utils::FindSig("48 89 5C 24 ?? 55 48 8D 6C 24 ?? 48 81 EC ?? ?? ?? ?? 48 C7 45 4F ?? ?? ?? ?? 33 DB 48 89 5D ?? 88 5D"));
-
-		TextHolder text = TextHolder(*a2);
-
-		if (displayMessageFunc != nullptr)
-			displayMessageFunc(this, text);
 	}
 
 	Vec2* getMousePos() {

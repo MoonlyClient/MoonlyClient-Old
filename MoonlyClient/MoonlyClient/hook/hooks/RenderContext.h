@@ -17,8 +17,10 @@ void RenderUIContext_render_callback(__int64 _this, MinecraftUIRenderContext* ct
 	ClientInstance* Curr = gData.getClientInstance();
 	MinecraftGame* mcGame = Curr->MinecraftGame();
 
-	if (Curr != nullptr && mcGame != nullptr && mcGame->getCleanFont() != nullptr) {
+	if (Curr != nullptr && mcGame != nullptr && mcGame->getMinecraftiaFont() != nullptr) {
 		RenderUtils::setContext(ctx, mcGame->getMinecraftiaFont());
+
+		//Utils::DebugLogOutput(Utils::ptrToStr((uintptr_t)mcGame->getMinecraftiaFont()));
 
 		gData.frameCount++;
 
