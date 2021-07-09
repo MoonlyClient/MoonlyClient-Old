@@ -23,17 +23,17 @@ HMODULE WINAPI LoadLibraryExACallback(LPCSTR lpLibFileName, _In_ HANDLE hFile, _
 
 void AntiCheat::install() {
 	if (MH_CreateHook(&LoadLibraryA, &LoadLibraryACallback, (LPVOID*)(&_LoadLibraryA)) == MH_OK) {
-		Utils::DebugLogOutput("Successfully created LoadLibraryA hook, installing...");
+		Utils::DebugLogOutput("[HookManager] Successfully created LoadLibraryA hook, installing...");
 		MH_EnableHook(&LoadLibraryA);
 	} else {
-		Utils::DebugLogOutput("Failed to create LoadLibraryA hook!");
+		Utils::DebugLogOutput("[HookManager] Failed to create LoadLibraryA hook!");
 	}
 
 	if (MH_CreateHook(&LoadLibraryExA, &LoadLibraryExACallback, (LPVOID*)(&_LoadLibraryExA)) == MH_OK) {
-		Utils::DebugLogOutput("Successfully created LoadLibraryExA hook, enabling...");
+		Utils::DebugLogOutput("[HookManager] Successfully created LoadLibraryExA hook, enabling...");
 		MH_EnableHook(&LoadLibraryExA);
 	} else {
-		Utils::DebugLogOutput("Failed to create LoadLibraryExA hook!");
+		Utils::DebugLogOutput("[HookManager] Failed to create LoadLibraryExA hook!");
 	}
 
 	// ToDo : Block all methods used to inject dll

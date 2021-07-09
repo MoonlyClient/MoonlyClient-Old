@@ -20,9 +20,9 @@ DWORD WINAPI countThread(LPVOID lpParam) {
 
         gData.fps = gData.frameCount;
         gData.frameCount = 0;
-        gData.cpsLeft = gData.leftClickCount / 2;
+        gData.cpsLeft = gData.leftClickCount;
         gData.leftClickCount = 0;
-        gData.cpsRight = gData.rightClickCount / 2;
+        gData.cpsRight = gData.rightClickCount;
         gData.rightClickCount = 0;
     }
 

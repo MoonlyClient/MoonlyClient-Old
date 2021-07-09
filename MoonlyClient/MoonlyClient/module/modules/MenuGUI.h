@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Module.h"
+#include "../ModuleManager.h"
 #include "../../data/GameData.h"
 #include "../../utils/Utils.h"
 #include "../../sdk/LocalPlayer.h"
@@ -14,4 +15,5 @@ public:
 	void onEnable();
 	void onDisable();
 	void onRender();
+	void onMouseClickUpdate(int, bool);
 };

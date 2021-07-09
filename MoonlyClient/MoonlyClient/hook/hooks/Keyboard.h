@@ -12,7 +12,7 @@ public:
 typedef void(WINAPI* AVKeyItem)(uint64_t key, bool isDown);
 AVKeyItem _AVKeyItem;
 
-void KeyItem_callback(uint64_t key, bool isDown) {
+void hKeyItem(uint64_t key, bool isDown) {
 	Utils::KeyMapping[key] = isDown;
 
 		for (auto Module : moduleMgr.modules) {
@@ -37,5 +37,5 @@ void KeyItem_callback(uint64_t key, bool isDown) {
 }
 
 void KeyboardHook::install() {
-	this->hookSig("AVKeyItem", xorstr_("48 89 5C 24 ?? ?? 48 83 EC ?? 8B 05 ?? ?? ?? ?? 8B DA"), &KeyItem_callback, reinterpret_cast<LPVOID*>(&_AVKeyItem));
+	this->hookSig("AVKeyItem", xorstr_("48 89 5C 24 ?? ?? 48 83 EC ?? 8B 05 ?? ?? ?? ?? 8B DA"), &hKeyItem, (LPVOID*)&_AVKeyItem);
 }
