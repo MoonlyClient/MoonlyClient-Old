@@ -452,8 +452,8 @@ private:
 	virtual __int64 renderEditorGui(__int64&, bool);
 
 public:
-	virtual OldGuiData* getGuiData1(void);
-	virtual OldGuiData* getGuiData2(void) const;
+	virtual __int64* getGuiData1(void);
+	virtual __int64* getGuiData2(void) const;
 
 private:
 	virtual __int64 getGuidedFlowManager(void);

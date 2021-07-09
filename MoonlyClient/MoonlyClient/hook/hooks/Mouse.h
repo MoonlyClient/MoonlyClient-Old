@@ -32,7 +32,6 @@ void hClick(__int64 a1, char mouseButton, char isDown, __int16 mouseX, __int16 m
 
     if (menu != nullptr && menu->isEnabled) {
         menu->onMouseClickUpdate((int)mouseButton, isDown);
-        return;
     }
     
     if (isDown)

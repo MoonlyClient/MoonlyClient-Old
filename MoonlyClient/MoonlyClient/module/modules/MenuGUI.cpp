@@ -36,24 +36,20 @@ void MenuGUI::onRender() {
 	RenderUtils::fillRectangle(Vec4(
 		0,
 		0,
-		gData.getClientInstance()->getGuiData()->scaledRes.x,
-		gData.getClientInstance()->getGuiData()->scaledRes.y),
+		gData.getClientInstance()->getGuiData()->widthGame,
+		gData.getClientInstance()->getGuiData()->heightGame),
 		Color(0, 0, 0), 0.5f);
 
-	auto guiData = gData.getClientInstance()->getGuiData1();
+	auto guiData = gData.getClientInstance()->getGuiData();
 
 	if (guiData == nullptr) return;
 
+	Vec2 windowSize = guiData->windowSize;
+	Vec2 windowSizeReal = guiData->windowSizeReal;
+
 	Vec2 mousePos = *gData.getClientInstance()->getMousePos();
-
-	// Convert mouse pos
-	{
-		Vec2 windowSize = guiData->windowSize;
-		Vec2 windowSizeReal = guiData->windowSizeReal;
-
-		mousePos = mousePos.div(windowSizeReal);
-		mousePos = mousePos.mult(windowSize);
-	}
+	mousePos = mousePos.div(windowSizeReal);
+	mousePos = mousePos.mult(windowSize);
 
 	float Xmodifier = guiData->widthGame / 6;
 	float Ymodifier = 50;
